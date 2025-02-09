@@ -2,25 +2,31 @@ import React from "react";
 import logo from "./../assets/logo.png";
 import { Link, NavLink } from "react-router-dom";
 import { PhoneIcon } from "@heroicons/react/24/solid";
+import { EnvelopeIcon } from "@heroicons/react/24/solid";
+import NavButton from "./NavButton.jsx";
+import ContactItem from "./ContactItem.jsx";
 
 const Header = () => {
   return (
-    <header className="flex flex-col sticky top-0 z-50 w-full">
-      <div className="flex flex-row items-center">
+    <header className="flex flex-col sticky top-0 z-50 mx-70">
+      <div className="flex flex-row items-center w-full justify-between  border-b-1 border-b-zinc-200 py-3 ">
         <Link to="/">
           <img src={logo} className="h-20"></img>
         </Link>
-        <PhoneIcon className="h-10 text-primary" />
-        <p className="font-poppins">Deneme</p>
+        <div>
+          <div className="flex flex-row items-center flex-wrap gap-8">
+            <ContactItem
+              icon={EnvelopeIcon}
+              text="iletisim@disticaretplatformu.com"
+            />
+            <ContactItem icon={PhoneIcon} text="+90 532 574 64 08" />
+          </div>
+        </div>
       </div>
-      <nav>
+      <nav className="py-3 font-poppins font-medium text-xl">
         <ul className="flex flex-row gap-3">
-          <li>
-            <Link to="/">Anasayfa</Link>
-          </li>
-          <li>
-            <Link to="/hakkimizda">Hakkımızda</Link>
-          </li>
+          <NavButton to="/">Ana Sayfa</NavButton>
+          <NavButton to="/hakkimizda">Hakkımızda</NavButton>
         </ul>
       </nav>
     </header>
