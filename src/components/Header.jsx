@@ -1,10 +1,10 @@
 import React from "react";
 import logo from "./../assets/logo.png";
 import { Link, NavLink } from "react-router-dom";
-import { PhoneIcon } from "@heroicons/react/24/solid";
-import { EnvelopeIcon } from "@heroicons/react/24/solid";
+import { PhoneIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
 import NavButton from "./NavButton.jsx";
 import ContactItem from "./ContactItem.jsx";
+import { navLinks } from "../data/navLinks.jsx";
 
 const Header = () => {
   return (
@@ -25,8 +25,11 @@ const Header = () => {
       </div>
       <nav className="py-3 font-poppins font-medium text-xl">
         <ul className="flex flex-row gap-3">
-          <NavButton to="/">Ana Sayfa</NavButton>
-          <NavButton to="/hakkimizda">Hakkımızda</NavButton>
+          {navLinks.map((link, index) => (
+            <NavButton to={link.to} key={index}>
+              {link.label}
+            </NavButton>
+          ))}
         </ul>
       </nav>
     </header>
