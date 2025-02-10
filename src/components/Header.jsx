@@ -29,7 +29,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex row items-center">
+      <div className="flex row items-center py-2">
         <nav className="py-3">
           <ul className="flex flex-row gap-15">
             {navLinks.map((link, index) => (
