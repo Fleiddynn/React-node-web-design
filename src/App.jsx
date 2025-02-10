@@ -8,7 +8,7 @@ const App = () => {
   return (
     <Router>
       <Header />
-      <main className="px-80">
+      <main className="container mx-auto px-3 sm:px-9 lg:px-15">
         <Routes>
           {navLinks.map((link, index) => (
             <Route key={index} path={link.to} element={link.component} />
