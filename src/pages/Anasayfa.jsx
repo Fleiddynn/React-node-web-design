@@ -3,9 +3,9 @@ import Hero from "./../components/Hero.jsx";
 
 const Anasayfa = () => {
   return (
-    <main className="flex-grow">
+    <div>
       <Hero />
-    </main>
+    </div>
   );
 };
 
