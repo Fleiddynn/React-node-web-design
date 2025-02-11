@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 
 const NavButton = ({ to, children }) => {
   return (
-    <li className="hover:text-secondary transition delay-50 duration-300 ease-in-out font-poppins font-medium tracking-wide text-xl">
+    <li className="hover:text-secondary transition delay-15 duration-75 ease-in-out font-poppins font-medium tracking-wide text-xl">
       <NavLink
         to={to}
         className={({ isActive }) =>
