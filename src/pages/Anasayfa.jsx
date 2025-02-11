@@ -1,7 +1,12 @@
 import React from "react";
+import Hero from "./../components/Hero.jsx";
 
 const Anasayfa = () => {
-  return <div>Anasayfa</div>;
+  return (
+    <main>
+      <Hero />
+    </main>
+  );
 };
 
 export default Anasayfa;
