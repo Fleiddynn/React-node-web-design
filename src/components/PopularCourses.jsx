@@ -35,7 +35,7 @@ const PopularCourses = () => {
   ];
 
   return (
-    <section className="flex flex-col justify-center items-center">
+    <section className="flex flex-col justify-center items-center mb-5">
       <h2 className="text-primary text-xl mb-5 font-semibold">Eğitimlerimiz</h2>
       <h1 className="text-3xl font-medium text-head mb-3">
         Popüler Eğitimlerimize Göz Atın
@@ -46,7 +46,7 @@ const PopularCourses = () => {
         yazısı lorem ipsum dolar sit amet Paragraf yazısı lorem ipsum dolar sit
         amet
       </p>
-      <div className="max-w-4xl mx-auto flex flex-col items-center">
+      <div className="mx-auto flex flex-col items-center">
         <CategoryFilter
           categories={categories}
           selected={selectedCategory}
@@ -54,6 +54,9 @@ const PopularCourses = () => {
         />
         <CourseList selected={selectedCategory} courses={courseData} />
       </div>
+      <button className="cursor-pointer bg-primary text-white font-semibold py-4 px-8 rounded-xl mt-6 hover:bg-amber-500 transition ease-in-out duration-300 delay-25 hover:scale-105 text-sm">
+        Tüm Eğitimler
+      </button>
     </section>
   );
 };
