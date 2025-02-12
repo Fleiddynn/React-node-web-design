@@ -8,8 +8,8 @@ import {
 
 const Hero = () => {
   return (
-    <section className="flex flex-col mt-10">
-      <div className="h-full flex flex-col md:flex-row items-center justify-center bg-white text-gray-900 overflow-auto">
+    <section className="flex flex-col mt-10 mb-12">
+      <div className="h-full flex flex-col md:flex-row items-center justify-center bg-white text-gray-900 overflow-auto mb-12">
         <div className="container mx-auto px-8 flex flex-col md:flex-row items-center md:justify-between relative z-10">
           <motion.div
             className="w-full md:w-1/2 text-center md:text-left md:pl-8"
@@ -21,7 +21,7 @@ const Hero = () => {
               Küçük info kutusu
             </div>
             <motion.h1
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-head"
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3 }}

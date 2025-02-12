@@ -1,0 +1,9 @@
+[
+    { "id": 1, "title": "Online Uygulamalı Dış Ticaret Uzmanlık Eğitimi", "category": "uzmanlık" },
+    { "id": 2, "title": "İstanbul Uygulamalı Dış Ticaret Uzmanlık Eğitimi", "category": "uzmanlık" },
+    { "id": 3, "title": "Gümrük Uzmanlığı Sertifika Programı", "category": "gümrük" },
+    { "id": 4, "title": "Dahilde İşleme Rejimi Uzmanlık Eğitimi", "category": "gümrük" },
+    { "id": 5, "title": "Dış Ticaret Lojistiği Uzmanlık Eğitimi", "category": "lojistik" },
+    { "id": 6, "title": "Konjimento Hukuku Eğitimi", "category": "lojistik"}
+  ]
+  
