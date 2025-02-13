@@ -61,7 +61,7 @@ const PopularCourses = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.3 }}
         viewport={{ once: true }}
-        className="font-light text-zinc-500 max-w-200 mb-16 text-center"
+        className="font-light text-zinc-500 max-w-200 mb-8 text-center"
       >
         Paragraf yazısı lorem ipsum dolar sit amet Paragraf yazısı lorem ipsum
         dolar sit amet Paragraf yazısı lorem ipsum dolar sit amet Paragraf
