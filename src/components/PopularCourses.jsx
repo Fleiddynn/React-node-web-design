@@ -2,6 +2,8 @@ import { React, useState } from "react";
 import CategoryFilter from "./CategoryFilter";
 import CourseList from "./CourseList";
 import courseData from "../data/courseData.json";
+import { motion } from "framer-motion";
+
 import {
   BookmarkIcon,
   CodeBracketIcon,
@@ -36,16 +38,36 @@ const PopularCourses = () => {
 
   return (
     <section className="flex flex-col justify-center items-center mb-5">
-      <h2 className="text-primary text-xl mb-5 font-semibold">Eğitimlerimiz</h2>
-      <h1 className="text-3xl font-medium text-head mb-3">
+      <motion.h2
+        initial={{ opacity: 0, x: -100 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className="text-primary text-xl mb-5 font-semibold"
+      >
+        Eğitimlerimiz
+      </motion.h2>
+      <motion.h1
+        initial={{ opacity: 0, y: -25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.3 }}
+        viewport={{ once: true }}
+        className="text-3xl font-medium text-head mb-3"
+      >
         Popüler Eğitimlerimize Göz Atın
-      </h1>
-      <p className="font-light text-zinc-500 max-w-200 mb-16 text-center">
+      </motion.h1>
+      <motion.p
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.3 }}
+        viewport={{ once: true }}
+        className="font-light text-zinc-500 max-w-200 mb-16 text-center"
+      >
         Paragraf yazısı lorem ipsum dolar sit amet Paragraf yazısı lorem ipsum
         dolar sit amet Paragraf yazısı lorem ipsum dolar sit amet Paragraf
         yazısı lorem ipsum dolar sit amet Paragraf yazısı lorem ipsum dolar sit
         amet
-      </p>
+      </motion.p>
       <div className="mx-auto flex flex-col items-center">
         <CategoryFilter
           categories={categories}
@@ -54,9 +76,15 @@ const PopularCourses = () => {
         />
         <CourseList selected={selectedCategory} courses={courseData} />
       </div>
-      <button className="cursor-pointer bg-primary text-white font-semibold py-4 px-8 rounded-xl mt-6 hover:bg-amber-500 transition ease-in-out duration-300 delay-25 hover:scale-105 text-sm">
+      <motion.button
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.3 }}
+        viewport={{ once: true }}
+        className="cursor-pointer bg-primary text-white font-semibold py-4 px-8 rounded-xl mt-6 hover:bg-amber-500 transition ease-in-out duration-300 delay-25 hover:scale-105 text-sm"
+      >
         Tüm Eğitimler
-      </button>
+      </motion.button>
     </section>
   );
 };

@@ -1,6 +1,15 @@
+import React from "react";
+import { motion } from "framer-motion";
+
 export default function CourseCard({ course }) {
   return (
-    <div className="group bg-white rounded-2xl shadow-xl shadow-gray-300/50 overflow-hidden hover:scale-105 transition ease-in-out duration-300 delay-25 h-80 w-80 cursor-pointer">
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 2 }}
+      viewport={{ once: true }}
+      className="group bg-white rounded-2xl shadow-xl shadow-gray-300/50 overflow-hidden hover:scale-105 transition ease-in-out duration-300 delay-25 h-80 w-80 cursor-pointer"
+    >
       <div className="h-40 bg-gray-200 flex items-center justify-center">
         <span className="text-gray-400">No Image</span>
       </div>
@@ -20,6 +29,6 @@ export default function CourseCard({ course }) {
           </span>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

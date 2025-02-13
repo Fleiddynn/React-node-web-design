@@ -1,8 +1,15 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 export default function CategoryFilter({ categories, selected, onSelect }) {
   return (
-    <div className="flex gap-4 p-4 flex-wrap justify-center">
+    <motion.div
+      initial={{ scale: 0.8 }}
+      whileInView={{ scale: 1 }}
+      transition={{ duration: 1 }}
+      viewport={{ once: true }}
+      className="flex gap-4 p-4 flex-wrap justify-center"
+    >
       {categories.map((cat) => (
         <button
           key={cat.id}
@@ -19,6 +26,6 @@ export default function CategoryFilter({ categories, selected, onSelect }) {
           <span>{cat.name}</span>
         </button>
       ))}
-    </div>
+    </motion.div>
   );
 }
