@@ -1,0 +1,43 @@
+[
+    {
+      "id": 1,
+      "title": "İhracat Danışmanlığı",
+      "heading": "Global Pazarlara Açılın",
+      "description": "İhracat süreçlerinizi optimize ederek uluslararası pazarda rekabet avantajı elde edin.",
+      "image": "https://placehold.co/400x500",
+      "features": ["Pazar Araştırması", "İhracat Belgeleri", "Gümrük İşlemleri", "Lojistik Yönetimi"]
+    },
+    {
+      "id": 2,
+      "title": "İthalat Stratejileri",
+      "heading": "Doğru Kaynaklardan Tedarik Edin",
+      "description": "İthalat süreçlerinizi en verimli şekilde yöneterek maliyetlerinizi minimize edin.",
+      "image": "https://placehold.co/400x500",
+      "features": ["Gümrük Vergileri", "Tedarikçi Seçimi", "Risk Yönetimi", "Nakliye ve Sigorta"]
+    },
+    {
+      "id": 3,
+      "title": "E-Ticaret ve Dış Ticaret",
+      "heading": "Dijitalleşme ile Globalleşin",
+      "description": "E-ihracat ile dünya pazarlarına açılarak satışlarınızı artırın.",
+      "image": "https://placehold.co/400x500",
+      "features": ["E-İhracat Platformları", "Ödeme Sistemleri", "Kargo ve Dağıtım", "Müşteri Destek Hizmetleri"]
+    },
+    {
+      "id": 4,
+      "title": "Gümrük ve Mevzuat Danışmanlığı",
+      "heading": "Kurallara Uygun Ticaret Yapın",
+      "description": "Dış ticarette yasal gereklilikleri yerine getirerek süreçlerinizi güvenli hale getirin.",
+      "image": "https://placehold.co/400x500",
+      "features": ["Gümrük Vergileri", "Serbest Ticaret Anlaşmaları", "İthalat ve İhracat Mevzuatı", "Denetim Hizmetleri"]
+    },
+    {
+      "id": 5,
+      "title": "Lojistik ve Dağıtım",
+      "heading": "Kesintisiz ve Verimli Lojistik Çözümleri",
+      "description": "Ürünlerinizin güvenli ve hızlı bir şekilde ulaşmasını sağlayın.",
+      "image": "https://placehold.co/400x500",
+      "features": ["Depolama ve Stok Yönetimi", "Denizyolu ve Havayolu Taşımacılığı", "Gümrükleme Hizmetleri", "Teslimat Planlaması"]
+    }
+  ]
+  

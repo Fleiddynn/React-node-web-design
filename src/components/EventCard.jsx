@@ -7,7 +7,7 @@ const EventCard = ({ course }) => {
     <motion.div
       initial={{ opacity: 0, x: -100 }}
       whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 1 }}
+      transition={{ duration: 1, ease: "easeInOut" }}
       viewport={{ once: true }}
       className="space-y-4 cursor-pointer group hover:scale-105 transition ease-in-out duration-300 delay-25 mb-5"
     >

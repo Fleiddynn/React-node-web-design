@@ -2,6 +2,7 @@ import React from "react";
 import Hero from "./../components/Hero.jsx";
 import PopularCourses from "./../components/PopularCourses.jsx";
 import UpcomingEvents from "./../components/UpcomingEvents.jsx";
+import WhyUs from "./../components/WhyUs.jsx";
 
 const Anasayfa = () => {
   return (
@@ -9,6 +10,7 @@ const Anasayfa = () => {
       <Hero />
       <PopularCourses />
       <UpcomingEvents />
+      <WhyUs />
     </div>
   );
 };
