@@ -9,7 +9,7 @@ const EventCard = ({ course }) => {
       whileInView={{ opacity: 1, x: 0 }}
       transition={{ duration: 1 }}
       viewport={{ once: true }}
-      className="space-y-4 cursor-pointer group hover:scale-105 mb-5"
+      className="space-y-4 cursor-pointer group hover:scale-105 transition ease-in-out duration-300 delay-25 mb-5"
     >
       <div className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition ease-in-out duration-300 delay-25">
         <div className="flex items-center">
