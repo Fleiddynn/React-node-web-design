@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const GalleryImage = ({ selected, data, maxImages }) => {
   const filteredData =
@@ -13,7 +14,11 @@ const GalleryImage = ({ selected, data, maxImages }) => {
   return (
     <>
       {limitedData.map((item) => (
-        <div
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1, ease: "easeInOut" }}
+          viewport={{ once: true }}
           key={item.id}
           className="relative w-full h-48 overflow-hidden rounded-lg shadow-lg group"
         >
@@ -31,7 +36,7 @@ const GalleryImage = ({ selected, data, maxImages }) => {
               {item.Date}
             </p>
           </div>
-        </div>
+        </motion.div>
       ))}
     </>
   );
