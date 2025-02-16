@@ -4,7 +4,7 @@ import socials from "./../data/socials.json";
 
 const SocialMediaIcons = () => {
   return (
-    <div className="flex space-x-4">
+    <>
       {socials.map((social, index) => {
         const IconComponent = icons[social.icon];
         return (
@@ -19,7 +19,7 @@ const SocialMediaIcons = () => {
           </a>
         );
       })}
-    </div>
+    </>
   );
 };
 

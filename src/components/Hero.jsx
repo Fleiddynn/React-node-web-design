@@ -14,7 +14,7 @@ const Hero = () => {
           <motion.div
             className="w-full md:w-1/2 text-center md:text-left md:pl-8"
             initial={{ opacity: 0, x: -100 }}
-            animate={{ opacity: 1, x: 0 }}
+            whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1 }}
           >
             <div className="bg-primary-100 text-primary inline-block px-4 py-2 rounded-full text-sm font-semibold mb-4">
@@ -23,7 +23,7 @@ const Hero = () => {
             <motion.h1
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-head"
               initial={{ opacity: 0, y: -50 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3 }}
             >
               Başlık <span className="text-primary">Vurgu</span>
@@ -31,7 +31,7 @@ const Hero = () => {
             <motion.p
               className="text-lg md:text-xl lg:text-2xl mb-8"
               initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.6 }}
             >
               paragraf paragraf paragraf paragraf paragraf paragraf paragraf
@@ -40,7 +40,7 @@ const Hero = () => {
             <motion.button
               className="bg-amber-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-amber-700 transition-all cursor-pointer"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              whileInView={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.9 }}
             >
               Hemen kayıt ol!
@@ -50,7 +50,7 @@ const Hero = () => {
           <motion.div
             className="w-full md:w-1/2 mt-10 md:mt-0 flex justify-center items-center"
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.9 }}
           >
             <div className="w-64 h-64 md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px] bg-gray-200 rounded-lg shadow-xl flex items-center justify-center">
@@ -64,7 +64,7 @@ const Hero = () => {
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3 }}
           >
             <span className="text-3xl md:text-4xl font-bold text-amber-600">
@@ -74,7 +74,7 @@ const Hero = () => {
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
           >
             <span className="text-3xl md:text-4xl font-bold text-amber-600">
@@ -84,7 +84,7 @@ const Hero = () => {
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.9 }}
           >
             <span className="text-3xl md:text-4xl font-bold text-amber-600">
