@@ -4,6 +4,7 @@ import PopularCourses from "./../components/PopularCourses.jsx";
 import UpcomingEvents from "./../components/UpcomingEvents.jsx";
 import WhyUs from "./../components/WhyUs.jsx";
 import Gallery from "./../components/Gallery.jsx";
+import Footer from "./../components/Footer.jsx";
 
 const Anasayfa = () => {
   return (
@@ -13,6 +14,7 @@ const Anasayfa = () => {
       <UpcomingEvents />
       <WhyUs />
       <Gallery />
+      <Footer />
     </div>
   );
 };
