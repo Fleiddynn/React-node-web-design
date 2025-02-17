@@ -16,6 +16,7 @@ const Hero = () => {
             initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1 }}
+            viewport={{ once: true }}
           >
             <div className="bg-primary-100 text-primary inline-block px-4 py-2 rounded-full text-sm font-semibold mb-4">
               Küçük info kutusu
@@ -25,6 +26,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: -50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3 }}
+              viewport={{ once: true }}
             >
               Başlık <span className="text-primary">Vurgu</span>
             </motion.h1>
@@ -33,6 +35,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.6 }}
+              viewport={{ once: true }}
             >
               paragraf paragraf paragraf paragraf paragraf paragraf paragraf
               paragraf paragraf paragraf paragraf
@@ -42,6 +45,7 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.9 }}
+              viewport={{ once: true }}
             >
               Hemen kayıt ol!
             </motion.button>
@@ -52,6 +56,7 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.9 }}
+            viewport={{ once: true }}
           >
             <div className="w-64 h-64 md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px] bg-gray-200 rounded-lg shadow-xl flex items-center justify-center">
               <span className="text-gray-500">Image Placeholder</span>
@@ -66,6 +71,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3 }}
+            viewport={{ once: true }}
           >
             <span className="text-3xl md:text-4xl font-bold text-amber-600">
               50+
@@ -76,6 +82,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
+            viewport={{ once: true }}
           >
             <span className="text-3xl md:text-4xl font-bold text-amber-600">
               150+
@@ -86,6 +93,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.9 }}
+            viewport={{ once: true }}
           >
             <span className="text-3xl md:text-4xl font-bold text-amber-600">
               150+
