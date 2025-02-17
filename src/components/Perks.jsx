@@ -11,13 +11,14 @@ import {
 const features = [
   {
     title: "Kariyer Desteği",
-    description: "Kariyer gelişimi ve iş bulma desteği alma",
+    description:
+      "Dış ticaret eğitimi öğrencilerine iş hayatında kariyer desteği",
     icon: BriefcaseIcon,
     color: "text-purple-500 border-purple-500",
   },
   {
     title: "Uygulamalı Eğitimler",
-    description: "Gerçek iş senaryolarında öğrenimi uygulama",
+    description: "Gerçek iş senaryolarında uygulamalı öğrenim",
     icon: ClipboardDocumentCheckIcon,
     color: "text-blue-500 border-blue-500",
   },
@@ -29,19 +30,20 @@ const features = [
   },
   {
     title: "Sınırsız Tekrar",
-    description: "Ek ücretsiz eğitim oturumlarına erişim",
+    description:
+      "Bundan sonraki eğitimlere sınırsız ve ücretsiz katılma imkanı",
     icon: ArrowPathIcon,
     color: "text-lime-500 border-lime-500",
   },
   {
     title: "Sınırsız Danışmanlık",
-    description: "Danışmanlık hizmetlerine sınırsız erişim",
+    description: "İşlerinize sınırsız danışmanlık fırsatı",
     icon: ChatBubbleLeftRightIcon,
     color: "text-orange-500 border-orange-500",
   },
   {
     title: "Sertifika Fırsatları",
-    description: "Birden fazla sertifika alma fırsatı",
+    description: "Dış ticaret eğitimlerinde 4 sertifika alma imkanı",
     icon: AcademicCapIcon,
     color: "text-yellow-500 border-yellow-500",
   },
@@ -79,10 +81,10 @@ const Perks = () => {
           return (
             <div
               key={index}
-              className={`absolute w-32 h-32 md:w-48 md:h-48 p-4 md:p-5 hover:scale-105 transition ease-in-out duration-300 delay-25 bg-white border rounded-lg shadow-md flex flex-col items-center ${feature.color}`}
+              className={`absolute w-32 h-32 md:w-48 md:h-48 p-2 md:p-5 hover:scale-105 transition ease-in-out duration-300 delay-25 bg-white border rounded-lg shadow-md flex flex-col items-center ${feature.color}`}
               style={{ transform: `translate(${x}px, ${y}px)` }}
             >
-              <feature.icon className="w-8 h-8 md:w-10 md:h-10 mb-2 md:mb-3" />
+              <feature.icon className="min-w-8 min-h-8 md:w-10 md:h-10 mb-2 md:mb-3 hidden md:block" />
               <h3 className="font-semibold text-sm md:text-lg text-center">
                 {feature.title}
               </h3>
