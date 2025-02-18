@@ -4,10 +4,12 @@ import Header from "./components/Header.jsx";
 import Hata404 from "./pages/Hata404.jsx";
 import { navLinks } from "./data/navLinks.jsx";
 import Footer from "./components/Footer.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 
 const App = () => {
   return (
     <Router>
+      <ScrollToTop />
       <Header />
       <main className="container mx-auto px-3 sm:px-9 lg:px-15">
         <Routes>
