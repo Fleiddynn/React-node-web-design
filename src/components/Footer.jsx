@@ -8,7 +8,7 @@ import Socials from "./SocialMediaIcons.jsx";
 
 const Footer = () => {
   return (
-    <footer className="p-8">
+    <footer className="container mx-auto px-3 sm:px-9 lg:px-15 mt-10 pb-4">
       <div className="flex flex-col md:flex-row justify-between gap-5">
         <div className="flex flex-col items-center md:items-start gap-4">
           <Link to="/">
