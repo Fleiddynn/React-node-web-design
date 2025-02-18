@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import Hata404 from "./pages/Hata404.jsx";
 import { navLinks } from "./data/navLinks.jsx";
+import Footer from "./components/Footer.jsx";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="*" element={<Hata404 />} />
         </Routes>
       </main>
+      <Footer />
     </Router>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import {
   AcademicCapIcon,
   BriefcaseIcon,
@@ -79,10 +80,14 @@ const Perks = () => {
           const x = Math.cos(angle) * radius;
           const y = Math.sin(angle) * radius;
           return (
-            <div
+            <motion.div
               key={index}
               className={`absolute w-32 h-32 md:w-48 md:h-48 p-2 md:p-5 hover:scale-105 transition ease-in-out duration-300 delay-25 bg-white border rounded-lg shadow-md flex flex-col items-center ${feature.color}`}
               style={{ transform: `translate(${x}px, ${y}px)` }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <feature.icon className="min-w-8 min-h-8 md:w-10 md:h-10 mb-2 md:mb-3 hidden md:block" />
               <h3 className="font-semibold text-sm md:text-lg text-center">
@@ -91,7 +96,7 @@ const Perks = () => {
               <p className="text-xs md:text-sm text-gray-600 text-center">
                 {feature.description}
               </p>
-            </div>
+            </motion.div>
           );
         })}
       </div>
