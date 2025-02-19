@@ -62,7 +62,7 @@ const ScrollablePerks = () => {
           transition={{ duration: 0.8 }}
           className="text-3xl font-semibold mt-2"
         >
-          Vizyonumuz misyonumuz
+          Özelliklerimiz falan filan
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 25 }}
