@@ -49,7 +49,7 @@ const ContactForm = () => {
   return (
     <motion.form
       initial={{ opacity: 0, x: -50 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      animate={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8 }}
       onSubmit={handleSubmit}
@@ -64,7 +64,7 @@ const ContactForm = () => {
         </label>
         <motion.input
           initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           type="text"
@@ -82,7 +82,7 @@ const ContactForm = () => {
           </label>
           <motion.input
             initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             type="email"
@@ -99,7 +99,7 @@ const ContactForm = () => {
           </label>
           <motion.input
             initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             type="tel"
@@ -117,7 +117,7 @@ const ContactForm = () => {
         </label>
         <motion.select
           initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           name="reason"
@@ -138,7 +138,7 @@ const ContactForm = () => {
         </label>
         <motion.input
           initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           type="text"
@@ -169,7 +169,7 @@ const ContactForm = () => {
         </label>
         <motion.textarea
           initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           name="message"
@@ -187,7 +187,7 @@ const ContactForm = () => {
       </div>
       <motion.button
         initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
+        animate={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
         type="submit"

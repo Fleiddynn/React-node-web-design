@@ -3,11 +3,11 @@ import { motion } from "framer-motion";
 
 const AboutUsHero = () => {
   return (
-    <section className="relative bg-white py-16 px-6 text-center overflow-hidden">
+    <section className="h-full relative bg-white px-6 text-center overflow-hidden">
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.h3
           initial={{ opacity: 0, y: -30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           className="text-primary font-semibold uppercase"
@@ -16,7 +16,7 @@ const AboutUsHero = () => {
         </motion.h3>
         <motion.h2
           initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           className="text-4xl font-bold text-head mb-4"
@@ -25,7 +25,7 @@ const AboutUsHero = () => {
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           className="text-lg text-gray-600 max-w-2xl mx-auto mb-10"
@@ -38,7 +38,7 @@ const AboutUsHero = () => {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-center items-center gap-8 mt-10">
         <motion.div
           initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           className="w-72 h-80 bg-gray-300 rounded-2xl overflow-hidden shadow-lg"
@@ -51,7 +51,7 @@ const AboutUsHero = () => {
         </motion.div>
         <motion.div
           initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          animate={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           className="w-72 h-80 bg-gray-300 rounded-2xl overflow-hidden shadow-lg"
