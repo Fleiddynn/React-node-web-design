@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const NavButton = ({ to, children }) => {
   return (
@@ -16,6 +16,11 @@ const NavButton = ({ to, children }) => {
       </NavLink>
     </li>
   );
+};
+
+NavButton.propTypes = {
+  to: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default NavButton;

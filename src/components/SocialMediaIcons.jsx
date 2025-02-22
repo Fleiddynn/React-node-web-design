@@ -1,6 +1,6 @@
-import React from "react";
 import * as icons from "react-icons/fa";
 import socials from "./../data/socials.json";
+import PropTypes from "prop-types";
 
 const SocialMediaIcons = ({ showLabels = false }) => {
   return (
@@ -27,6 +27,14 @@ const SocialMediaIcons = ({ showLabels = false }) => {
       })}
     </>
   );
+};
+
+SocialMediaIcons.propTypes = {
+  showLabels: PropTypes.bool,
+};
+
+SocialMediaIcons.defaultProps = {
+  showLabels: false,
 };
 
 export default SocialMediaIcons;

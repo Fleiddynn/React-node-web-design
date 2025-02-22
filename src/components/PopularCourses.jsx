@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { useState } from "react";
 import CategoryFilter from "./CategoryFilter";
 import CourseList from "./CourseList";
 import courseData from "../data/courseData.json";
@@ -87,6 +87,10 @@ const PopularCourses = () => {
       </motion.button>
     </section>
   );
+};
+
+PopularCourses.propTypes = {
+  // This component doesn't take any props currently
 };
 
 export default PopularCourses;

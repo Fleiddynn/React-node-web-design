@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { useState } from "react";
 import galleryData from "./../data/galleryData.json";
 import CategoryFilter from "./CategoryFilter.jsx";
 import GalleryImage from "./GalleryImage.jsx";

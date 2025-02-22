@@ -1,4 +1,3 @@
-import React from "react";
 import Hero from "./../components/Hero.jsx";
 import PopularCourses from "./../components/PopularCourses.jsx";
 import UpcomingEvents from "./../components/UpcomingEvents.jsx";
@@ -9,7 +8,7 @@ import Perks from "./../components/Perks.jsx";
 
 const Anasayfa = () => {
   return (
-    <div className="font-poppins">
+    <main className="font-poppins">
       <Hero />
       <PopularCourses />
       <Perks />
@@ -17,7 +16,7 @@ const Anasayfa = () => {
       <WhyUs />
       <Gallery />
       <SmallForm />
-    </div>
+    </main>
   );
 };
 

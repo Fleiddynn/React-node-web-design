@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 
 const ContactItem = ({ icon: Icon, text, label }) => {
   return (
@@ -10,6 +10,12 @@ const ContactItem = ({ icon: Icon, text, label }) => {
       </div>
     </div>
   );
+};
+
+ContactItem.propTypes = {
+  icon: PropTypes.elementType.isRequired,
+  text: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
 };
 
 export default ContactItem;

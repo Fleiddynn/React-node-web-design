@@ -1,5 +1,5 @@
-import React from "react";
 import { motion } from "framer-motion";
+import PropTypes from "prop-types";
 
 const GalleryImage = ({ selected, data, maxImages }) => {
   const filteredData =
@@ -40,6 +40,20 @@ const GalleryImage = ({ selected, data, maxImages }) => {
       ))}
     </>
   );
+};
+
+GalleryImage.propTypes = {
+  selected: PropTypes.string.isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      Date: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  maxImages: PropTypes.number.isRequired,
 };
 
 export default GalleryImage;

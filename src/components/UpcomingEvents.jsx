@@ -1,4 +1,3 @@
-import React from "react";
 import EventCard from "./EventCard.jsx";
 import { motion } from "framer-motion";
 import courseData from "./../data/courseData.json";

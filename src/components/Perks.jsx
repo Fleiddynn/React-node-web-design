@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
 import {
   AcademicCapIcon,
@@ -53,17 +53,21 @@ const features = [
 const Perks = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
+  // Memoize expensive calculations
+  const memoizedFeatures = useMemo(() => features, []);
 
+  // Use useCallback for event handlers
+  const handleResize = useCallback(() => {
+    setWindowWidth(window.innerWidth);
+  }, []);
+
+  useEffect(() => {
     window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [handleResize]);
 
   return (
     <div className="flex flex-col items-center text-center p-4 md:p-8">
@@ -74,7 +78,7 @@ const Perks = () => {
           <AcademicCapIcon className="w-10 h-10 md:w-14 md:h-14 text-blue-600" />
         </div>
 
-        {features.map((feature, index) => {
+        {memoizedFeatures.map((feature, index) => {
           const angle = (index / features.length) * (2 * Math.PI);
           const radius = windowWidth < 768 ? 160 : 240;
           const x = Math.cos(angle) * radius;

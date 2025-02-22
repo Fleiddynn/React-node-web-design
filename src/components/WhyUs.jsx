@@ -1,7 +1,7 @@
-import { React, useState } from "react";
+import { useState } from "react";
 import WhyUsData from "./../data/whyUsData.json";
 import WhyUsDetail from "./WhyUsDetail.jsx";
-import { easeIn, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 const WhyUs = () => {
   const [selectedService, setSelectedService] = useState(WhyUsData[0]);

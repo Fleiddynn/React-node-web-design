@@ -1,10 +1,4 @@
-import React from "react";
 import { motion } from "framer-motion";
-import {
-  UsersIcon,
-  AcademicCapIcon,
-  BookOpenIcon,
-} from "@heroicons/react/24/solid";
 
 const Hero = () => {
   return (

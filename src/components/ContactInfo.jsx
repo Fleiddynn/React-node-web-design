@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import ContactItem from "./ContactItem.jsx";
 import { PhoneIcon, EnvelopeIcon, MapIcon } from "@heroicons/react/24/solid";

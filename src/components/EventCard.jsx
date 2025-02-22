@@ -1,6 +1,6 @@
-import React from "react";
 import { ArrowLongRightIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
+import PropTypes from "prop-types";
 
 const EventCard = ({ course }) => {
   return (
@@ -31,6 +31,14 @@ const EventCard = ({ course }) => {
       </div>
     </motion.div>
   );
+};
+
+EventCard.propTypes = {
+  course: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    place: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default EventCard;

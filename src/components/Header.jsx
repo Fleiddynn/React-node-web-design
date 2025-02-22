@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import logo from "./../assets/logo.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { PhoneIcon, EnvelopeIcon, Bars3Icon } from "@heroicons/react/24/solid";
 import NavButton from "./NavButton.jsx";
 import ContactItem from "./ContactItem.jsx";
@@ -36,6 +36,8 @@ const Header = () => {
           <button
             onClick={toggleMenu}
             className="md:hidden p-2 text-gray-800 focus:outline-none"
+            aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
           >
             <Bars3Icon className="w-6 h-6" />
           </button>

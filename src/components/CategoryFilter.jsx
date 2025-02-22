@@ -1,5 +1,5 @@
-import React from "react";
 import { motion } from "framer-motion";
+import PropTypes from "prop-types";
 
 export default function CategoryFilter({ categories, selected, onSelect }) {
   return (
@@ -29,3 +29,16 @@ export default function CategoryFilter({ categories, selected, onSelect }) {
     </motion.div>
   );
 }
+
+CategoryFilter.propTypes = {
+  categories: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      icon: PropTypes.element,
+      color: PropTypes.string,
+    })
+  ).isRequired,
+  selected: PropTypes.string.isRequired,
+  onSelect: PropTypes.func.isRequired,
+};

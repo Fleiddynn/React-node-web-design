@@ -1,5 +1,5 @@
-import React from "react";
 import { motion } from "framer-motion";
+import PropTypes from "prop-types";
 
 const WhyUsDetail = ({ service }) => {
   return (
@@ -82,6 +82,16 @@ const WhyUsDetail = ({ service }) => {
       </div>
     </div>
   );
+};
+
+WhyUsDetail.propTypes = {
+  service: PropTypes.shape({
+    image: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    heading: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    features: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
 };
 
 export default WhyUsDetail;

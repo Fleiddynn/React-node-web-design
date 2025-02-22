@@ -1,5 +1,5 @@
-import React from "react";
 import CourseCard from "./CourseCard";
+import PropTypes from "prop-types";
 
 export default function CourseList({ selected, courses }) {
   const MAX_COURSES = 6;
@@ -23,3 +23,16 @@ export default function CourseList({ selected, courses }) {
     </div>
   );
 }
+
+CourseList.propTypes = {
+  selected: PropTypes.string.isRequired,
+  courses: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};

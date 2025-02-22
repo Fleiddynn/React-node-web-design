@@ -1,5 +1,5 @@
-import React from "react";
 import { motion } from "framer-motion";
+import PropTypes from "prop-types";
 
 export default function CourseCard({ course }) {
   return (
@@ -11,7 +11,12 @@ export default function CourseCard({ course }) {
       className="group bg-white rounded-2xl shadow-xl shadow-gray-300/50 overflow-hidden hover:scale-105 transition ease-in-out duration-300 delay-25 h-80 w-80 cursor-pointer"
     >
       <div className="h-40 bg-gray-200 flex items-center justify-center">
-        <span className="text-gray-400">No Image</span>
+        <img
+          src={course.image}
+          alt={course.title}
+          loading="lazy"
+          className="w-full h-40 object-cover"
+        />
       </div>
       <div className="p-5">
         <h3 className="text-lg font-semibold text-head group-hover:text-primary transition ease-in-out duration-300 delay-25">
@@ -32,3 +37,12 @@ export default function CourseCard({ course }) {
     </motion.div>
   );
 }
+
+CourseCard.propTypes = {
+  course: PropTypes.shape({
+    image: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+  }).isRequired,
+};

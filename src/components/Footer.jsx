@@ -1,6 +1,5 @@
-import React from "react";
 import logo from "./../assets/logo.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { PhoneIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
 import ContactItem from "./ContactItem.jsx";
 import { navLinks } from "../data/navLinks.jsx";
