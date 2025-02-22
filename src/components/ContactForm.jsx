@@ -53,9 +53,9 @@ const ContactForm = () => {
       viewport={{ once: true }}
       transition={{ duration: 0.8 }}
       onSubmit={handleSubmit}
-      className="max-w-lg mx-auto p-6 bg-white rounded-2xl shadow-lg space-y-4"
+      className="max-w-lg p-6 bg-white rounded-2xl shadow-lg space-y-4"
     >
-      <h2 className="text-3xl font-bold text-center text-primary">
+      <h2 className="text-3xl font-bold text-center text-primary mb-6 border-b-2 border-primary pb-2">
         Kurs Kayıt ve İletişim Formu
       </h2>
       <div>

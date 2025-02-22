@@ -51,7 +51,7 @@ const Footer = () => {
             Sosyal Medya
           </h2>
           <div className="flex flex-col items-center gap-2">
-            <Socials className="text-primary" />
+            <Socials className="text-primary" showLabels={true} />
           </div>
         </div>
       </div>

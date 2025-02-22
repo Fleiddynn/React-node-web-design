@@ -53,7 +53,7 @@ const Header = () => {
           </nav>
           <ul
             className={`${
-              isMenuOpen ? "hidden" : "block"
+              isMenuOpen ? "hidden" : "flex"
             } md:flex flex-row gap-2 ml-auto`}
           >
             <Socials />
