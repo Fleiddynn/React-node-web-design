@@ -8,9 +8,8 @@ const SocialMediaIcons = ({ showLabels = false }) => {
       {socials.map((social, index) => {
         const IconComponent = icons[social.icon];
         return (
-          <div className="flex flex-row gap-2 items-center">
+          <div key={index} className="flex flex-row gap-2 items-center">
             <a
-              key={index}
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
