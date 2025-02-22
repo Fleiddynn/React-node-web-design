@@ -34,7 +34,7 @@ const CourseHero = () => {
           <div className="rounded-2xl overflow-hidden bg-gray-100 aspect-video shadow-lg hover:shadow-xl transition-shadow duration-300">
             <img
               src="https://placehold.co/800x600"
-              alt="Course Preview"
+              alt="Kurs Görseli"
               className="w-full h-full object-cover"
             />
           </div>
@@ -62,7 +62,7 @@ const CourseHero = () => {
             </div>
 
             <button className="w-full bg-secondary text-white py-3 px-4 rounded-md hover:bg-secondary/80 transition-colors cursor-pointer shadow-md hover:shadow-lg">
-              Add to Cart
+              Hemen Kayıt Ol
             </button>
           </div>
 
