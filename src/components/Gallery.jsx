@@ -40,4 +40,8 @@ const Gallery = () => {
   );
 };
 
+Gallery.propTypes = {
+  // This component doesn't take any props currently
+};
+
 export default Gallery;
