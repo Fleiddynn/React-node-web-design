@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ClockIcon, MapPinIcon, UserIcon } from "@heroicons/react/24/outline";
+import { motion } from "framer-motion";
 
 const CourseHero = () => {
   const [courseType, setCourseType] = useState("facetoface");
@@ -15,11 +16,23 @@ const CourseHero = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+    >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        {/* Left Column - Title, Description, and Image */}
-        <div className="space-y-6">
-          <div>
+        <motion.div
+          initial={{ x: -50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="space-y-6"
+        >
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
             <h1 className="text-3xl font-bold text-head mb-4">
               İstanbul Uygulamalı Uzmanlık Eğitimi
             </h1>
@@ -29,21 +42,31 @@ const CourseHero = () => {
               temporibus, debitis cum, iure deleniti ad ducimus autem magnam
               blanditiis quasi ipsa quis!
             </p>
-          </div>
+          </motion.div>
 
-          <div className="rounded-2xl overflow-hidden bg-gray-100 aspect-video shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            className="rounded-2xl overflow-hidden bg-gray-100 aspect-video shadow-lg hover:shadow-xl transition-shadow duration-300"
+          >
             <img
               src="https://placehold.co/800x600"
               alt="Kurs Görseli"
               className="w-full h-full object-cover"
             />
-          </div>
-        </div>
-
-        {/* Right Column - Course Details */}
-        <div className="space-y-6 bg-card p-6 rounded-xl shadow-lg">
-          {/* Price and Type Selection */}
-          <div className="space-y-4">
+          </motion.div>
+        </motion.div>
+        <motion.div
+          initial={{ x: 50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="space-y-6 bg-card p-6 rounded-xl shadow-lg"
+        >
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="space-y-4"
+          >
             <div className="flex items-baseline">
               <span className="text-4xl font-bold text-primary">
                 {prices[courseType].toLocaleString()}TL
@@ -64,10 +87,13 @@ const CourseHero = () => {
             <button className="w-full bg-secondary text-white py-3 px-4 rounded-md hover:bg-secondary/80 transition-colors cursor-pointer shadow-md hover:shadow-lg">
               Hemen Kayıt Ol
             </button>
-          </div>
-
-          {/* Course Details */}
-          <div className="space-y-4 border-t border-gray-200 pt-6">
+          </motion.div>
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="space-y-4 border-t border-gray-200 pt-6"
+          >
             <div className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors">
               <ClockIcon className="w-5 h-5" />
               <span>Süre: 5 saat </span>
@@ -82,10 +108,13 @@ const CourseHero = () => {
               <UserIcon className="w-5 h-5" />
               <span>Kategori: Uzmanlık Eğitimleri</span>
             </div>
-          </div>
-
-          {/* Instructor */}
-          <div className="border-t border-gray-200 pt-6">
+          </motion.div>
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="border-t border-gray-200 pt-6"
+          >
             <h2 className="text-lg font-medium text-head mb-4">
               Kurs Öğretmeni
             </h2>
@@ -99,10 +128,10 @@ const CourseHero = () => {
                 <h3 className="font-medium text-primary">Recep Heptaş</h3>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

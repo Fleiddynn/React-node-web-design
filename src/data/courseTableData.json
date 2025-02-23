@@ -1,0 +1,31 @@
+{
+    "programs": [
+      {
+        "type": "HAFTASONU PROGRAMI",
+        "date": "15 Şubat 2025 - 16 Şubat 2025",
+        "days": "Cumartesi - Pazar",
+        "hours": "10.00 – 17.00",
+        "duration": "3 Hafta",
+        "location": "Mecidiyeköy",
+        "price": "15.000 TL+KDV"
+      },
+      {
+        "type": "HAFTAİÇİ PROGRAMI",
+        "date": "03 - 09 Mart 2025",
+        "days": "Pazartesi Salı\nÇarşamba Perşembe\nCuma Cumartesi",
+        "hours": "10.00 – 17.00",
+        "duration": "1 Hafta",
+        "location": "Mecidiyeköy",
+        "price": "15.000 TL+KDV"
+      },
+      {
+        "type": "ONLINE PROGRAM",
+        "date": "01 Mart 2025",
+        "days": "Pazartesi - Çarşamba - Cuma",
+        "hours": "21.00 – 23.30",
+        "duration": "4 Hafta",
+        "location": "Online Platform",
+        "price": "7.500 TL+KDV"
+      }
+    ]
+  }
