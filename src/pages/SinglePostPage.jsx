@@ -3,6 +3,8 @@ import CourseCalendar from "./../components/CourseCalendar.jsx";
 import CourseMethod from "./../components/CourseMethod.jsx";
 import CourseBenefits from "./../components/CourseBenefits.jsx";
 import CertificationAndBenefits from "./../components/CertificationAndBenefits.jsx";
+import CourseProgram from "./../components/CourseProgram.jsx";
+import SmallForm from "./../components/SmallForm.jsx";
 
 const SinglePostPage = () => {
   return (
@@ -18,6 +20,8 @@ const SinglePostPage = () => {
         </div>
       </div>
       <CertificationAndBenefits />
+      <CourseProgram />
+      <SmallForm />
     </section>
   );
 };

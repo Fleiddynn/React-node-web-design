@@ -1,0 +1,284 @@
+{
+  "programs": [
+    {
+      "id": 1,
+      "title": "DIŞ TİCARETTE YÖNETİM STRATEJİLERİ VE İŞ GELİŞTİRME TEKNİKLERİ",
+      "iconType": "TrendingUp",
+      "content": [
+        "Dış Ticarette Kullanılan Temel Kavramlar",
+        "Dış Ticarette Planlama Stratejileri",
+        "Dış Ticarette İş Planı Geliştirme",
+        "Dış Ticaret Yönetim Sistemi Kurma Teknikleri",
+        "Dış Ticaret Yöneticisinin Sahip Olması Gereken Nitelikler",
+        "Dış Ticaret Yol Haritası",
+        "İhracatta Fiyatlandırma Stratejileri",
+        "Dış Ticarette Sözleşme Yapma Yöntemleri",
+        "Dış Ticarette Girişimcilik ve Kendi İşini Kurma Yöntemleri"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "ULUSLARARASI PAZARLAMA VE İHRACATTA MÜŞTERİ BULMA TEKNİKLERİ",
+      "iconType": "Globe",
+      "content": [
+        "İhracatta Pazar Araştırma Yöntemleri",
+        "Hedef Pazarlar Hakkında Bilinmesi Gerekenler",
+        "Uluslararası Pazarlamada Marka Stratejileri",
+        "İnternetten Müşteri Bulmanın Yolları",
+        "Müşteri Tanıma ve Seçiminde Dikkat Edilmesi Gereken Noktalar",
+        "Müşteri Bulmada Fuarların Önemi ve Fuarlarda Başarılı Olma Yöntemleri",
+        "Pazar Araştırmalarında Dikkat Edilmesi Gereken Noktalar",
+        "Acente – Distribütör Seçimi",
+        "Elektronik Ticaret",
+        "En Önemli Web Sitelerinin İncelenmesi Ve Web Sayfalarında Uygulamalı Gösterimi"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "İHRACAT UYGULAMALARI VE PROSEDÜRLERİ",
+      "iconType": "ShoppingCart",
+      "content": [
+        "Nasıl İhracatçı Olunur ?",
+        "İhracat İş Akışı",
+        "İhracat Çeşitleri",
+        "İhracatta Kullanılan Belgeler",
+        "İhracat Yapılacak Ülkeye Göre İşlemler",
+        "İhracatta Gümrük Uygulamaları",
+        "İhracata İlişkin Kurumlar ve Fonksiyonları",
+        "İhracat Hesabının Kapatılması",
+        "İhracatta Karşılaşılabilecek Sorunlar ve Çözüm Yolları",
+        "Örnek Olay ve Uygulamalar"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "İTHALAT UYGULAMALARI VE PROSEDÜRLERİ",
+      "iconType": "ShoppingCart",
+      "content": [
+        "Nasıl İthalatçı Olunur?",
+        "İthalat İş Akışı",
+        "İthalat Çeşitleri",
+        "İthalatta Kullanılan Belgeler",
+        "İthalatta Maliyet Hesaplama Yöntemleri",
+        "Uzakdoğudan İthalatlarda Dikkat Edilmesi Gereken Noktalar",
+        "İthalatta Vergi Hesaplamaları",
+        "İthalatta Gümrük Uygulamaları",
+        "İthalat Hesabının Kapatılması",
+        "Gümrük Tarife İstatistik Pozisyonu (GTİP) Numarasının Önemi",
+        "İthalatta Karşılaşılabilecek Sorunlar ve Çözüm Yolları",
+        "Örnek Olay ve Uygulamalar"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "GÜMRÜK MEVZUATI VE UYGULAMALARI",
+      "iconType": "FileText",
+      "content": [
+        "Eşyanın Geçici Depolanması",
+        "Gümrük Antrepo Rejimi",
+        "Serbest Dolaşıma Giriş Rejimi",
+        "Transit Rejimi",
+        "Dahilde İşleme Rejimi",
+        "Gümrük Kontrolü Altında İşleme Rejimi",
+        "Hariçte İşleme Rejimi",
+        "Posta İşlemleri",
+        "Sınır Ticareti",
+        "Temsil Hakkı",
+        "Eşyanın Tercihli Olmayan Menşei",
+        "Eşyanın Tercihli Olan Menşei",
+        "Eşyanın Gümrük Kıymeti",
+        "Eşyanın Gümrüğe Sunulması",
+        "Özet Beyan",
+        "Gümrükçe Onaylanmış İşlem",
+        "Geçici Depolama",
+        "Serbest Dolaşıma Giriş",
+        "Gümrük Yükümlülüğünün Doğması, Sona Ermesi",
+        "Vergi Kaybına Ait Cezalar"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "DIŞ TİCARETTE KULLANILAN TESLİM ŞEKİLLERİ - INCOTERMS 2020",
+      "iconType": "TruckIcon",
+      "content": [
+        "Teslim Şekillerine Genel Bakış",
+        "Teslim Şeklini Belirlemede Dikkat Edilmesi Gereken Noktalar",
+        "Teslim Şekillerinde Teorik ve Pratik Uygulamalar",
+        "Teslim Şekillerinde Karşılaşılabilecek Riskler ve Alınabilecek Önlemler",
+        "Teslim Şekilleri - Incoterms 2020",
+        "Ticari İşletmede Teslim (EXW)",
+        "Taşıyıcıya Teslim (FCA)",
+        "Gemi Doğrultusunda Teslim (FAS)",
+        "Gemi Bordrosunda Teslim (FOB)",
+        "Mal Bedeli veya Navlun Ödenmiş Olarak Teslim (CFR)",
+        "Mal Bedeli, Sigorta ve Navlun Ödenmiş Olarak Teslim (CIF)",
+        "Taşıma Ücreti Ödenmiş Olarak Teslim (CPT)",
+        "Taşıma Ücreti ve Sigorta Ödenmiş Olarak Teslim (CIP)",
+        "Belirlenen Yerde Teslim (DAP)",
+        "Belirlenen Yerde Araçtan İndirilmiş Olarak Teslim (DPU)",
+        "Gümrük Resmi Ödenmiş Olarak Teslim (DDP)"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "DIŞ TİCARETTE KULLANILAN BELGELER",
+      "iconType": "FileText",
+      "content": [
+        "Faturalar",
+        "Sevk (Taşıma Belgeleri)",
+        "Paketleme Belgeleri",
+        "Serbest Dolaşım Belgeleri",
+        "Finansal Belgeler",
+        "Ürüne İlişkin Belgeler",
+        "Diğer Belgeler",
+        "Belge Hazırlamada Dikkat Edilecek Noktalar",
+        "Belgelerde Karşılaşılan Sorunlar ve Çözüm Yolları"
+      ]
+    },
+    {
+      "id": 8,
+      "title": "DIŞ TİCARETTE ÖDEME YÖNTEMLERİ",
+      "iconType": "DollarSign",
+      "content": [
+        "Peşin Ödeme",
+        "Alıcı Firma Prefinansmanı",
+        "Mal Mukabili Ödeme",
+        "Vesaik Mukabili Ödeme",
+        "Kabul Kredili Ödeme",
+        "Akreditifli Ödeme",
+        "Akreditifte Taraflar",
+        "Akreditif Çeşitleri",
+        "Geri Dönülebilir / Geri Dönülemez Olma Özelliği Teyitli / Teyitsiz Akreditiflerin Anlamı",
+        "Akreditifte Karşılaşılan Riskler, Rezerv Koşulları",
+        "Akreditifin Ödeme Şekilleri (Sight, Deferred, Acceptance)",
+        "Akreditifli İşlemlerde Rezervin Anlamı Ve Önemi",
+        "Transferable, Back To Back Akreditifler",
+        "Stand By Akreditifler",
+        "Swift Mesajları",
+        "Uluslar Arası Swift Mesajlarının Özellikleri",
+        "Swift Mesajı Okuma Teknikleri",
+        "Akreditif Mektupları ( MT 700)",
+        "Akreditif Açtırma Teklif Mektubunun Hazırlanması",
+        "Akreditif Metininin Açıklanması",
+        "Akreditif Belgelerinin Analizi",
+        "Akreditifte Rezerv",
+        "Akreditifte Rezerv Koşulları",
+        "Akreditif Metni Hazırlarken Dikkat Edilecek Hususlar",
+        "Rezerv Uygulama Örnekleri",
+        "Genel Olarak Akreditife İlişkin Riskler",
+        "UCP 600 Sayılı Broşürün Maddelerinin Açıklanması",
+        "Uygulamalar",
+        "Garanti Mektupları",
+        "Kontra Garantiler",
+        "Teminat Mektupları",
+        "Ödeme Şekillerinde Eximbank Uygulamaları",
+        "Ödeme Yöntemlerinde Karşılaşılabilecek Riskler Ve Çözüm Yolları",
+        "Ödeme Şekillerinde Dikkat Edilmesi Gereken Noktalar"
+      ]
+    },
+    {
+      "id": 9,
+      "title": "İHRACAT TEŞVİKLERİ KAPSAMINDA DEVLET DESTEKLERİ",
+      "iconType": "Award",
+      "content": [
+        "KOSGEB Destekleri",
+        "İGEME Destekleri",
+        "DTM Destekleri",
+        "TÜBİTAK Destekleri",
+        "TTGV Destekleri",
+        "Eximbank Destekleri",
+        "Diğer Destekler",
+        "Sağlanan Desteklerden Faydalanma Yolları",
+        "Dikkat Edilmesi Gereken Noktalar"
+      ]
+    },
+    {
+      "id": 10,
+      "title": "SERBEST BÖLGELER",
+      "iconType": "Map",
+      "content": [
+        "Türkiye'de Ve Dünyada Serbest Bölgeler, Kuruluşları Dünü Ve Bugünü",
+        "Serbest Bölgelerin Teşvik Ve Avantajları",
+        "İhracatçılara Sağladığı Teşvik Ve Avantajlar",
+        "İthalatçılara Sağladığı Teşvik Ve Avantajlar",
+        "Serbest Bölgelerde Transit Ticaret",
+        "Serbest Bölgelerde İhracat İş Akışı",
+        "Serbest Bölgelerde İthalat İş Akışı",
+        "Serbest Bölge İşlemleri Ve Örnek Uygulamaları",
+        "Mevzuat Açısından Serbest Bölgelerin Son Durumları"
+      ]
+    },
+    {
+      "id": 11,
+      "title": "DIŞ TİCARETTE NAKLİYE VE SİGORTA İŞLEMLERİ",
+      "iconType": "TruckIcon",
+      "content": [
+        "Tedarik Zinciri ve Lojistik",
+        "Kara, Hava, Deniz, Demiryolu Nakliyesi",
+        "Taşıma Şekilleri",
+        "Nakliye İşlemlerinde Kullanılan Belgeler",
+        "Navlun Sözleşmeleri ve Türleri",
+        "Navlun Teklif Türleri",
+        "Nakliye İşlemleri İş Akışı",
+        "Nakliye Ölçüm ve Maliyet Hesapları",
+        "En Uygun Nakliyenin Bulunması",
+        "Dış Ticaret Sigortası"
+      ]
+    },
+    {
+      "id": 12,
+      "title": "DIŞ TİCARET MUHASEBE İŞLEMLERİ",
+      "iconType": "PieChart",
+      "content": [
+        "İhracat Muhasebesi",
+        "İthalat Muhasebesi",
+        "İhracatta KDV İadesi",
+        "Örnek Uygulamalar"
+      ]
+    },
+    {
+      "id": 13,
+      "title": "DIŞ TİCARETTE KALİTE, ÇEVRE, GÜVENLİK",
+      "iconType": "CheckSquare",
+      "content": [
+        "Dış Ticarette Kalitenin Önemi",
+        "Kalite Standart Çeşitleri",
+        "Çevre Etiketi",
+        "CE İşareti"
+      ]
+    },
+    {
+      "id": 14,
+      "title": "GLOBAL EKONOMİYE BAKIŞ",
+      "iconType": "Globe",
+      "content": [
+        "Gümrük Tarifeleri ve Genel Ticaret Anlaşmaları, GATT Ve GATT`ın Temel Kuralları",
+        "Dünya Ticaret Örgütü",
+        "Dünya Ticaret Sisteminin İşleyişi",
+        "Bölgesel, Siyasi ve Ekonomik Entegrasyonların Dünya Ticaretine Etkisi",
+        "Uluslararası Ticaret Hukuku",
+        "Dış Ticarette Karşılaşılan Riskler ve Risk Yönetimi"
+      ]
+    },
+    {
+      "id": 15,
+      "title": "DIŞ TİCARETTE YAZIŞMA TEKNİKLERİ",
+      "iconType": "Book",
+      "content": [
+        "İhracat Yazışma Teknikleri",
+        "İthalat Yazışma Teknikleri",
+        "Yazışmalarda Dikkat Edilmesi Gereken Noktalar",
+        "Uluslarası Ticari Yazışma Kültürü"
+      ]
+    },
+    {
+      "id": 16,
+      "title": "ATÖLYE ÇALIŞMALARI",
+      "iconType": "Users",
+      "content": [
+        "İhracat Atölye Çalışmaları",
+        "İthalat Atölye Çalışmaları"
+      ]
+    }
+  ]
+}

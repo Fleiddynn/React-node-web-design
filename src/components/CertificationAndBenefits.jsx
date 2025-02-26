@@ -115,7 +115,7 @@ export default function CertificationAndBenefits() {
         </motion.div>
         <motion.h2
           variants={itemVariants}
-          className="text-2xl font-bold text-primary mb-8"
+          className="text-2xl font-bold text-secondary mb-8"
         >
           Sertifikasyon
         </motion.h2>
@@ -220,7 +220,7 @@ export default function CertificationAndBenefits() {
           </motion.div>
           <motion.h2
             variants={itemVariants}
-            className="text-2xl font-bold text-primary mb-4"
+            className="text-2xl font-bold text-secondary mb-4"
           >
             Program Sonunda Katılımcılara
           </motion.h2>
