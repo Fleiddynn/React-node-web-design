@@ -80,16 +80,6 @@ export default function CertificationAndBenefits() {
     },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -101,27 +91,20 @@ export default function CertificationAndBenefits() {
     },
   };
 
-  const benefitVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
-
   return (
     <motion.div
       className="max-w-6xl mx-auto p-8 text-gray-800 grid grid-cols-1 md:grid-cols-2 gap-8 items-start"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.6 }}
     >
       <motion.div
         className="p-6 flex flex-col items-center text-center"
-        variants={itemVariants}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
       >
         <motion.div
           initial={{ scale: 0 }}
@@ -220,11 +203,14 @@ export default function CertificationAndBenefits() {
         )}
       </AnimatePresence>
 
-      <motion.div className="p-6" variants={containerVariants}>
-        <motion.div
-          className="flex flex-col items-center text-center mb-6"
-          variants={itemVariants}
-        >
+      <motion.div
+        className="p-6"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+      >
+        <div className="flex flex-col items-center text-center mb-6">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -238,27 +224,23 @@ export default function CertificationAndBenefits() {
           >
             Program Sonunda Katılımcılara
           </motion.h2>
-        </motion.div>
+        </div>
 
-        <motion.ul className="space-y-6" variants={containerVariants}>
-          {benefits.map((benefit) => (
+        <ul className="space-y-6">
+          {benefits.map((benefit, index) => (
             <motion.li
               key={benefit.id}
-              className="transition-all duration-500 ease-in-out md:hover:scale-105"
-              variants={benefitVariants}
-              whileHover={{ x: 10 }}
+              className="transition-all duration-500 ease-in-out"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               onMouseEnter={() => !isMobile && setActiveDetail(benefit.id)}
               onMouseLeave={() => !isMobile && setActiveDetail(null)}
             >
               <div className="flex items-center justify-between gap-2 p-2 rounded-md md:hover:bg-blue-50 md:cursor-pointer transition-all duration-300">
                 <div className="flex items-center gap-2">
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 200, damping: 10 }}
-                  >
-                    {benefit.icon}
-                  </motion.div>
+                  {benefit.icon}
                   <span className="font-medium">{benefit.title}</span>
                 </div>
                 <ChevronDownIcon
@@ -275,13 +257,12 @@ export default function CertificationAndBenefits() {
                     ? "max-h-32 opacity-100 mt-2 mb-2"
                     : "max-h-0 opacity-0 overflow-hidden"
                 }`}
-                variants={itemVariants}
               >
                 {benefit.detail}
               </motion.div>
             </motion.li>
           ))}
-        </motion.ul>
+        </ul>
       </motion.div>
     </motion.div>
   );
