@@ -8,7 +8,7 @@ const Hero = () => {
           <motion.div
             className="w-full md:w-1/2 text-center md:text-left md:pl-8"
             initial={{ opacity: 0, x: -100 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1 }}
             viewport={{ once: true }}
           >
@@ -18,7 +18,7 @@ const Hero = () => {
             <motion.h1
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-head"
               initial={{ opacity: 0, y: -50 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3 }}
               viewport={{ once: true }}
             >
@@ -27,7 +27,7 @@ const Hero = () => {
             <motion.p
               className="text-lg md:text-xl lg:text-2xl mb-8"
               initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.6 }}
               viewport={{ once: true }}
             >
@@ -37,7 +37,7 @@ const Hero = () => {
             <motion.button
               className="bg-amber-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-amber-700 transition-all cursor-pointer"
               initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.9 }}
               viewport={{ once: true }}
             >
@@ -48,7 +48,7 @@ const Hero = () => {
           <motion.div
             className="w-full md:w-1/2 mt-10 md:mt-0 flex justify-center items-center"
             initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.9 }}
             viewport={{ once: true }}
           >
@@ -63,7 +63,7 @@ const Hero = () => {
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3 }}
             viewport={{ once: true }}
           >
@@ -74,7 +74,7 @@ const Hero = () => {
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
             viewport={{ once: true }}
           >
@@ -85,7 +85,7 @@ const Hero = () => {
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.9 }}
             viewport={{ once: true }}
           >
