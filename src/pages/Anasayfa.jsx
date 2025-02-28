@@ -5,6 +5,7 @@ import WhyUs from "./../components/WhyUs.jsx";
 import Gallery from "./../components/Gallery.jsx";
 import SmallForm from "./../components/SmallForm.jsx";
 import Perks from "./../components/Perks.jsx";
+import Testimonials from "./../components/Testimonials.jsx";
 
 const Anasayfa = () => {
   return (
@@ -13,6 +14,7 @@ const Anasayfa = () => {
       <PopularCourses />
       <Perks />
       <UpcomingEvents />
+      <Testimonials />
       <WhyUs />
       <Gallery />
       <SmallForm />
