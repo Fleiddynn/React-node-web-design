@@ -13,15 +13,17 @@ const SocialMediaIcons = ({ showLabels = false }) => {
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-secondary hover:scale-150 transition duration-300 ease-in-out"
+              className="flex items-center gap-2"
             >
-              <IconComponent size={24} />
-            </a>
-            {showLabels && (
-              <span className="text-sm font-medium text-gray-700">
-                {social.name}
+              <span className="text-secondary hover:scale-150 transition duration-300 ease-in-out">
+                <IconComponent size={24} />
               </span>
-            )}
+              {showLabels && (
+                <span className="text-sm font-medium text-gray-700">
+                  {social.name}
+                </span>
+              )}
+            </a>
           </div>
         );
       })}

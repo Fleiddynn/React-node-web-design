@@ -49,7 +49,7 @@ const Footer = () => {
           <h2 className="font-semibold text-center md:text-left mb-3">
             Sosyal Medya
           </h2>
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-start gap-2 justify-start">
             <Socials className="text-primary" showLabels={true} />
           </div>
         </div>
