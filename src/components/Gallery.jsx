@@ -89,7 +89,7 @@ const Gallery = ({
                   : "bg-gray-200 text-gray-400 cursor-not-allowed hover:scale-100"
               }`}
           >
-            Previous
+            Önceki
           </button>
 
           {[...Array(totalPages)].map((_, index) => (
@@ -118,7 +118,7 @@ const Gallery = ({
                   : "bg-gray-200 text-gray-400 cursor-not-allowed hover:scale-100"
               }`}
           >
-            Next
+            Sonraki
           </button>
         </div>
       )}
