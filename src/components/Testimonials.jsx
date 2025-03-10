@@ -78,7 +78,7 @@ export default function Testimonials() {
           animate="visible"
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3"
         >
-          <AnimatePresence initial={false} mode="wait">
+          <AnimatePresence initial={false} mode="popLayout">
             {getVisibleTestimonials().map((testimonial, index) => (
               <motion.div
                 key={`${testimonial.id}-${startIndex}-${index}`}
