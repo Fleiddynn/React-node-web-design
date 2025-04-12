@@ -43,7 +43,7 @@ const AboutUsHero = () => {
           className="w-72 h-80 bg-gray-300 rounded-2xl overflow-hidden shadow-lg"
         >
           <img
-            src="https://via.placeholder.com/300"
+            src="https://placehold.co/300x300"
             alt="Placeholder"
             className="w-full h-full object-cover"
           />
@@ -56,7 +56,7 @@ const AboutUsHero = () => {
           className="w-72 h-80 bg-gray-300 rounded-2xl overflow-hidden shadow-lg"
         >
           <img
-            src="https://via.placeholder.com/300"
+            src="https://placehold.co/300x300"
             alt="Placeholder"
             className="w-full h-full object-cover"
           />

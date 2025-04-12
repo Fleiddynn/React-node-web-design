@@ -1,0 +1,114 @@
+{
+  "testimonials": [
+    {
+      "id": 1,
+      "text": "Mükemmel bir eğitim… Başta algılayamamaktan korkarak geldim. En ağır konular bile profesyonelce, usta-çırak tadında, gerçek, reel gözle görünür hale getirmek herkesin harcı değildir. Teşekkürler Recep Hocam… Şimdi kendime çok daha fazla güveniyorum.",
+      "person": "BERNA ARIN"
+    },
+    {
+      "id": 2,
+      "text": "Eğitimin içeriğinden ve eğitmenin ( Recep HEPTAŞ) dersi anlatış şeklinden son derece memnun kaldım. Kendisi konuya son derece hakimdi ve anlaşılabilir bir dille eğitimi gerçekleştirdi. Eğitmenimiz dışında çalışan diğer görevli kişilerde son derece güleryüzlü ve yardımcı bir tutum içindeydiler. Eğitimden son derece memnun kaldım, emeği geçen herkese teşekkürler…",
+      "person": "VOLKAN KAYA"
+    },
+    {
+      "id": 3,
+      "text": "Kesinlikle tatmin edici bir eğitimdi. Recep Bey'in ve personelin sıcak ve ilgili yaklaşımında da bunun etkisi olduğu açıktır. Özellikle teoriden ziyade yaşanmışlıkların aktarılması bir şeyleri düşünürken aklımda canlandırmamı sağladı. Kısacası kurumunuzdan aldığım hizmetten kesinlikle mutlu ve tatmin olmuş olarak ayrılıyorum.",
+      "person": "BURAK ÇALIŞKAN"
+    },
+    {
+      "id": 4,
+      "text": "Bu kursun bana faydalı olduğunu düşünüyorum. İş hayatında karşılaşabileceğim sorunlara karşı bakış açım değişti. İş hayatında daha donanımlı olarak yol alacağım. Kazandığım teknik bilgileri pratiğe çevireceğimi düşünüyorum. Bilgileri firma gözüyle bakarak bize öğreten eğitmenimiz Recep Bey'e teşekkür ederim. Bu kursu arkadaşlarıma da tavsiye edeceğim. İlginize teşekkürler…",
+      "person": "ÖZLEM KIRCA"
+    },
+    {
+      "id": 5,
+      "text": "Gerçekten güzel bir eğitim oldu. Sadece kurs olarak değildi. Ayrıca hayat dersi de öğretildi. Hocalar olsun diğer çalışan arkadaşlar olsun baştan sona çok iyiydi. Tavsiye etmek bir yana mümkün oldukça görüşmek isterim hocayla. Son olarak Recep Bey'in davranışları olsun hareketleri olsun çok özel biri. Kalbinin güzelliği yüzüne vurmuş nadir insanlardan biri. Başarılarının devamını dilerim.",
+      "person": "PELİN KAYA"
+    },
+    {
+      "id": 6,
+      "text": "Genel olarak başarılı bir eğitimdi. Eğitmen konuya hakimdi ve anlatma yeteneği gelişmişti.",
+      "person": "ÖMER ÖZGÜRBÜZ"
+    },
+    {
+      "id": 7,
+      "text": "Dış Ticaret Platformu Dış Ticaret Eğitimi almak için yapılan yatırımı daha ders sırasında kat kat fazlasıyla almamızı sağladıkları için gerek eğitmenlerimiz gerekse de deneyimleriyle ufkumuzu açan konuk hocalara çok teşekkür ediyorum.",
+      "person": "MUSTAFA KARAGÖZ"
+    },
+    {
+      "id": 8,
+      "text": "Bilgi ve deneyimlerinden oldukça faydalandığımız eğitmenler süper. 13 senelik dış ticaretçiyim ve oldukça etkilendiğim ve değerli insanlarla karşılaştığım bir eğitim olmuştur.",
+      "person": "MEVLÜT KOÇ"
+    },
+    {
+      "id": 9,
+      "text": "Dış ticaret eğitimi hocamızın uygulamadan gelmesi nedeniyle çok zevkli, somut, yaşanan tecrübelerle zenginleştirilmiş bir şekilde veriliyor. Dahası tüm dış ticaretin süreçleri püf noktalarıyla işleniyor Bu da eğitime önemli zenginlik katıyor. Eğitmenlerimizin verdiği örnekler eğitimin pekişmesini sağlıyor. Uygulamadan gelen çok efektif tecrübeler, olaylar eğitmenlerimiz tarafından çok sade anlaşılır bir şekilde aktarılıyor.",
+      "person": "EDA GÜNAY"
+    },
+    {
+      "id": 10,
+      "text": "Her yönüyle eğitimden çok memnun ayrılıyorum. Tüm emekleriniz ve bilgileriniz için teşekkür ederim.",
+      "person": "ABDULLAH DERTSİZ"
+    },
+    {
+      "id": 11,
+      "text": "Eğitiminizden memnun kaldım, hiç tecrübesi ve bilgisi olmayan insanların bile bu eğitimden sonra kendisine güvenen ve biraz da girişimci olan biri kesinlikle aldığı bilgiyle dış ticaret yapmaya başlayabilir. Eğitimi veren eğitmenlerimize teşekkür ederiz.",
+      "person": "ORKUN ERGÜN"
+    },
+    {
+      "id": 12,
+      "text": "Eğitim konusu her ne kadar geniş olsa bile, uygulanan paket eğitim kesinlikle faydalı, sadece temel bir eğitim verilmiyor, bunun yanı sıra iş hayatında ve dış ticarette karşımıza çıkacak sorunlara karşı önleyici fikirler öğretiliyor. Özellikle eğitmenlerimizin akıcı ve konuya sizi de dahil eden anlatımı en büyük avantaj. 60 saatlik eğitimimde, bu sürenin üstünde bir birikim sağladığımı düşünüyorum.",
+      "person": "M.SALİH GÜR"
+    },
+    {
+      "id": 13,
+      "text": "Eğitmenlerimizin, öğrencisi ile empati kurması ve öğrencisinin beklentileri sonun kadar karşılayan bir eğitim anlayışı ile ders vermesi, derslerin çok daha fazla verimli olmasını sağladı benim için. Yaklaşımı, yorumları ve saha deneyimlerinin çok açık ve anlaşılır şekilde anlatılması çok tatmin edici. Her şey için teşekkürler.",
+      "person": "PINAR ASLANDAĞ"
+    },
+    {
+      "id": 14,
+      "text": "Dış ticarete adım atmaya niyetlendim ve bu adım için bu eğitim olması gereken en iyi eğitim oldu. Dış ticaret adına hiçbir şey bilmiyormuşum. Bu eğitim sonunda bunu anladım. Bu sebeple bu eğitimde yer aldığım için kendimi çok şanslı hissediyorum. Tek kelimeyle mükemmel bir eğitimdi.",
+      "person": "ŞÜKRAN KALAYCI"
+    },
+    {
+      "id": 15,
+      "text": "Bu kursa başlamadan önce CIF kelimesinin anlamını dahi bilmezken kurs sonunda ihracat ve ithalat ile ilgili tüm detay bilgileri öğrendim. Kursun en güzel yanı istediğiniz her ayrıntıyı öğrenebilmeniz ve kurs saatleri dışında da çok rahat karşılaştığınız her türlü sıkıntıda anında iletişime geçip bilgi alabilmenizdir.",
+      "person": "ŞÜKRAN KALAYCI"
+    },
+    {
+      "id": 16,
+      "text": "Bir aylık kurs gerçekten insanı dış ticarete hazırlıyor. Gereken tüm bilgiler teorik ve taktiksel anlamda veriliyor. Ayrıca kursun içeriğinde lojistik ve gümrük olaylarında saha tecrübesi olan eğitmenlerin gelip, gerçek deneyimlerini anlatması gerçekten çok faydalıydı. Bunların hepsi bir yana özellikle sizi tanıdığıma ve uzun yıllar sürecek bir dost kazandığım için çok memnunum.",
+      "person": "ŞERİF ZOR"
+    },
+    {
+      "id": 17,
+      "text": "Sizin eğitimini verdiğiniz Uygulamalı Dış Ticaret Eğitim Programı çok verimli geçti. Eğitim sonunda bir firmanın dış ticaretle ilgili işlemlerini yapabilecek seviyeye geldik. Girişimcilik,ihracat,ithalat,pazarlama,lojistik,serbest bölgelerle ilgili önemli bilgilere vakıf olduk..ve uygulamalı olarak eğitimi tamamladık.Kısa ama verimli bir programdı. Sizin ve arkadaşların pozitif enerjisi eğitimin daha güzel geçmesine sebep oldu... Dış ticaretle ilgili eksiklerini tamamlamak isteyen arkadaşlara kesinlikle tavsiye ediyorum...",
+      "person": "SEYHAN GELGEÇ"
+    },
+    {
+      "id": 18,
+      "text": "Bazı şeyler insanın gözünde çok büyükmüş gibi duruyor. Dış ticarette benim için böyleydi, Ta ki onu öğreninceye kadar. Gözümüzde büyütülecek kadar zor ve karmaşık değilmiş. Teşekkürler Recep Hoca...",
+      "person": "CEM GENCE"
+    },
+    {
+      "id": 19,
+      "text": "Sektörü hiç bilmememe rağmen geniş bir görüş açısı verilerek dış ticaretin nasıl yapıldığını öğrendim. Her türlü sorularımın karşılığını fazlasıyla aldım. Hocamızın bana verdiği güven ve destekle dış ticareti rahatlıkla yapabilirim. En önemlisi kurs bitiminden sonrada ihtiyacım olan desteği her zaman yanımda hissettim.",
+      "person": "EBRU AKKALE"
+    },
+    {
+      "id": 20,
+      "text": "AÖF Dış Ticaret bölümünü bitirdiğimde eksikliğini duyduğum konuları bu eğitimin içeriğinde gördüm: Başlıklar halinde sıralanmış haliyle 2 yıllık eğitimin bir özeti gibi duruyordu. Katılmaya karar verdim. Sınav zamanlarında ezberlediğim, hatta sınavı geçmeme sebep olan terimlerin çoğunu ilk burada öğrendim desem yeridir. Tabi bu öğrendiklerimi iş yaşamında tecrübe ederek ve problemlerle karşılaşarak pekiştirmek daha bir özgüven sağlayacak bana.",
+      "person": "GÖKSEL TÖRÜN"
+    },
+    {
+      "id": 21,
+      "text": "Programın dış ticarete ilişkin tüm süreçleri temel seviyeden alarak anlatan çok faydalı bir eğitim olduğunu düşünüyorum. Dış ticaretle ilgilenmeyi düşünenler ya da bu sahada çalışıp kendilerini geliştirmek isteyenler için çok yararlı bir program olacağı kanaatindeyim. Ayrıca Recep Hocanın bu programda öğrencilere yaklaşımı da bence vurgulanması gereken bir başka önemli nokta, kurs bitti öğreneceğinizi öğrendiniz benden bu kadar yaklaşımından ziyade, program sonrası dönemde de karşılaştığınız sorunlar karşısında kendisine danışabileceğiniz bir abi, bir dost kazanıyorsunuz. Programa katılanlara verilen geniş bilgi bankası ve sıcak ders ortamı programın diğer artıları. Dış ticaretle ilgileneceklere Recep Hocanın bilgilerinden mutlaka faydalanmalarını tavsiye ediyorum.",
+      "person": "EMRE ALTUNBAŞ"
+    },
+    {
+      "id": 22,
+      "text": "Dış ticaretin aslında ne olduğu ve bunun pratikte nasıl hayata geçirileceği üzerine kapsamlı bir altyapı oluşturma amacımızı sürekli paylaşarak bizlere yardımcı olan Recep Bey'e teşekkürler! Dış Ticaret Platformu'ndan aldığım eğitim, bir çalışma masası ve interneti kullanabileceğim bir bilgisayarla sadece disiplin ve azmi birleştirerek kendi işimi kurabileceğimi gördüm. Yani, iş yapmak isteyen ve başarılı olacağına inanan herkesin bu programdan sonra dış ticaretten hak ettiği payı alacağını söyleyebilirim. Bir ülkenin gelişimi önemli ölçüde dış ticaretle alakalıdır; bunun gerçekleşebilmesi için ise iyi yetişmiş dış ticaret uzmanlarına ihtiyaç olacaktır. Bu amaçtaki Dış Ticaret Platformu'nda atılacak ilk adım için en doğru yer olduğuna inanıyorum.",
+      "person": "AYDIN SUNAR"
+    }
+  ]
+}
