@@ -111,26 +111,8 @@ const Tablolar = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="text-center text-lg mt-8">Tablolar yükleniyor...</div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center text-lg mt-8 text-red-600">Hata: {error}</div>
-    );
-  }
-
-  if (programList.length === 0) {
-    return (
-      <div className="text-center text-lg mt-8">Henüz tablo eklenmemiş.</div>
-    );
-  }
-
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-100 p-4">
+    <div className="min-h-screen flex flex-col items-center p-4">
       <div className="absolute top-4 left-4">
         <Link
           to="/admin"
@@ -153,25 +135,38 @@ const Tablolar = () => {
         </Link>
       </div>
 
-      {programList.map((programEntry) => (
-        <div key={programEntry.id} className="w-full max-w-5xl mx-auto mb-6">
-          <CourseCalendar programEntry={programEntry} />
-          <div className="flex justify-center mt-4 mb-8">
-            <button
-              onClick={() => handleEdit(programEntry.id)}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-            >
-              Düzenle
-            </button>
-            <button
-              onClick={() => handleDelete(programEntry.id)}
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Sil
-            </button>
-          </div>
+      {loading ? (
+        <div className="text-center text-lg mt-8">Tablolar yükleniyor...</div>
+      ) : error ? (
+        <div className="text-center text-lg mt-8 text-red-600">
+          Hata: {error}
         </div>
-      ))}
+      ) : programList.length === 0 ? (
+        <div className="text-center text-lg mt-8">
+          Henüz tablo eklenmemiş. Lütfen yukarıdaki "Yeni Tablo Ekle" butonunu
+          kullanarak bir tablo ekleyin.
+        </div>
+      ) : (
+        programList.map((programEntry) => (
+          <div key={programEntry.id} className="w-full max-w-5xl mx-auto mb-6">
+            <CourseCalendar programEntry={programEntry} />
+            <div className="flex justify-center mt-4 mb-8">
+              <button
+                onClick={() => handleEdit(programEntry.id)}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+              >
+                Düzenle
+              </button>
+              <button
+                onClick={() => handleDelete(programEntry.id)}
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Sil
+              </button>
+            </div>
+          </div>
+        ))
+      )}
     </div>
   );
 };
