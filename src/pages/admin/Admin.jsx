@@ -7,15 +7,21 @@ const Admin = () => {
       <div className="space-y-4">
         <Link
           to="/admin/egitim-ekle"
-          className="block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 cursor-pointer"
+          className="block bg-secondary text-white py-2 px-4 rounded hover:bg-blue-600 cursor-pointer"
         >
           Eğitim Ekle
         </Link>
         <Link
           to="/admin/egitimler"
-          className="block bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 cursor-pointer"
+          className="block bg-secondary text-white py-2 px-4 rounded hover:bg-blue-600 cursor-pointer"
         >
           Eğitimler
+        </Link>
+        <Link
+          to="/admin/tablolar"
+          className="block bg-secondary text-white py-2 px-4 rounded hover:bg-blue-600 cursor-pointer"
+        >
+          Tablolar
         </Link>
       </div>
     </div>

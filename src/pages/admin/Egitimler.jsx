@@ -59,10 +59,9 @@ const Egitimler = () => {
 
   return (
     <div className="container mx-auto p-4">
-      {/* Geri Dön Butonu */}
       <div className="absolute top-4 left-4">
         <Link
-          to="/admin" // Admin paneli rotasına geri dönme
+          to="/admin"
           className="flex items-center text-blue-600 hover:text-blue-800"
         >
           <ArrowLeftIcon className="h-5 w-5 mr-1" />

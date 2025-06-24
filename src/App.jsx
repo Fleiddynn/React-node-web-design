@@ -15,6 +15,9 @@ import Admin from "./pages/admin/Admin.jsx";
 import EgitimEkle from "./pages/admin/EgitimEkle.jsx";
 import EgitimDuzenle from "./pages/admin/EgitimDuzenle.jsx";
 import Egitimler from "./pages/admin/Egitimler.jsx";
+import TabloDuzenle from "./pages/admin/TabloDuzenle.jsx";
+import TabloEkle from "./pages/admin/TabloEkle.jsx";
+import Tablolar from "./pages/admin/Tablolar.jsx";
 
 function Layout() {
   const location = useLocation();
@@ -61,6 +64,30 @@ function Layout() {
             element={
               <ProtectedRoute>
                 <Egitimler />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/tablolar"
+            element={
+              <ProtectedRoute>
+                <Tablolar />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/tablo-ekle"
+            element={
+              <ProtectedRoute>
+                <TabloEkle />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/tablo-duzenle/:id"
+            element={
+              <ProtectedRoute>
+                <TabloDuzenle />
               </ProtectedRoute>
             }
           />

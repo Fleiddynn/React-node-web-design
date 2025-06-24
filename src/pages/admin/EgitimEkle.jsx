@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
 const EgitimEkle = () => {
   const [form, setForm] = useState({
@@ -52,6 +53,16 @@ const EgitimEkle = () => {
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
+      <div className="absolute top-4 left-4">
+        <Link
+          to="/admin"
+          className="flex items-center text-blue-600 hover:text-blue-800"
+        >
+          <ArrowLeftIcon className="h-5 w-5 mr-1" />
+          <span>Admin Paneline Geri Dön</span>
+        </Link>
+      </div>
+
       <h2 className="text-2xl font-bold mb-4">Yeni Eğitim Ekle</h2>
       {hata && <p className="text-red-600 mb-2">{hata}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
