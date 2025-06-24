@@ -53,10 +53,8 @@ const features = [
 const Perks = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  // Memoize expensive calculations
   const memoizedFeatures = useMemo(() => features, []);
 
-  // Use useCallback for event handlers
   const handleResize = useCallback(() => {
     setWindowWidth(window.innerWidth);
   }, []);
