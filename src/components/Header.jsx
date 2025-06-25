@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react"; // useEffect'i de ekledik
+import { useState, useRef, useEffect } from "react";
 import logo from "./../assets/logo.png";
 import { Link, NavLink } from "react-router-dom";
 import {
@@ -14,15 +14,14 @@ import Socials from "./SocialMediaIcons.jsx";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Ana mobil menü
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCoursesDropdownHovered, setIsCoursesDropdownHovered] =
-    useState(false); // Masaüstü hover (MD ve üzeri)
+    useState(false);
   const [isCoursesDropdownOpenMobile, setIsCoursesDropdownOpenMobile] =
-    useState(false); // Mobil tıklama (MD altı)
+    useState(false);
   const dropdownTimeoutRef = useRef(null);
-  const mdBreakpoint = 768; // Tailwind'in varsayılan MD breakpoint'i
+  const mdBreakpoint = 768;
 
-  // Ekran boyutu değişimini takip etmek için
   const [isMobileView, setIsMobileView] = useState(
     window.innerWidth < mdBreakpoint
   );
@@ -30,7 +29,6 @@ const Header = () => {
   useEffect(() => {
     const handleResize = () => {
       setIsMobileView(window.innerWidth < mdBreakpoint);
-      // Ekran boyutu değiştiğinde açık olan tüm menüleri kapat
       setIsCoursesDropdownHovered(false);
       setIsCoursesDropdownOpenMobile(false);
       setIsMenuOpen(false);
@@ -39,20 +37,17 @@ const Header = () => {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []); // Sadece bir kere mount edildiğinde çalışsın
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
-    // Ana mobil menü toggle edildiğinde, alt menüleri kapat
     setIsCoursesDropdownHovered(false);
     setIsCoursesDropdownOpenMobile(false);
     clearTimeout(dropdownTimeoutRef.current);
   };
 
-  // Masaüstü (MD ve üzeri) için hover işlemleri
   const handleMouseEnter = () => {
     if (!isMobileView) {
-      // Sadece mobil görünümde değilse
       clearTimeout(dropdownTimeoutRef.current);
       setIsCoursesDropdownHovered(true);
     }
@@ -60,7 +55,6 @@ const Header = () => {
 
   const handleMouseLeave = () => {
     if (!isMobileView) {
-      // Sadece mobil görünümde değilse
       dropdownTimeoutRef.current = setTimeout(() => {
         setIsCoursesDropdownHovered(false);
       }, 150);
@@ -142,14 +136,13 @@ const Header = () => {
               {courseLinks && (
                 <li
                   className="relative font-poppins font-medium tracking-wide text-xl"
-                  onMouseEnter={handleMouseEnter} // Masaüstü hover
-                  onMouseLeave={handleMouseLeave} // Masaüstü hover
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
                 >
                   <NavLink
                     to="/egitimler"
-                    className={
-                      ({ isActive }) =>
-                        `flex items-center text-gray-700 font-poppins font-medium tracking-wide text-xl focus:outline-none 
+                    className={({ isActive }) =>
+                      `flex items-center text-gray-700 font-poppins font-medium tracking-wide text-xl focus:outline-none 
                       ${
                         isActive
                           ? "border-b-2 border-secondary pb-1"
@@ -159,17 +152,15 @@ const Header = () => {
                         !isMobileView
                           ? "hover:text-secondary transition-all duration-300 ease-in-out"
                           : ""
-                      }` // Masaüstü hover stilleri
+                      }`
                     }
                     onClick={(e) => {
                       if (isMobileView) {
-                        // Sadece mobil görünümde (MD altı)
-                        e.preventDefault(); // Varsayılan NavLink navigasyonunu engelle
-                        setIsCoursesDropdownOpenMobile((prev) => !prev); // Alt menüyü aç/kapa
+                        e.preventDefault();
+                        setIsCoursesDropdownOpenMobile((prev) => !prev);
                       } else {
-                        // Masaüstü görünümde (MD ve üzeri)
-                        setIsCoursesDropdownHovered(false); // Hover menüsünü kapat
-                        setIsMenuOpen(false); // Ana menüyü kapat (sadece varsa)
+                        setIsCoursesDropdownHovered(false);
+                        setIsMenuOpen(false);
                       }
                     }}
                   >
@@ -214,9 +205,9 @@ const Header = () => {
                             <NavLink
                               to={subLink.to}
                               onClick={() => {
-                                setIsCoursesDropdownHovered(false); // Masaüstü hover menüsünü kapat
-                                setIsCoursesDropdownOpenMobile(false); // Mobil tıklama menüsünü kapat
-                                setIsMenuOpen(false); // Ana mobil menüyü kapat (bir alt linke tıklandığında)
+                                setIsCoursesDropdownHovered(false);
+                                setIsCoursesDropdownOpenMobile(false);
+                                setIsMenuOpen(false);
                               }}
                               className={({ isActive }) =>
                                 isActive

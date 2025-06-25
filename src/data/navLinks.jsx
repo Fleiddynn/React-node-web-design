@@ -18,6 +18,8 @@ export const navLinks = [
   { to: "/mezunlarimiz", label: "Mezunlarımız", component: <Mezunlarimiz /> },
   {
     group: "Eğitimler",
+    to: "/egitimler",
+    component: <Egitimler />,
     children: [
       {
         to: "/egitimler/guncel",

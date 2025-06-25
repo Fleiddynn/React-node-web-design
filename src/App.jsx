@@ -21,20 +21,35 @@ import Tablolar from "./pages/admin/Tablolar.jsx";
 import EgitimProgramlariListesi from "./pages/admin/EgitimProgramlariListesi.jsx";
 import EgitimProgramiEkle from "./pages/admin/EgitimProgramiEkle.jsx";
 import EgitimProgramiDuzenle from "./pages/admin/EgitimProgramiDuzenle.jsx";
+import SinglePostPage from "./pages/SinglePostPage.jsx";
 
 function Layout() {
   const location = useLocation();
 
   const isAdminRoute = location.pathname.startsWith("/admin");
 
+  const allRoutes = [];
+  navLinks.forEach((link) => {
+    if (link.group) {
+      allRoutes.push({ to: link.to, component: link.component });
+      link.children.forEach((childLink) => {
+        allRoutes.push({ to: childLink.to, component: childLink.component });
+      });
+    } else {
+      allRoutes.push({ to: link.to, component: link.component });
+    }
+  });
+
   return (
     <>
       {!isAdminRoute && <Header />}
       <main className="container mx-auto px-3 sm:px-9 lg:px-15">
         <Routes>
-          {navLinks.map((link, index) => (
-            <Route key={index} path={link.to} element={link.component} />
+          {allRoutes.map((link) => (
+            <Route key={link.to} path={link.to} element={link.component} />
           ))}
+
+          <Route path="/egitimler/:slug" element={<SinglePostPage />} />
 
           <Route path="/admin/giris" element={<AdminLogin />} />
 
