@@ -1,19 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ClockIcon, MapPinIcon, UserIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 
-const CourseHero = () => {
+const CoursePageHero = ({
+  egitimAdi,
+  egitimAciklamasi,
+  resimYolu,
+  fiyat,
+  onlineFiyat,
+  egitimSuresi,
+  egitimYeri,
+  kategori,
+}) => {
   const [courseType, setCourseType] = useState("facetoface");
 
-  const prices = {
-    online: 7500,
-    facetoface: 15000,
-  };
+  const currentPrice =
+    courseType === "facetoface" ? fiyat || 0 : onlineFiyat || 0;
+  const currentLocation =
+    courseType === "facetoface" ? egitimYeri || "Belirtilmemiş Yer" : "Online";
 
-  const locations = {
-    online: "Online",
-    facetoface: "Mecidiye, İstanbul",
-  };
+  const imageUrl =
+    resimYolu && resimYolu.startsWith("uploads/")
+      ? `http://localhost:5000/${resimYolu}`
+      : "https://placehold.co/500x400";
+
+  useEffect(() => {
+    if (onlineFiyat && onlineFiyat > 0 && (!fiyat || fiyat === 0)) {
+      setCourseType("online");
+    } else if (fiyat && fiyat > 0 && (!onlineFiyat || onlineFiyat === 0)) {
+      setCourseType("facetoface");
+    }
+  }, [fiyat, onlineFiyat]);
 
   return (
     <motion.div
@@ -34,13 +51,10 @@ const CourseHero = () => {
             transition={{ delay: 0.2 }}
           >
             <h1 className="text-3xl font-bold text-head mb-4">
-              İstanbul Uygulamalı Uzmanlık Eğitimi
+              {egitimAdi || "Eğitim Adı Bulunamadı"}
             </h1>
             <p className="text-gray-600 leading-relaxed">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat
-              fugiat eaque error, ipsam aut deserunt consequatur amet
-              temporibus, debitis cum, iure deleniti ad ducimus autem magnam
-              blanditiis quasi ipsa quis!
+              {egitimAciklamasi || "Eğitim açıklaması bulunamadı."}
             </p>
           </motion.div>
 
@@ -49,12 +63,18 @@ const CourseHero = () => {
             className="rounded-2xl overflow-hidden bg-gray-100 aspect-video shadow-lg hover:shadow-xl transition-shadow duration-300"
           >
             <img
-              src="https://placehold.co/800x600"
-              alt="Kurs Görseli"
+              src={imageUrl}
+              alt={egitimAdi || "Kurs Görseli"}
               className="w-full h-full object-cover"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = placeholderImage;
+                console.error(`Resim yüklenemedi: ${resimYolu}`);
+              }}
             />
           </motion.div>
         </motion.div>
+
         <motion.div
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -69,7 +89,12 @@ const CourseHero = () => {
           >
             <div className="flex items-baseline">
               <span className="text-4xl font-bold text-primary">
-                {prices[courseType].toLocaleString()}TL
+                {currentPrice.toLocaleString("tr-TR", {
+                  style: "currency",
+                  currency: "TRY",
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
+                })}
               </span>
             </div>
 
@@ -79,8 +104,16 @@ const CourseHero = () => {
                 onChange={(e) => setCourseType(e.target.value)}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-white cursor-pointer"
               >
-                <option value="facetoface">Yüz yüze</option>
-                <option value="online">Online</option>
+                {fiyat !== null && fiyat !== 0 && (
+                  <option value="facetoface">Yüz yüze</option>
+                )}
+                {onlineFiyat !== null && onlineFiyat !== 0 && (
+                  <option value="online">Online</option>
+                )}
+                {(fiyat === null || fiyat === 0) &&
+                  (onlineFiyat === null || onlineFiyat === 0) && (
+                    <option value="">Fiyat Belirlenmedi</option>
+                  )}
               </select>
             </div>
 
@@ -96,17 +129,19 @@ const CourseHero = () => {
           >
             <div className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors">
               <ClockIcon className="w-5 h-5" />
-              <span>Süre: 5 saat </span>
+              <span>
+                Süre: {egitimSuresi ? `${egitimSuresi} saat` : "Belirtilmemiş"}
+              </span>
             </div>
 
             <div className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors">
               <MapPinIcon className="w-5 h-5" />
-              <span>{locations[courseType]}</span>
+              <span>{currentLocation}</span>
             </div>
 
             <div className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors">
               <UserIcon className="w-5 h-5" />
-              <span>Kategori: Uzmanlık Eğitimleri</span>
+              <span>Kategori: {kategori || "Belirtilmemiş"}</span>
             </div>
           </motion.div>
           <motion.div
@@ -125,7 +160,7 @@ const CourseHero = () => {
                 className="w-16 h-16 rounded-full border-2 border-primary"
               />
               <div>
-                <h3 className="font-medium text-primary">Recep Heptaş</h3>
+                <h3 className="font-medium text-primary">Recep Heptaş</h3>{" "}
               </div>
             </div>
           </motion.div>
@@ -135,4 +170,4 @@ const CourseHero = () => {
   );
 };
 
-export default CourseHero;
+export default CoursePageHero;

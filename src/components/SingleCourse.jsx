@@ -1,21 +1,33 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-function SingleCourse({ egitimAdi, resimYolu }) {
-  const fullImageUrl = `http://localhost:5000/${resimYolu}`;
+function SingleCourse({ egitimAdi, resimYolu, id }) {
+  const imageUrl =
+    resimYolu && resimYolu.startsWith("uploads/")
+      ? `http://localhost:5000/${resimYolu}`
+      : "https://placehold.co/500x400";
 
   return (
-    <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
-      <img
-        src={fullImageUrl}
-        alt={egitimAdi}
-        className="w-full h-48 object-cover rounded-t-lg"
-      />
-      <div className="p-4">
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
-          {egitimAdi}
-        </h3>
+    <Link to={`/egitimler/${id}`} className="block">
+      {" "}
+      <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+        <img
+          src={imageUrl}
+          alt={egitimAdi}
+          className="w-full h-48 object-cover"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "https://placehold.co/500x400";
+            console.error(`Resim yüklenemedi: ${resimYolu}`);
+          }}
+        />
+        <div className="p-4">
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">
+            {egitimAdi}
+          </h3>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

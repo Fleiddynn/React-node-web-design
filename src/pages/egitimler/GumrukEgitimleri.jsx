@@ -92,6 +92,7 @@ const GumrukEgitimleri = () => {
           Egitimler.map((egitim) => (
             <SingleCourse
               key={egitim.id}
+              id={egitim.id}
               egitimAdi={egitim.egitimAdi}
               resimYolu={egitim.resimYolu}
             />
