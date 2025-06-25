@@ -4,6 +4,7 @@ import {
   PencilIcon,
   TrashIcon,
   ArrowLeftIcon,
+  PlusCircleIcon, // Added for the new course button
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 
@@ -43,7 +44,7 @@ const Egitimler = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen text-lg">
+      <div className="flex justify-center items-center h-screen text-lg text-gray-700">
         Yükleniyor...
       </div>
     );
@@ -58,45 +59,54 @@ const Egitimler = () => {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="absolute top-4 left-4">
+    <div className="container mx-auto p-6">
+      {/* Header with Back and Add New Course Buttons */}
+      <div className="flex justify-between items-center mb-8">
         <Link
           to="/admin"
-          className="flex items-center text-blue-600 hover:text-blue-800"
+          className="flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200"
         >
           <ArrowLeftIcon className="h-5 w-5 mr-1" />
-          <span>Admin Paneline Geri Dön</span>
+          <span className="font-medium">Admin Paneline Geri Dön</span>
+        </Link>
+
+        <h1 className="text-3xl font-bold text-gray-800">Eğitim Listesi</h1>
+
+        <Link
+          to="/admin/egitim-ekle"
+          className="flex items-center bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors duration-200"
+        >
+          <PlusCircleIcon className="h-5 w-5 mr-2" />
+          Yeni Eğitim Ekle
         </Link>
       </div>
 
-      <h1 className="text-3xl font-bold text-center mb-8">Eğitim Listesi</h1>
-
       {egitimler.length === 0 ? (
-        <p className="text-center text-gray-600">
-          Henüz hiç eğitim bulunmamaktadır.
+        <p className="text-center text-gray-600 text-lg mt-10">
+          Henüz hiç eğitim bulunmamaktadır. Yeni bir eğitim eklemek için sağ
+          üstteki butonu kullanın.
         </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {egitimler.map((egitim) => (
             <div
               key={egitim.id}
-              className="bg-white rounded-lg shadow-md p-6 flex items-center justify-between"
+              className="bg-white rounded-xl shadow-lg p-6 flex items-center justify-between border border-gray-200 hover:shadow-xl transition-shadow duration-200"
             >
-              <span className="text-lg font-medium text-gray-800">
+              <span className="text-xl font-semibold text-gray-800">
                 {egitim.egitimAdi}
               </span>
               <div className="flex space-x-3">
                 <Link
-                  to={`/admin/egitim-duzenle/${egitim.id}`} // Yeni rota
-                  className="text-blue-500 hover:text-blue-700 p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
+                  to={`/admin/egitim-duzenle/${egitim.id}`}
+                  className="text-blue-600 hover:text-blue-800 p-2 rounded-full hover:bg-blue-50 transition-colors duration-200"
                   title="Düzenle"
                 >
                   <PencilIcon className="h-5 w-5" />
                 </Link>
 
-                {/* Silme Sembolü */}
                 <button
-                  className="text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
+                  className="text-red-600 hover:text-red-800 p-2 rounded-full hover:bg-red-50 transition-colors duration-200"
                   onClick={() => handleDelete(egitim.id)}
                   title="Sil"
                 >

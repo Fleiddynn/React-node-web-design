@@ -19,10 +19,8 @@ import courseProgramData from "./../data/courseProgramData.json";
 import { motion, AnimatePresence } from "framer-motion";
 
 const CourseProgram = () => {
-  // JSON verisi yerine kullanılacak veri
   const [programData, setProgramData] = useState([]);
 
-  // Icon mapping object
   const iconComponents = useMemo(
     () => ({
       TrendingUp: <ArrowTrendingUpIcon className="w-6 h-6" />,

@@ -1,6 +1,6 @@
 import express from "express";
 import mysql from "mysql";
-import fs from "fs";
+import fs from "fs"; // Needed for file deletion
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -18,7 +18,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, 'uploads/'),
+    destination: (req, file, cb) => {
+        const uploadPath = path.join(__dirname, 'uploads');
+        if (!fs.existsSync(uploadPath)) {
+            fs.mkdirSync(uploadPath, { recursive: true });
+        }
+        cb(null, uploadPath);
+    },
     filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
 });
 const upload = multer({ storage });
@@ -47,6 +53,18 @@ const queryPromise = (sql, values) => {
             resolve(result);
         });
     });
+};
+
+// Function to safely delete old image files
+const deleteImageFile = (filePath) => {
+    if (filePath) {
+        const fullPath = path.join(__dirname, filePath);
+        if (fs.existsSync(fullPath)) {
+            fs.unlink(fullPath, (err) => {
+                if (err) console.error("Eski resim silinirken hata oluştu:", err);
+            });
+        }
+    }
 };
 
 // --- API Endpoints ---
@@ -91,25 +109,32 @@ app.post('/egitimler', upload.single('resim'), (req, res) => {
         egitimAdi,
         egitimAciklamasi,
         resimYolu,
-        fiyat || null,
-        onlineFiyat || null,
+        fiyat === '' ? null : Number(fiyat), // Convert empty string to null, otherwise to Number
+        onlineFiyat === '' ? null : Number(onlineFiyat),
         kategori,
-        egitimSuresi || null,
+        egitimSuresi === '' ? null : egitimSuresi, // Assuming egitimSuresi can be text
         egitimYeri,
-        egitimTakvimid || null,
-        egitimProgramid || null,
+        egitimTakvimid === '' ? null : Number(egitimTakvimid), // Convert to Number for ID, or null
+        egitimProgramid === '' ? null : Number(egitimProgramid), // Convert to Number for ID, or null
     ];
 
     db.query(query, values, (err, result) => {
         if (err) {
-            console.error('Veritabanı hatası:', err);
+            console.error('Veritabanı hatası (POST /egitimler):', err);
+            // If there was a file, delete it if the DB insert fails
+            if (req.file && fs.existsSync(req.file.path)) {
+                fs.unlink(req.file.path, (unlinkErr) => {
+                    if (unlinkErr) console.error("Failed to delete uploaded file:", unlinkErr);
+                });
+            }
             return res.status(500).json({ error: err.message });
         }
         res.json({ success: true, id: result.insertId });
     });
 });
 
-app.put('/egitimler/:id', (req, res) => {
+// UPDATED PUT ROUTE FOR EGITIMLER
+app.put('/egitimler/:id', upload.single('resim'), async (req, res) => { // ADDED upload.single('resim')
     const { id } = req.params;
     const {
         egitimAdi,
@@ -121,52 +146,108 @@ app.put('/egitimler/:id', (req, res) => {
         egitimYeri,
         egitimTakvimid,
         egitimProgramid,
-        resimYolu
-    } = req.body;
+        resimYolu: frontendResimYolu // Renamed to avoid conflict with req.file.path
+    } = req.body; // req.body now only contains non-file fields
 
-    const query = `
-        UPDATE egitimler SET
-          egitimAdi = ?,
-          egitimAciklamasi = ?,
-          resimYolu = ?,
-          fiyat = ?,
-          onlineFiyat = ?,
-          kategori = ?,
-          egitimSuresi = ?,
-          egitimYeri = ?,
-          egitimTakvimid = ?,
-          egitimProgramid = ?
-        WHERE id = ?
-    `;
+    console.log('--- Incoming PUT Request Body ---');
+    console.log(req.body);
+    console.log('--- Incoming PUT Request File ---');
+    console.log(req.file);
+    console.log('-----------------------------------');
 
-    const values = [
-        egitimAdi,
-        egitimAciklamasi,
-        resimYolu,
-        fiyat,
-        onlineFiyat,
-        kategori,
-        egitimSuresi,
-        egitimYeri,
-        egitimTakvimid,
-        egitimProgramid,
-        id
-    ];
+    try {
+        // 1. Get existing data from the database
+        const existingEgitimResult = await queryPromise('SELECT * FROM egitimler WHERE id = ?', [id]);
+        if (existingEgitimResult.length === 0) {
+            return res.status(404).json({ error: 'Eğitim bulunamadı.' });
+        }
+        const existingEgitim = existingEgitimResult[0];
 
-    db.query(query, values, (err, result) => {
-        if (err) {
-            console.error("Veritabanı güncelleme hatası:", err.message);
-            return res.status(500).json({ error: err.message });
+        // 2. Prepare fields for update, using new values or existing ones
+        const updatedFields = {
+            egitimAdi: egitimAdi !== undefined ? egitimAdi : existingEgitim.egitimAdi,
+            egitimAciklamasi: egitimAciklamasi !== undefined ? egitimAciklamasi : existingEgitim.egitimAciklamasi,
+            // Convert numeric fields to Number or null if empty string
+            fiyat: fiyat === '' ? null : (fiyat !== undefined ? Number(fiyat) : existingEgitim.fiyat),
+            onlineFiyat: onlineFiyat === '' ? null : (onlineFiyat !== undefined ? Number(onlineFiyat) : existingEgitim.onlineFiyat),
+            kategori: kategori !== undefined ? kategori : existingEgitim.kategori,
+            egitimSuresi: egitimSuresi !== undefined ? egitimSuresi : existingEgitim.egitimSuresi,
+            egitimYeri: egitimYeri !== undefined ? egitimYeri : existingEgitim.egitimYeri,
+            // Convert IDs to Number or null if empty string
+            egitimTakvimid: egitimTakvimid === '' ? null : (egitimTakvimid !== undefined ? Number(egitimTakvimid) : existingEgitim.egitimTakvimid),
+            egitimProgramid: egitimProgramid === '' ? null : (egitimProgramid !== undefined ? Number(egitimProgramid) : existingEgitim.egitimProgramid),
+        };
+
+        let newResimYolu = existingEgitim.resimYolu; // Start with current image path
+
+        // 3. Handle image logic
+        if (req.file) { // A new file was uploaded
+            deleteImageFile(existingEgitim.resimYolu); // Delete old image if exists
+            newResimYolu = req.file.path.replace(/\\/g, '/'); // Store new relative path
+        } else if (frontendResimYolu === '') { // Frontend explicitly requested to remove image
+            deleteImageFile(existingEgitim.resimYolu); // Delete old image
+            newResimYolu = null; // Set to null in DB
+        }
+        // If req.file is null AND frontendResimYolu is not '', then newResimYolu remains existingEgitim.resimYolu
+
+        updatedFields.resimYolu = newResimYolu;
+
+        const query = `
+            UPDATE egitimler SET
+              egitimAdi = ?, egitimAciklamasi = ?, resimYolu = ?,
+              fiyat = ?, onlineFiyat = ?, kategori = ?,
+              egitimSuresi = ?, egitimYeri = ?,
+              egitimTakvimid = ?, egitimProgramid = ?
+            WHERE id = ?
+        `;
+
+        const values = [
+            updatedFields.egitimAdi,
+            updatedFields.egitimAciklamasi,
+            updatedFields.resimYolu,
+            updatedFields.fiyat,
+            updatedFields.onlineFiyat,
+            updatedFields.kategori,
+            updatedFields.egitimSuresi,
+            updatedFields.egitimYeri,
+            updatedFields.egitimTakvimid,
+            updatedFields.egitimProgramid,
+            id
+        ];
+
+        const result = await queryPromise(query, values);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ success: false, message: 'Güncellenecek eğitim bulunamadı.' });
         }
         res.json({ success: true, message: "Eğitim başarıyla güncellendi." });
-    });
+
+    } catch (err) {
+        console.error("Veritabanı güncelleme hatası (PUT /egitimler/:id):", err);
+        // If a new file was uploaded but DB update failed, delete the new file
+        if (req.file && fs.existsSync(req.file.path)) {
+            fs.unlink(req.file.path, (unlinkErr) => {
+                if (unlinkErr) console.error("Failed to delete newly uploaded file after DB error:", unlinkErr);
+            });
+        }
+        res.status(500).json({ error: err.message || 'Sunucu hatası' });
+    }
 });
 
 app.delete('/egitimler/:id', (req, res) => {
     const { id } = req.params;
-    db.query('DELETE FROM egitimler WHERE id = ?', [id], (err, result) => {
+    // Before deleting the record, get its image path to delete the file
+    db.query('SELECT resimYolu FROM egitimler WHERE id = ?', [id], (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json({ success: true });
+        if (results.length > 0 && results[0].resimYolu) {
+            deleteImageFile(results[0].resimYolu);
+        }
+
+        db.query('DELETE FROM egitimler WHERE id = ?', [id], (deleteErr, result) => {
+            if (deleteErr) return res.status(500).json({ error: deleteErr.message });
+            if (result.affectedRows === 0) return res.status(404).json({ error: 'Eğitim bulunamadı' });
+            res.json({ success: true });
+        });
     });
 });
 
@@ -199,16 +280,16 @@ app.post('/api/addProgram', async (req, res) => {
     `;
 
     const values = [
-        hs.tarih || null, hs.gunler || null, hs.saatler || null, hs.sure || null, hs.yer || null, hs.ucret || null,
-        hi.tarih || null, hi.gunler || null, hi.saatler || null, hi.sure || null, hi.yer || null, hi.ucret || null,
-        ol.tarih || null, ol.gunler || null, ol.saatler || null, ol.sure || null, ol.yer || null, ol.ucret || null
+        hs.tarih || null, hs.gunler || null, hs.saatler || null, hs.sure || null, hs.yer || null, hs.ucret === '' ? null : Number(hs.ucret),
+        hi.tarih || null, hi.gunler || null, hi.saatler || null, hi.sure || null, hi.yer || null, hi.ucret === '' ? null : Number(hi.ucret),
+        ol.tarih || null, ol.gunler || null, ol.saatler || null, ol.sure || null, ol.yer || null, ol.ucret === '' ? null : Number(ol.ucret)
     ];
 
     try {
         await queryPromise(query, values);
         res.status(201).json({ success: true, message: 'Tablo başarıyla eklendi!' });
     } catch (err) {
-        console.error('Tablo eklenirken hata oluştu:', err.message);
+        console.error('Tablo eklenirken hata oluştu (POST /api/addProgram):', err.message);
         res.status(500).json({ success: false, error: 'Tablo eklenirken bir hata oluştu.', details: err.message });
     }
 });
@@ -230,7 +311,7 @@ app.get('/api/programs', async (req, res) => {
 
         res.json(formattedResults);
     } catch (err) {
-        console.error('Tablo getirilirken hata oluştu:', err.message);
+        console.error('Tablo getirilirken hata oluştu (GET /api/programs):', err.message);
         res.status(500).json({ error: 'Tablo getirilirken bir hata oluştu.', details: err.message });
     }
 });
@@ -255,7 +336,7 @@ app.get('/api/programs/:id', async (req, res) => {
 
         res.json(formattedRow);
     } catch (err) {
-        console.error(`ID ${id} ile tablo getirilirken hata oluştu:`, err.message);
+        console.error(`ID ${id} ile tablo getirilirken hata oluştu (GET /api/programs/:id):`, err.message);
         res.status(500).json({ error: 'Tablo detayları getirilirken bir hata oluştu.', details: err.message });
     }
 });
@@ -277,9 +358,9 @@ app.put('/api/programs/:id', async (req, res) => {
     `;
 
     const values = [
-        hs.tarih || null, hs.gunler || null, hs.saatler || null, hs.sure || null, hs.yer || null, hs.ucret || null,
-        hi.tarih || null, hi.gunler || null, hi.saatler || null, hi.sure || null, hi.yer || null, hi.ucret || null,
-        ol.tarih || null, ol.gunler || null, ol.saatler || null, ol.sure || null, ol.yer || null, ol.ucret || null,
+        hs.tarih || null, hs.gunler || null, hs.saatler || null, hs.sure || null, hs.yer || null, hs.ucret === '' ? null : Number(hs.ucret),
+        hi.tarih || null, hi.gunler || null, hi.saatler || null, hi.sure || null, hi.yer || null, hi.ucret === '' ? null : Number(hi.ucret),
+        ol.tarih || null, ol.gunler || null, ol.saatler || null, ol.sure || null, ol.yer || null, ol.ucret === '' ? null : Number(ol.ucret),
         id
     ];
 
@@ -290,7 +371,7 @@ app.put('/api/programs/:id', async (req, res) => {
         }
         res.status(200).json({ success: true, message: 'Tablo başarıyla güncellendi!' });
     } catch (err) {
-        console.error('Tablo güncellenirken hata oluştu:', err.message);
+        console.error('Tablo güncellenirken hata oluştu (PUT /api/programs/:id):', err.message);
         res.status(500).json({ success: false, error: 'Tablo güncellenirken bir hata oluştu.', details: err.message });
     }
 });
@@ -307,7 +388,7 @@ app.delete('/api/programs/:id', async (req, res) => {
         }
         res.status(200).json({ success: true, message: 'Tablo başarıyla silindi!' });
     } catch (err) {
-        console.error('Tablo silinirken hata oluştu:', err.message);
+        console.error('Tablo silinirken hata oluştu (DELETE /api/programs/:id):', err.message);
         res.status(500).json({ success: false, error: 'Tablo silinirken bir hata oluştu.', details: err.message });
     }
 });
