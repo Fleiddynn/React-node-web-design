@@ -49,7 +49,7 @@ function Layout() {
             <Route key={link.to} path={link.to} element={link.component} />
           ))}
 
-          <Route path="/egitimler/:slug" element={<SinglePostPage />} />
+          <Route path="/egitimler/:id" element={<SinglePostPage />} />
 
           <Route path="/admin/giris" element={<AdminLogin />} />
 

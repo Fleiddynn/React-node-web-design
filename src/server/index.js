@@ -95,7 +95,11 @@ app.post('/egitimler', upload.single('resim'), (req, res) => {
         egitimProgramid
     } = req.body;
 
-    const resimYolu = req.file ? req.file.path.replace(/\\/g, '/') : '';
+    let resimYolu = '';
+    if (req.file) {
+        resimYolu = 'uploads/' + path.basename(req.file.path);
+        console.log("POST: Kaydedilen resimYolu:", resimYolu);
+    }
 
     const query = `
         INSERT INTO egitimler
@@ -176,10 +180,15 @@ app.put('/egitimler/:id', upload.single('resim'), async (req, res) => {
 
         if (req.file) {
             deleteImageFile(existingEgitim.resimYolu);
-            newResimYolu = req.file.path.replace(/\\/g, '/');
+            newResimYolu = 'uploads/' + path.basename(req.file.path);
+            console.log("PUT: Yeni resimYolu:", newResimYolu);
         } else if (frontendResimYolu === '') {
             deleteImageFile(existingEgitim.resimYolu);
             newResimYolu = null;
+            console.log("PUT: Resim silindi, resimYolu null oldu.");
+        } else {
+            newResimYolu = frontendResimYolu; 
+            console.log("PUT: Mevcut resimYolu kullanılıyor:", newResimYolu);
         }
 
         updatedFields.resimYolu = newResimYolu;

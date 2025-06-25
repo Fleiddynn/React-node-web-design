@@ -142,7 +142,7 @@ const Header = () => {
                   <NavLink
                     to="/egitimler"
                     className={({ isActive }) =>
-                      `flex items-center text-gray-700 font-poppins font-medium tracking-wide text-xl focus:outline-none 
+                      `flex items-center font-poppins font-medium tracking-wide text-xl focus:outline-none 
                       ${
                         isActive
                           ? "border-b-2 border-secondary pb-1"
