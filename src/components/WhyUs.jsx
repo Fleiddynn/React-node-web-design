@@ -43,8 +43,4 @@ const WhyUs = () => {
   );
 };
 
-WhyUs.propTypes = {
-  // This component doesn't take any props currently
-};
-
 export default WhyUs;

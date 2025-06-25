@@ -8,7 +8,6 @@ import {
   PhotoIcon,
 } from "@heroicons/react/24/solid";
 
-// MiniCourseCalendar component (remains the same as before, no changes needed here)
 const MiniCourseCalendar = ({ program, onSelect, isSelected }) => {
   const programTypes = [];
   if (
@@ -117,16 +116,18 @@ const EgitimEkle = () => {
     kategori: "",
     egitimSuresi: "",
     egitimYeri: "",
-    egitimProgramid: "", // This will be manually entered
-    egitimTakvimid: "", // This will be from the selected MiniCourseCalendar table ID
+    egitimProgramid: "",
+    egitimTakvimid: "",
   });
   const [resim, setResim] = useState(null);
   const [hata, setHata] = useState("");
   const navigate = useNavigate();
 
-  const [programs, setPrograms] = useState([]);
+  const [calendarPrograms, setCalendarPrograms] = useState([]);
+  const [egitimProgramlari, setEgitimProgramlari] = useState([]);
   const [showProgramSelection, setShowProgramSelection] = useState(false);
-  const [selectedProgramDetails, setSelectedProgramDetails] = useState(null); // Holds the full details of the selected calendar program
+  const [selectedCalendarProgramDetails, setSelectedCalendarProgramDetails] =
+    useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -141,26 +142,33 @@ const EgitimEkle = () => {
   ];
 
   useEffect(() => {
-    const fetchPrograms = async () => {
+    const fetchAllData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/programs");
-        setPrograms(response.data);
-        // If an egitimTakvimid was somehow pre-set (e.g., from a draft), find and set its details
+        const calendarResponse = await axios.get(
+          "http://localhost:5000/api/programs"
+        );
+        setCalendarPrograms(calendarResponse.data);
+
+        const egitimProgramlariResponse = await axios.get(
+          "http://localhost:5000/api/egitim-programlari"
+        );
+        setEgitimProgramlari(egitimProgramlariResponse.data);
+
         if (form.egitimTakvimid) {
-          const initialProgram = response.data.find(
+          const initialProgram = calendarResponse.data.find(
             (p) => p.id === form.egitimTakvimid
           );
           if (initialProgram) {
-            setSelectedProgramDetails(initialProgram);
+            setSelectedCalendarProgramDetails(initialProgram);
           }
         }
       } catch (err) {
-        console.error("Programlar çekilirken hata oluştu:", err);
-        setHata("Programlar yüklenirken bir hata oluştu.");
+        console.error("Veriler çekilirken hata oluştu:", err);
+        setHata("Gerekli veriler yüklenirken bir hata oluştu.");
       }
     };
-    fetchPrograms();
-  }, [form.egitimTakvimid]); // Depend on egitimTakvimid to potentially fetch initial program details
+    fetchAllData();
+  }, [form.egitimTakvimid]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -187,24 +195,22 @@ const EgitimEkle = () => {
   };
 
   const handleProgramSelect = (program) => {
-    // Set egitimTakvimid to the ID of the selected program table
     setForm((prev) => ({
       ...prev,
       egitimTakvimid: program.id,
     }));
-    setSelectedProgramDetails(program); // Store full program details for display
-    setShowProgramSelection(false); // Close the modal
+    setSelectedCalendarProgramDetails(program);
+    setShowProgramSelection(false);
   };
 
   const clearSelectedProgram = () => {
     setForm((prev) => ({ ...prev, egitimTakvimid: "" }));
-    setSelectedProgramDetails(null);
+    setSelectedCalendarProgramDetails(null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation for required fields, including egitimProgramid and egitimTakvimid
     if (
       !form.egitimAdi ||
       !form.kategori ||
@@ -212,29 +218,29 @@ const EgitimEkle = () => {
       !form.egitimTakvimid
     ) {
       setHata(
-        "Lütfen Eğitim Adı, Kategori, Eğitim Program ID ve Eğitim Takvim ID alanlarını doldurunuz."
+        "Lütfen Eğitim Adı, Kategori, Eğitim Program Yapısı ve Eğitim Takvim ID alanlarını doldurunuz."
       );
       return;
     }
 
     const formData = new FormData();
     Object.entries(form).forEach(([key, val]) => {
-      if (val !== null && val !== undefined && val !== "") {
+      if (key === "fiyat" || key === "onlineFiyat" || key === "egitimSuresi") {
+        formData.append(key, val === "" ? "" : val);
+      } else if (val !== null && val !== undefined) {
         formData.append(key, val);
       }
     });
     if (resim) formData.append("resim", resim);
 
-    // --- Debugging: Log FormData content before sending ---
     console.log("Sending FormData:");
     for (let [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
     }
-    // --- End Debugging ---
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/egitimler",
+        "http://localhost:5000/api/egitimler",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -413,27 +419,32 @@ const EgitimEkle = () => {
           </div>
         </div>
 
-        {/* Manual Input for egitimProgramid */}
         <div>
           <label
             htmlFor="egitimProgramid"
             className="block text-sm font-medium text-gray-700"
           >
-            Eğitim Program ID (Manuel) <span className="text-red-500">*</span>
+            Eğitim Program Yapısı <span className="text-red-500">*</span>
           </label>
-          <input
-            type="text" // Can be number if IDs are strictly numeric, or text for alphanumeric
+          <select
             id="egitimProgramid"
             name="egitimProgramid"
-            placeholder="Eğitim Programının ID'sini giriniz"
             value={form.egitimProgramid}
             onChange={handleChange}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-700 focus:border-blue-700 sm:text-sm"
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 bg-white focus:ring-blue-700 focus:border-blue-700 sm:text-sm"
             required
-          />
+          >
+            <option value="" disabled>
+              Program Yapısı Seçiniz
+            </option>
+            {egitimProgramlari.map((program) => (
+              <option key={program.id} value={program.id}>
+                {program.program_name} (ID: {program.id})
+              </option>
+            ))}
+          </select>
         </div>
 
-        {/* Selector for egitimTakvimid using MiniCourseCalendar */}
         <div>
           <label
             htmlFor="egitimTakvimid"
@@ -449,11 +460,11 @@ const EgitimEkle = () => {
               className="flex items-center justify-center bg-secondary text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 transition duration-300 ease-in-out w-full cursor-pointer"
             >
               <CalendarDaysIcon className="h-5 w-5 mr-2" />
-              {selectedProgramDetails
-                ? `Seçili Takvim: ID ${selectedProgramDetails.id}`
+              {selectedCalendarProgramDetails
+                ? `Seçili Takvim: ID ${selectedCalendarProgramDetails.id}`
                 : "Takvim Seç"}
             </button>
-            {selectedProgramDetails && (
+            {selectedCalendarProgramDetails && (
               <button
                 type="button"
                 onClick={clearSelectedProgram}
@@ -464,11 +475,11 @@ const EgitimEkle = () => {
               </button>
             )}
           </div>
-          {selectedProgramDetails && (
+          {selectedCalendarProgramDetails && (
             <div className="mt-4">
               <MiniCourseCalendar
-                program={selectedProgramDetails}
-                onSelect={() => {}} // No-op as it's just for display
+                program={selectedCalendarProgramDetails}
+                onSelect={() => {}}
                 isSelected={true}
               />
             </div>
@@ -551,11 +562,13 @@ const EgitimEkle = () => {
             >
               <XMarkIcon className="h-6 w-6" />
             </button>
-            {programs.length === 0 ? (
-              <p className="text-gray-600">Henüz hiç program bulunmuyor.</p>
+            {calendarPrograms.length === 0 ? (
+              <p className="text-gray-600">
+                Henüz hiç takvim programı bulunmuyor.
+              </p>
             ) : (
               <ul className="space-y-4">
-                {programs.map((program) => (
+                {calendarPrograms.map((program) => (
                   <li key={program.id}>
                     <MiniCourseCalendar
                       program={program}

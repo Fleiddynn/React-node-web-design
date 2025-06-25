@@ -18,6 +18,9 @@ import Egitimler from "./pages/admin/Egitimler.jsx";
 import TabloDuzenle from "./pages/admin/TabloDuzenle.jsx";
 import TabloEkle from "./pages/admin/TabloEkle.jsx";
 import Tablolar from "./pages/admin/Tablolar.jsx";
+import EgitimProgramlariListesi from "./pages/admin/EgitimProgramlariListesi.jsx";
+import EgitimProgramiEkle from "./pages/admin/EgitimProgramiEkle.jsx";
+import EgitimProgramiDuzenle from "./pages/admin/EgitimProgramiDuzenle.jsx";
 
 function Layout() {
   const location = useLocation();
@@ -44,6 +47,14 @@ function Layout() {
             }
           />
           <Route
+            path="/admin/egitimler"
+            element={
+              <ProtectedRoute>
+                <Egitimler />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/admin/egitim-ekle"
             element={
               <ProtectedRoute>
@@ -56,14 +67,6 @@ function Layout() {
             element={
               <ProtectedRoute>
                 <EgitimDuzenle />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/egitimler"
-            element={
-              <ProtectedRoute>
-                <Egitimler />
               </ProtectedRoute>
             }
           />
@@ -91,6 +94,31 @@ function Layout() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin/egitim-programlari"
+            element={
+              <ProtectedRoute>
+                <EgitimProgramlariListesi />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/egitim-programlari/ekle"
+            element={
+              <ProtectedRoute>
+                <EgitimProgramiEkle />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/egitim-programlari/duzenle/:id"
+            element={
+              <ProtectedRoute>
+                <EgitimProgramiDuzenle />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="*" element={<Hata404 />} />
         </Routes>
       </main>

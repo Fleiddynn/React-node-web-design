@@ -4,7 +4,7 @@ import {
   PencilIcon,
   TrashIcon,
   ArrowLeftIcon,
-  PlusCircleIcon, // Added for the new course button
+  PlusCircleIcon,
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 
@@ -60,7 +60,6 @@ const Egitimler = () => {
 
   return (
     <div className="container mx-auto p-6">
-      {/* Header with Back and Add New Course Buttons */}
       <div className="flex justify-between items-center mb-8">
         <Link
           to="/admin"

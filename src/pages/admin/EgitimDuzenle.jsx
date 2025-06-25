@@ -18,15 +18,15 @@ const EgitimDuzenle = () => {
   const [egitim, setEgitim] = useState({
     egitimAdi: "",
     egitimAciklamasi: "",
-    resimYolu: "", // Existing image path from backend
-    newResimFile: null, // New file selected by user
+    resimYolu: "",
+    newResimFile: null,
     fiyat: "",
     onlineFiyat: "",
     kategori: "",
     egitimSuresi: "",
     egitimYeri: "",
-    egitimTakvimid: "", // Will be set from MiniCourseCalendar selection
-    egitimProgramid: "", // Will be a manual input
+    egitimTakvimid: "",
+    egitimProgramid: "",
   });
 
   const [loading, setLoading] = useState(true);
@@ -34,10 +34,12 @@ const EgitimDuzenle = () => {
   const [saving, setSaving] = useState(false);
   const [resimPreviewUrl, setResimPreviewUrl] = useState(null);
 
-  const [programs, setPrograms] = useState([]); // State to hold available programs
+  const [programs, setPrograms] = useState([]);
   const [showProgramSelectionModal, setShowProgramSelectionModal] =
-    useState(false); // Modal visibility
-  const [selectedProgramDetails, setSelectedProgramDetails] = useState(null); // Details of selected calendar program
+    useState(false);
+  const [selectedProgramDetails, setSelectedProgramDetails] = useState(null);
+
+  const [egitimProgramlariList, setEgitimProgramlariList] = useState([]);
 
   const categories = [
     "Güncel Eğitimler",
@@ -52,21 +54,28 @@ const EgitimDuzenle = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch Egitim details
         const egitimResponse = await axios.get(
           `http://localhost:5000/egitimler/${id}`
         );
         const fetchedEgitim = egitimResponse.data;
 
+        const programsResponse = await axios.get(
+          "http://localhost:5000/api/programs"
+        );
+        setPrograms(programsResponse.data);
+
+        const egitimProgramlariResponse = await axios.get(
+          "http://localhost:5000/api/egitim-programlari"
+        );
+        setEgitimProgramlariList(egitimProgramlariResponse.data);
+
         setEgitim({
           ...fetchedEgitim,
-          // Ensure numbers are not null if backend sends 0 or null for empty fields
           fiyat: fetchedEgitim.fiyat || "",
           onlineFiyat: fetchedEgitim.onlineFiyat || "",
-          // New: Initialize egitimTakvimid and egitimProgramid separately
-          egitimTakvimid: fetchedEgitim.egitimTakvimid || "", // Use existing if available
-          egitimProgramid: fetchedEgitim.egitimProgramid || "", // Use existing if available
-          newResimFile: null, // Always null on initial fetch
+          egitimTakvimid: fetchedEgitim.egitimTakvimid || "",
+          egitimProgramid: fetchedEgitim.egitimProgramid || "",
+          newResimFile: null,
         });
 
         if (fetchedEgitim.resimYolu) {
@@ -77,13 +86,6 @@ const EgitimDuzenle = () => {
           setResimPreviewUrl(null);
         }
 
-        // Fetch Programs
-        const programsResponse = await axios.get(
-          "http://localhost:5000/api/programs"
-        );
-        setPrograms(programsResponse.data);
-
-        // Set initial selected program details based on fetched egitimTakvimid
         if (fetchedEgitim.egitimTakvimid) {
           const initialProgram = programsResponse.data.find(
             (p) => p.id === fetchedEgitim.egitimTakvimid
@@ -101,7 +103,7 @@ const EgitimDuzenle = () => {
     };
 
     fetchData();
-  }, [id]); // Depend on 'id' to refetch if the ID changes
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -117,7 +119,7 @@ const EgitimDuzenle = () => {
       setEgitim((prevEgitim) => ({
         ...prevEgitim,
         newResimFile: file,
-        resimYolu: "", // Clear existing path if a new file is uploaded
+        resimYolu: "",
       }));
       setResimPreviewUrl(URL.createObjectURL(file));
     } else {
@@ -125,7 +127,6 @@ const EgitimDuzenle = () => {
         ...prevEgitim,
         newResimFile: null,
       }));
-      // If no new file, revert to original resimYolu if it existed, or null
       if (egitim.resimYolu) {
         setResimPreviewUrl(`http://localhost:5000/${egitim.resimYolu}`);
       } else {
@@ -137,27 +138,25 @@ const EgitimDuzenle = () => {
   const handleRemoveResim = () => {
     setEgitim((prevEgitim) => ({
       ...prevEgitim,
-      resimYolu: null, // Signal to backend to remove image
+      resimYolu: null,
       newResimFile: null,
     }));
     setResimPreviewUrl(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = ""; // Clear file input value
+      fileInputRef.current.value = "";
     }
   };
 
   const handleProgramSelect = (program) => {
-    // Only update egitimTakvimid with the selected program's ID
     setEgitim((prev) => ({
       ...prev,
       egitimTakvimid: program.id,
     }));
-    setSelectedProgramDetails(program); // Store full program details for display
-    setShowProgramSelectionModal(false); // Close modal after selection
+    setSelectedProgramDetails(program);
+    setShowProgramSelectionModal(false);
   };
 
   const clearSelectedProgram = () => {
-    // Only clear egitimTakvimid, leave egitimProgramid untouched
     setEgitim((prev) => ({ ...prev, egitimTakvimid: "" }));
     setSelectedProgramDetails(null);
   };
@@ -167,26 +166,19 @@ const EgitimDuzenle = () => {
     setSaving(true);
 
     const formData = new FormData();
-    // Append all relevant fields from the egitim state
     for (const key in egitim) {
-      // Exclude 'newResimFile' from direct appending, handle 'resimYolu' separately
       if (key !== "newResimFile" && key !== "resimYolu") {
-        // Append value only if it's not null or empty string, or if it's explicitly a number
-        // This prevents sending "null" or "" for fields that should be empty or default.
         if (egitim[key] !== null && egitim[key] !== "") {
           formData.append(key, egitim[key]);
         }
       }
     }
 
-    // Handle image file or explicit removal
     if (egitim.newResimFile) {
       formData.append("resim", egitim.newResimFile);
     } else if (egitim.resimYolu === null) {
-      formData.append("resimYolu", ""); // Explicitly send empty string to backend to remove old image
+      formData.append("resimYolu", "");
     } else if (egitim.resimYolu) {
-      // If there's an existing image and no new one, send the path (without base URL)
-      // Ensure you only send the relative path, not the full localhost URL
       const relativePath = egitim.resimYolu.replace(
         "http://localhost:5000/",
         ""
@@ -194,12 +186,10 @@ const EgitimDuzenle = () => {
       formData.append("resimYolu", relativePath);
     }
 
-    // --- Debugging: Log FormData content before sending ---
     console.log("Sending FormData for Update:");
     for (let [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
     }
-    // --- End Debugging ---
 
     try {
       const config = {
@@ -242,9 +232,8 @@ const EgitimDuzenle = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6 sm:p-8">
+    <div className="min-h-screen flex flex-col items-center p-6 sm:p-8">
       <div className="w-full max-w-4xl bg-white rounded-xl shadow-lg p-6 sm:p-8 relative">
-        {/* Adjusted Back Button Positioning */}
         <div className="mb-6">
           <Link
             to="/admin/egitimler"
@@ -255,18 +244,15 @@ const EgitimDuzenle = () => {
           </Link>
         </div>
 
-        {/* Header */}
         <h1 className="text-3xl sm:text-4xl font-extrabold text-center mb-8 text-head leading-tight">
           Eğitimi Düzenle:{" "}
           <span className="text-primary break-words">{egitim.egitimAdi}</span>
         </h1>
 
-        {/* Form */}
         <form
           onSubmit={handleSubmit}
           className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6"
         >
-          {/* Left Column for Name, Description, Image */}
           <div className="md:col-span-1">
             <div className="mb-6">
               <label
@@ -303,7 +289,6 @@ const EgitimDuzenle = () => {
               ></textarea>
             </div>
 
-            {/* Resim Yükleme ve Önizleme Alanı */}
             <div className="mb-6">
               <label className="block text-head text-sm font-semibold mb-2">
                 Eğitim Resmi:
@@ -324,7 +309,7 @@ const EgitimDuzenle = () => {
                   <button
                     type="button"
                     onClick={(e) => {
-                      e.stopPropagation(); // Prevent file input click
+                      e.stopPropagation();
                       handleRemoveResim();
                     }}
                     className="absolute top-3 right-3 bg-red-500 text-white rounded-full p-1.5 shadow-md hover:bg-red-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500"
@@ -356,7 +341,6 @@ const EgitimDuzenle = () => {
             </div>
           </div>
 
-          {/* Right Column for other fields */}
           <div className="md:col-span-1">
             <div className="mb-6">
               <label
@@ -392,7 +376,6 @@ const EgitimDuzenle = () => {
               />
             </div>
 
-            {/* Category Dropdown */}
             <div className="mb-6">
               <label
                 htmlFor="kategori"
@@ -453,26 +436,29 @@ const EgitimDuzenle = () => {
               />
             </div>
 
-            {/* NEW: Manual Input for egitimProgramid */}
             <div className="mb-6">
               <label
                 htmlFor="egitimProgramid"
                 className="block text-head text-sm font-semibold mb-2"
               >
-                Eğitim Program ID (Manuel):
+                Eğitim Programı:
               </label>
-              <input
-                type="text" // Use "text" for flexibility with IDs, or "number" if strictly numeric
+              <select
                 id="egitimProgramid"
                 name="egitimProgramid"
                 value={egitim.egitimProgramid}
                 onChange={handleChange}
-                placeholder="Manuel Program ID giriniz"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200"
-              />
+                className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200"
+              >
+                <option value="">Program Seçiniz (İsteğe Bağlı)</option>
+                {egitimProgramlariList.map((program) => (
+                  <option key={program.id} value={program.id}>
+                    ID: {program.id} - {program.program_name}
+                  </option>
+                ))}
+              </select>
             </div>
 
-            {/* Existing: Selector for egitimTakvimid using MiniCourseCalendar */}
             <div className="mb-6">
               <label
                 htmlFor="egitimTakvimid"
@@ -506,7 +492,7 @@ const EgitimDuzenle = () => {
                 <div className="mt-4 border border-gray-200 rounded-lg p-2">
                   <MiniCourseCalendar
                     program={selectedProgramDetails}
-                    onSelect={() => {}} // No-op as it's just for display
+                    onSelect={() => {}}
                     isSelected={true}
                   />
                 </div>
@@ -514,7 +500,6 @@ const EgitimDuzenle = () => {
             </div>
           </div>
 
-          {/* Submit Button - Spans both columns */}
           <div className="md:col-span-2 flex justify-end mt-4">
             <button
               type="submit"
@@ -556,7 +541,6 @@ const EgitimDuzenle = () => {
         </form>
       </div>
 
-      {/* Program Selection Modal */}
       {showProgramSelectionModal && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">

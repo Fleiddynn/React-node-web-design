@@ -1,6 +1,6 @@
 import express from "express";
 import mysql from "mysql";
-import fs from "fs"; // Needed for file deletion
+import fs from "fs";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -55,7 +55,6 @@ const queryPromise = (sql, values) => {
     });
 };
 
-// Function to safely delete old image files
 const deleteImageFile = (filePath) => {
     if (filePath) {
         const fullPath = path.join(__dirname, filePath);
@@ -67,7 +66,6 @@ const deleteImageFile = (filePath) => {
     }
 };
 
-// --- API Endpoints ---
 app.get('/egitimler', (req, res) => {
     db.query('SELECT * FROM egitimler', (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -109,19 +107,18 @@ app.post('/egitimler', upload.single('resim'), (req, res) => {
         egitimAdi,
         egitimAciklamasi,
         resimYolu,
-        fiyat === '' ? null : Number(fiyat), // Convert empty string to null, otherwise to Number
+        fiyat === '' ? null : Number(fiyat),
         onlineFiyat === '' ? null : Number(onlineFiyat),
         kategori,
-        egitimSuresi === '' ? null : egitimSuresi, // Assuming egitimSuresi can be text
+        egitimSuresi === '' ? null : egitimSuresi,
         egitimYeri,
-        egitimTakvimid === '' ? null : Number(egitimTakvimid), // Convert to Number for ID, or null
-        egitimProgramid === '' ? null : Number(egitimProgramid), // Convert to Number for ID, or null
+        egitimTakvimid === '' ? null : Number(egitimTakvimid),
+        egitimProgramid === '' ? null : Number(egitimProgramid),
     ];
 
     db.query(query, values, (err, result) => {
         if (err) {
             console.error('Veritabanı hatası (POST /egitimler):', err);
-            // If there was a file, delete it if the DB insert fails
             if (req.file && fs.existsSync(req.file.path)) {
                 fs.unlink(req.file.path, (unlinkErr) => {
                     if (unlinkErr) console.error("Failed to delete uploaded file:", unlinkErr);
@@ -133,8 +130,7 @@ app.post('/egitimler', upload.single('resim'), (req, res) => {
     });
 });
 
-// UPDATED PUT ROUTE FOR EGITIMLER
-app.put('/egitimler/:id', upload.single('resim'), async (req, res) => { // ADDED upload.single('resim')
+app.put('/egitimler/:id', upload.single('resim'), async (req, res) => {
     const { id } = req.params;
     const {
         egitimAdi,
@@ -146,8 +142,8 @@ app.put('/egitimler/:id', upload.single('resim'), async (req, res) => { // ADDED
         egitimYeri,
         egitimTakvimid,
         egitimProgramid,
-        resimYolu: frontendResimYolu // Renamed to avoid conflict with req.file.path
-    } = req.body; // req.body now only contains non-file fields
+        resimYolu: frontendResimYolu
+    } = req.body;
 
     console.log('--- Incoming PUT Request Body ---');
     console.log(req.body);
@@ -156,39 +152,33 @@ app.put('/egitimler/:id', upload.single('resim'), async (req, res) => { // ADDED
     console.log('-----------------------------------');
 
     try {
-        // 1. Get existing data from the database
         const existingEgitimResult = await queryPromise('SELECT * FROM egitimler WHERE id = ?', [id]);
         if (existingEgitimResult.length === 0) {
             return res.status(404).json({ error: 'Eğitim bulunamadı.' });
         }
         const existingEgitim = existingEgitimResult[0];
 
-        // 2. Prepare fields for update, using new values or existing ones
         const updatedFields = {
             egitimAdi: egitimAdi !== undefined ? egitimAdi : existingEgitim.egitimAdi,
             egitimAciklamasi: egitimAciklamasi !== undefined ? egitimAciklamasi : existingEgitim.egitimAciklamasi,
-            // Convert numeric fields to Number or null if empty string
             fiyat: fiyat === '' ? null : (fiyat !== undefined ? Number(fiyat) : existingEgitim.fiyat),
             onlineFiyat: onlineFiyat === '' ? null : (onlineFiyat !== undefined ? Number(onlineFiyat) : existingEgitim.onlineFiyat),
             kategori: kategori !== undefined ? kategori : existingEgitim.kategori,
             egitimSuresi: egitimSuresi !== undefined ? egitimSuresi : existingEgitim.egitimSuresi,
             egitimYeri: egitimYeri !== undefined ? egitimYeri : existingEgitim.egitimYeri,
-            // Convert IDs to Number or null if empty string
             egitimTakvimid: egitimTakvimid === '' ? null : (egitimTakvimid !== undefined ? Number(egitimTakvimid) : existingEgitim.egitimTakvimid),
             egitimProgramid: egitimProgramid === '' ? null : (egitimProgramid !== undefined ? Number(egitimProgramid) : existingEgitim.egitimProgramid),
         };
 
-        let newResimYolu = existingEgitim.resimYolu; // Start with current image path
+        let newResimYolu = existingEgitim.resimYolu;
 
-        // 3. Handle image logic
-        if (req.file) { // A new file was uploaded
-            deleteImageFile(existingEgitim.resimYolu); // Delete old image if exists
-            newResimYolu = req.file.path.replace(/\\/g, '/'); // Store new relative path
-        } else if (frontendResimYolu === '') { // Frontend explicitly requested to remove image
-            deleteImageFile(existingEgitim.resimYolu); // Delete old image
-            newResimYolu = null; // Set to null in DB
+        if (req.file) {
+            deleteImageFile(existingEgitim.resimYolu);
+            newResimYolu = req.file.path.replace(/\\/g, '/');
+        } else if (frontendResimYolu === '') {
+            deleteImageFile(existingEgitim.resimYolu);
+            newResimYolu = null;
         }
-        // If req.file is null AND frontendResimYolu is not '', then newResimYolu remains existingEgitim.resimYolu
 
         updatedFields.resimYolu = newResimYolu;
 
@@ -224,7 +214,6 @@ app.put('/egitimler/:id', upload.single('resim'), async (req, res) => { // ADDED
 
     } catch (err) {
         console.error("Veritabanı güncelleme hatası (PUT /egitimler/:id):", err);
-        // If a new file was uploaded but DB update failed, delete the new file
         if (req.file && fs.existsSync(req.file.path)) {
             fs.unlink(req.file.path, (unlinkErr) => {
                 if (unlinkErr) console.error("Failed to delete newly uploaded file after DB error:", unlinkErr);
@@ -236,7 +225,6 @@ app.put('/egitimler/:id', upload.single('resim'), async (req, res) => { // ADDED
 
 app.delete('/egitimler/:id', (req, res) => {
     const { id } = req.params;
-    // Before deleting the record, get its image path to delete the file
     db.query('SELECT resimYolu FROM egitimler WHERE id = ?', [id], (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
         if (results.length > 0 && results[0].resimYolu) {
@@ -390,6 +378,148 @@ app.delete('/api/programs/:id', async (req, res) => {
     } catch (err) {
         console.error('Tablo silinirken hata oluştu (DELETE /api/programs/:id):', err.message);
         res.status(500).json({ success: false, error: 'Tablo silinirken bir hata oluştu.', details: err.message });
+    }
+});
+
+app.get('/api/egitim-programlari', async (req, res) => {
+    try {
+        const query = 'SELECT id, program_name FROM egitim_programlari ORDER BY id ASC';
+        const results = await queryPromise(query);
+        res.json(results);
+    } catch (err) {
+        console.error('Eğitim programı yapıları getirilirken hata oluştu (GET /api/egitim-programlari):', err.message);
+        res.status(500).json({ error: 'Eğitim programı yapıları getirilirken bir hata oluştu.', details: err.message });
+    }
+});
+
+app.get('/api/egitim-programlari/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const query = 'SELECT * FROM egitim_programlari WHERE id = ?';
+        const results = await queryPromise(query, [id]);
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Eğitim programı yapısı bulunamadı.' });
+        }
+
+        const program = results[0];
+        program.program_sections = JSON.parse(program.program_sections);
+
+        res.json(program);
+    } catch (err) {
+        console.error(`ID ${id} ile eğitim programı yapısı getirilirken hata oluştu (GET /api/egitim-programlari/:id):`, err.message);
+        res.status(500).json({ error: 'Eğitim programı yapısı detayları getirilirken bir hata oluştu.', details: err.message });
+    }
+});
+
+app.post('/api/egitim-programlari', async (req, res) => {
+    const { program_name, program_sections } = req.body;
+
+    let sectionsJson;
+    if (Array.isArray(program_sections)) {
+        sectionsJson = JSON.stringify(program_sections);
+    } else {
+        return res.status(400).json({ error: 'Program bölümleri (program_sections) bir dizi olmalıdır.' });
+    }
+
+    const query = `
+        INSERT INTO egitim_programlari (program_name, program_sections)
+        VALUES (?, ?)
+    `;
+    const values = [program_name, sectionsJson];
+
+    try {
+        const result = await queryPromise(query, values);
+        res.status(201).json({ success: true, message: 'Eğitim programı yapısı başarıyla eklendi.', id: result.insertId });
+    } catch (err) {
+        console.error('Eğitim programı yapısı eklenirken hata oluştu (POST /api/egitim-programlari):', err.message);
+        res.status(500).json({ success: false, error: 'Eğitim programı yapısı eklenirken bir hata oluştu.', details: err.message });
+    }
+});
+
+app.put('/api/egitim-programlari/:id', async (req, res) => {
+    const { id } = req.params;
+    const { program_name, program_sections } = req.body;
+
+    let sectionsJson;
+    if (program_sections !== undefined) {
+        if (Array.isArray(program_sections)) {
+            sectionsJson = JSON.stringify(program_sections);
+        } else {
+            return res.status(400).json({ error: 'Program bölümleri (program_sections) bir dizi olmalıdır.' });
+        }
+    }
+
+    try {
+        const updateFields = [];
+        const updateValues = [];
+
+        if (program_name !== undefined) {
+            updateFields.push('program_name = ?');
+            updateValues.push(program_name);
+        }
+        if (program_sections !== undefined) {
+            updateFields.push('program_sections = ?');
+            updateValues.push(sectionsJson);
+        }
+
+        if (updateFields.length === 0) {
+            return res.status(400).json({ message: 'Güncellenecek veri sağlanmadı.' });
+        }
+
+        const query = `UPDATE egitim_programlari SET ${updateFields.join(', ')} WHERE id = ?`;
+        updateValues.push(id);
+
+        const result = await queryPromise(query, updateValues);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ success: false, message: 'Güncellenecek eğitim programı yapısı bulunamadı.' });
+        }
+        res.status(200).json({ success: true, message: 'Eğitim programı yapısı başarıyla güncellendi!' });
+    } catch (err) {
+        console.error('Eğitim programı yapısı güncellenirken hata oluştu (PUT /api/egitim-programlari/:id):', err.message);
+        res.status(500).json({ success: false, error: 'Eğitim programı yapısı güncellenirken bir hata oluştu.', details: err.message });
+    }
+});
+
+app.delete('/api/egitim-programlari/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        console.log(`Attempting to delete egitim_programi with ID: ${id}`);
+
+        const checkFkQuery = 'SELECT COUNT(*) AS count FROM egitimler WHERE egitimProgramid = ?';
+
+        const [fkRows] = await queryPromise(checkFkQuery, [id]);
+
+        const fkCount = (fkRows && fkRows.length > 0) ? fkRows[0].count : 0;
+
+        if (fkCount > 0) {
+            console.warn(`Attempted to delete egitim_programi ID ${id} but it is referenced by ${fkCount} egitimler.`);
+            return res.status(400).json({
+                error: `Bu eğitim programı yapısı (${id}), ${fkCount} adet eğitim tarafından kullanıldığı için silinemez. Lütfen önce bu program yapısını kullanan eğitimleri güncelleyin veya silin.`,
+                details: 'Foreign key constraint violation.'
+            });
+        }
+
+        const deleteQuery = 'DELETE FROM egitim_programlari WHERE id = ?';
+
+        const result = await queryPromise(deleteQuery, [id]);
+
+        if (result.affectedRows === 0) {
+            console.warn(`Egitim programı yapısı ID ${id} bulunamadı.`);
+            return res.status(404).json({ error: 'Eğitim programı yapısı bulunamadı.' });
+        }
+
+        console.log(`Egitim programı yapısı ID ${id} başarıyla silindi.`);
+        res.status(200).json({ message: 'Eğitim programı yapısı başarıyla silindi.' });
+
+    } catch (err) {
+        console.error(`ERROR: Eğitim programı yapısı ID ${id} silinirken beklenmeyen hata oluştu:`, err);
+
+        res.status(500).json({
+            error: 'Eğitim programı yapısı silinirken sunucu tarafında beklenmeyen bir hata oluştu.',
+            details: err.message
+        });
     }
 });
 

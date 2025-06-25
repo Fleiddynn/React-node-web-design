@@ -102,19 +102,21 @@ const TabloEkle = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <div className="absolute top-4 left-4">
+      <div className="w-full max-w-4xl flex items-center justify-between mb-6 relative">
         <Link
           to="/admin/tablolar"
-          className="flex items-center text-blue-600 hover:text-blue-800"
+          className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
         >
           <ArrowLeftIcon className="h-5 w-5 mr-1" />
           <span>Tablo Listesine Geri Dön</span>
         </Link>
-      </div>
 
-      <h1 className="text-2xl font-bold text-center text-head mb-6">
-        YENİ TABLO EKLE
-      </h1>
+        <h1 className="text-2xl font-bold text-gray-800 text-center absolute left-1/2 transform -translate-x-1/2">
+          YENİ TABLO EKLE
+        </h1>
+
+        <span className="w-[170px]"></span>
+      </div>
 
       <div className="w-full max-w-4xl mx-auto bg-white shadow-xl rounded-lg overflow-hidden">
         <div className="overflow-x-auto">

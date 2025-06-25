@@ -36,8 +36,4 @@ const UpcomingEvents = () => {
   );
 };
 
-UpcomingEvents.propTypes = {
-  // This component doesn't take any props currently
-};
-
 export default UpcomingEvents;
