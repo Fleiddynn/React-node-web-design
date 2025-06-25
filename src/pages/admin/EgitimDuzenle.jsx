@@ -22,7 +22,7 @@ const EgitimDuzenle = () => {
     newResimFile: null,
     fiyat: "",
     onlineFiyat: "",
-    kategori: "",
+    kategori: [],
     egitimSuresi: "",
     egitimYeri: "",
     egitimTakvimid: "",
@@ -76,6 +76,9 @@ const EgitimDuzenle = () => {
           egitimTakvimid: fetchedEgitim.egitimTakvimid || "",
           egitimProgramid: fetchedEgitim.egitimProgramid || "",
           newResimFile: null,
+          kategori: fetchedEgitim.kategori
+            ? fetchedEgitim.kategori.split(",").map((k) => k.trim())
+            : [],
         });
 
         if (fetchedEgitim.resimYolu) {
@@ -161,6 +164,18 @@ const EgitimDuzenle = () => {
     setSelectedProgramDetails(null);
   };
 
+  const handleKategoriToggle = (clickedCategory) => {
+    setEgitim((prev) => {
+      const alreadySelected = prev.kategori.includes(clickedCategory);
+      return {
+        ...prev,
+        kategori: alreadySelected
+          ? prev.kategori.filter((k) => k !== clickedCategory)
+          : [...prev.kategori, clickedCategory],
+      };
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
@@ -173,6 +188,7 @@ const EgitimDuzenle = () => {
         }
       }
     }
+    formData.append("kategori", egitim.kategori.join(","));
 
     if (egitim.newResimFile) {
       formData.append("resim", egitim.newResimFile);
@@ -377,29 +393,25 @@ const EgitimDuzenle = () => {
             </div>
 
             <div className="mb-6">
-              <label
-                htmlFor="kategori"
-                className="block text-head text-sm font-semibold mb-2"
-              >
-                Kategori:
+              <label className="block text-head text-sm font-semibold mb-2">
+                Kategoriler:
               </label>
-              <select
-                id="kategori"
-                name="kategori"
-                value={egitim.kategori}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200"
-                required
-              >
-                <option value="" disabled>
-                  Kategori Seçiniz
-                </option>
+              <div className="flex flex-wrap gap-2">
                 {categories.map((cat) => (
-                  <option key={cat} value={cat}>
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => handleKategoriToggle(cat)}
+                    className={`px-4 py-2 rounded-full border ${
+                      egitim.kategori.includes(cat)
+                        ? "bg-primary text-white border-primary"
+                        : "bg-white text-gray-700 border-gray-300"
+                    } hover:bg-primary hover:text-white transition`}
+                  >
                     {cat}
-                  </option>
+                  </button>
                 ))}
-              </select>
+              </div>
             </div>
 
             <div className="mb-6">

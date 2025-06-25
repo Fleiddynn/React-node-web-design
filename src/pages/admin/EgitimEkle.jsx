@@ -7,105 +7,7 @@ import {
   XMarkIcon,
   PhotoIcon,
 } from "@heroicons/react/24/solid";
-
-const MiniCourseCalendar = ({ program, onSelect, isSelected }) => {
-  const programTypes = [];
-  if (
-    program.haftasonu_tarih ||
-    program.haftasonu_gunler ||
-    program.haftasonu_saatler ||
-    program.haftasonu_sure ||
-    program.haftasonu_yer ||
-    program.haftasonu_ucret
-  ) {
-    programTypes.push({ type: "Haftasonu", prefix: "haftasonu" });
-  }
-  if (
-    program.haftaici_tarih ||
-    program.haftaici_gunler ||
-    program.haftaici_saatler ||
-    program.haftaici_sure ||
-    program.haftaici_yer ||
-    program.haftaici_ucret
-  ) {
-    programTypes.push({ type: "Haftaici", prefix: "haftaici" });
-  }
-  if (
-    program.online_tarih ||
-    program.online_gunler ||
-    program.online_saatler ||
-    program.online_sure ||
-    program.online_yer ||
-    program.online_ucret
-  ) {
-    programTypes.push({ type: "Online", prefix: "online" });
-  }
-
-  const rowsData = [
-    { label: "Tarih", keySuffix: "tarih" },
-    { label: "Günler", keySuffix: "gunler" },
-    { label: "Saatler", keySuffix: "saatler" },
-    { label: "Süre", keySuffix: "sure" },
-    { label: "Yer", keySuffix: "yer" },
-    { label: "Ücret", keySuffix: "ucret" },
-  ];
-
-  return (
-    <div
-      onClick={() => onSelect(program)}
-      className={`border rounded-md cursor-pointer transition duration-200 ease-in-out overflow-hidden ${
-        isSelected
-          ? "bg-blue-100 border-blue-700 ring-2 ring-blue-700"
-          : "bg-gray-50 border-gray-200 hover:bg-gray-100"
-      }`}
-    >
-      <h4 className="font-bold p-3 bg-gray-100 text-gray-800 text-base">
-        Tablo #{program.id}
-      </h4>
-      <table className="min-w-full border-collapse bg-white">
-        <thead>
-          <tr>
-            <th className="p-2 text-left bg-gray-200 text-gray-700 text-xs sm:text-sm"></th>
-            {programTypes.map((type, index) => (
-              <th
-                key={index}
-                className="p-2 text-center bg-primary text-white border-x border-blue-600 font-bold text-xs sm:text-sm"
-              >
-                {type.type}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rowsData.map((row, rowIndex) => (
-            <tr
-              key={row.keySuffix}
-              className="hover:bg-blue-50 transition-colors border-t border-gray-100"
-            >
-              <td className="p-2 font-semibold bg-gray-50 text-gray-800 text-xs sm:text-sm">
-                {row.label}
-              </td>
-              {programTypes.map((type, colIndex) => (
-                <td
-                  key={`${type.prefix}-${row.keySuffix}`}
-                  className={`p-2 text-center border-x border-gray-200 text-gray-700 text-xs sm:text-sm ${
-                    row.keySuffix === "ucret" ? "font-bold text-green-700" : ""
-                  }`}
-                >
-                  {program[`${type.prefix}_${row.keySuffix}`] || "-"}
-                  {row.keySuffix === "ucret" &&
-                  program[`${type.prefix}_${row.keySuffix}`]
-                    ? " TL"
-                    : ""}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-};
+import MiniCourseCalendar from "./../../components/MiniCourseCalendar.jsx";
 
 const EgitimEkle = () => {
   const [form, setForm] = useState({
@@ -113,12 +15,13 @@ const EgitimEkle = () => {
     egitimAciklamasi: "",
     fiyat: "",
     onlineFiyat: "",
-    kategori: "",
+    kategori: [],
     egitimSuresi: "",
     egitimYeri: "",
     egitimProgramid: "",
     egitimTakvimid: "",
   });
+
   const [resim, setResim] = useState(null);
   const [hata, setHata] = useState("");
   const navigate = useNavigate();
@@ -229,6 +132,8 @@ const EgitimEkle = () => {
         formData.append(key, val === "" ? "" : val);
       } else if (val !== null && val !== undefined) {
         formData.append(key, val);
+      } else if (key === "kategori" && Array.isArray(val)) {
+        formData.append(key, val.join(","));
       }
     });
     if (resim) formData.append("resim", resim);
@@ -240,7 +145,7 @@ const EgitimEkle = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/egitimler",
+        "http://localhost:5000/egitimler",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -357,29 +262,40 @@ const EgitimEkle = () => {
         </div>
 
         <div>
-          <label
-            htmlFor="kategori"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Kategori <span className="text-red-500">*</span>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Kategoriler <span className="text-red-500">*</span>
           </label>
-          <select
-            id="kategori"
-            name="kategori"
-            value={form.kategori}
-            onChange={handleChange}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 bg-white focus:ring-blue-700 focus:border-blue-700 sm:text-sm"
-            required
-          >
-            <option value="" disabled>
-              Kategori Seçiniz
-            </option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
+          <div className="flex flex-wrap gap-2">
+            {categories.map((cat) => {
+              const isSelected = form.kategori.includes(cat);
+              return (
+                <button
+                  type="button"
+                  key={cat}
+                  onClick={() => {
+                    setForm((prev) => ({
+                      ...prev,
+                      kategori: isSelected
+                        ? prev.kategori.filter((k) => k !== cat)
+                        : [...prev.kategori, cat],
+                    }));
+                  }}
+                  className={`px-3 py-2 rounded-full text-sm font-medium border ${
+                    isSelected
+                      ? "bg-blue-600 text-white border-blue-600"
+                      : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                  } transition`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
+          </div>
+          {form.kategori.length === 0 && (
+            <p className="text-red-500 text-xs mt-1">
+              En az bir kategori seçiniz.
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

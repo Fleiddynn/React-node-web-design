@@ -163,7 +163,9 @@ app.put('/egitimler/:id', upload.single('resim'), async (req, res) => {
             egitimAciklamasi: egitimAciklamasi !== undefined ? egitimAciklamasi : existingEgitim.egitimAciklamasi,
             fiyat: fiyat === '' ? null : (fiyat !== undefined ? Number(fiyat) : existingEgitim.fiyat),
             onlineFiyat: onlineFiyat === '' ? null : (onlineFiyat !== undefined ? Number(onlineFiyat) : existingEgitim.onlineFiyat),
-            kategori: kategori !== undefined ? kategori : existingEgitim.kategori,
+            kategori: kategori !== undefined
+                ? (Array.isArray(kategori) ? kategori.join(",") : kategori)
+                : existingEgitim.kategori,
             egitimSuresi: egitimSuresi !== undefined ? egitimSuresi : existingEgitim.egitimSuresi,
             egitimYeri: egitimYeri !== undefined ? egitimYeri : existingEgitim.egitimYeri,
             egitimTakvimid: egitimTakvimid === '' ? null : (egitimTakvimid !== undefined ? Number(egitimTakvimid) : existingEgitim.egitimTakvimid),

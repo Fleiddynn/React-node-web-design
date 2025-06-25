@@ -1,17 +1,105 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react"; // useEffect'i de ekledik
 import logo from "./../assets/logo.png";
-import { Link } from "react-router-dom";
-import { PhoneIcon, EnvelopeIcon, Bars3Icon } from "@heroicons/react/24/solid";
+import { Link, NavLink } from "react-router-dom";
+import {
+  PhoneIcon,
+  EnvelopeIcon,
+  Bars3Icon,
+  ChevronDownIcon,
+} from "@heroicons/react/24/solid";
 import NavButton from "./NavButton.jsx";
 import ContactItem from "./ContactItem.jsx";
 import { navLinks } from "../data/navLinks.jsx";
 import Socials from "./SocialMediaIcons.jsx";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Ana mobil menü
+  const [isCoursesDropdownHovered, setIsCoursesDropdownHovered] =
+    useState(false); // Masaüstü hover (MD ve üzeri)
+  const [isCoursesDropdownOpenMobile, setIsCoursesDropdownOpenMobile] =
+    useState(false); // Mobil tıklama (MD altı)
+  const dropdownTimeoutRef = useRef(null);
+  const mdBreakpoint = 768; // Tailwind'in varsayılan MD breakpoint'i
+
+  // Ekran boyutu değişimini takip etmek için
+  const [isMobileView, setIsMobileView] = useState(
+    window.innerWidth < mdBreakpoint
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth < mdBreakpoint);
+      // Ekran boyutu değiştiğinde açık olan tüm menüleri kapat
+      setIsCoursesDropdownHovered(false);
+      setIsCoursesDropdownOpenMobile(false);
+      setIsMenuOpen(false);
+      clearTimeout(dropdownTimeoutRef.current);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // Sadece bir kere mount edildiğinde çalışsın
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen((prev) => !prev);
+    // Ana mobil menü toggle edildiğinde, alt menüleri kapat
+    setIsCoursesDropdownHovered(false);
+    setIsCoursesDropdownOpenMobile(false);
+    clearTimeout(dropdownTimeoutRef.current);
+  };
+
+  // Masaüstü (MD ve üzeri) için hover işlemleri
+  const handleMouseEnter = () => {
+    if (!isMobileView) {
+      // Sadece mobil görünümde değilse
+      clearTimeout(dropdownTimeoutRef.current);
+      setIsCoursesDropdownHovered(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isMobileView) {
+      // Sadece mobil görünümde değilse
+      dropdownTimeoutRef.current = setTimeout(() => {
+        setIsCoursesDropdownHovered(false);
+      }, 150);
+    }
+  };
+
+  const links = navLinks.filter((link) => !link.group);
+  const courseLinks = navLinks.find((link) => link.group);
+
+  const allCourseChildren = courseLinks ? [...courseLinks.children] : [];
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0 },
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0, scaleY: 0 },
+    visible: {
+      opacity: 1,
+      scaleY: 1,
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 0.08,
+        duration: 0.2,
+        ease: "easeOut",
+      },
+    },
+    exit: {
+      opacity: 0,
+      scaleY: 0,
+      transition: {
+        when: "afterChildren",
+        staggerChildren: 0.05,
+        staggerDirection: -1,
+        duration: 0.15,
+        ease: "easeIn",
+      },
+    },
   };
 
   return (
@@ -21,7 +109,7 @@ const Header = () => {
           <Link to="/">
             <img src={logo} className="h-16 sm:h-20" alt="Logo" />
           </Link>
-          <div className="md:flex md:flex-row items-center gap-8 flex-col">
+          <div className="hidden md:flex md:flex-row items-center gap-8">
             <ContactItem
               icon={EnvelopeIcon}
               text="iletisim@disticaretplatformu.com"
@@ -44,13 +132,107 @@ const Header = () => {
         </div>
 
         <div className="flex flex-row items-center py-5">
-          <nav className={`${isMenuOpen ? "block" : "hidden"} md:block`}>
+          <nav className={`${isMenuOpen ? "block" : "hidden"} md:block w-full`}>
             <ul className="flex flex-col md:flex-row gap-4 md:gap-8">
-              {navLinks.map((link, index) => (
+              {links.map((link, index) => (
                 <NavButton to={link.to} key={index}>
                   {link.label}
                 </NavButton>
               ))}
+              {courseLinks && (
+                <li
+                  className="relative font-poppins font-medium tracking-wide text-xl"
+                  onMouseEnter={handleMouseEnter} // Masaüstü hover
+                  onMouseLeave={handleMouseLeave} // Masaüstü hover
+                >
+                  <NavLink
+                    to="/egitimler"
+                    className={
+                      ({ isActive }) =>
+                        `flex items-center text-gray-700 font-poppins font-medium tracking-wide text-xl focus:outline-none 
+                      ${
+                        isActive
+                          ? "border-b-2 border-secondary pb-1"
+                          : "border-b-2 border-transparent pb-1"
+                      } 
+                      ${
+                        !isMobileView
+                          ? "hover:text-secondary transition-all duration-300 ease-in-out"
+                          : ""
+                      }` // Masaüstü hover stilleri
+                    }
+                    onClick={(e) => {
+                      if (isMobileView) {
+                        // Sadece mobil görünümde (MD altı)
+                        e.preventDefault(); // Varsayılan NavLink navigasyonunu engelle
+                        setIsCoursesDropdownOpenMobile((prev) => !prev); // Alt menüyü aç/kapa
+                      } else {
+                        // Masaüstü görünümde (MD ve üzeri)
+                        setIsCoursesDropdownHovered(false); // Hover menüsünü kapat
+                        setIsMenuOpen(false); // Ana menüyü kapat (sadece varsa)
+                      }
+                    }}
+                  >
+                    {courseLinks.group}
+                    <ChevronDownIcon
+                      className={`w-4 h-4 ml-1 transform transition-transform 
+                        ${
+                          (isCoursesDropdownHovered && !isMobileView) ||
+                          (isCoursesDropdownOpenMobile && isMobileView)
+                            ? "rotate-180"
+                            : ""
+                        }`}
+                    />
+                  </NavLink>
+                  <AnimatePresence>
+                    {((isCoursesDropdownHovered && !isMobileView) ||
+                      (isCoursesDropdownOpenMobile && isMobileView)) && (
+                      <motion.ul
+                        key="courses-dropdown"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        className={`bg-white shadow-lg md:rounded-md mt-2 md:w-56 py-2 z-50 origin-top
+                          ${
+                            !isMobileView
+                              ? "md:absolute md:top-full md:left-0"
+                              : "relative"
+                          }
+                        `}
+                      >
+                        {allCourseChildren.map((subLink, subIndex) => (
+                          <motion.li
+                            key={subIndex}
+                            variants={itemVariants}
+                            className={`font-poppins font-medium text-lg ${
+                              subIndex > 0
+                                ? "border-t border-zinc-200 pt-2 mt-2"
+                                : ""
+                            }`}
+                          >
+                            <NavLink
+                              to={subLink.to}
+                              onClick={() => {
+                                setIsCoursesDropdownHovered(false); // Masaüstü hover menüsünü kapat
+                                setIsCoursesDropdownOpenMobile(false); // Mobil tıklama menüsünü kapat
+                                setIsMenuOpen(false); // Ana mobil menüyü kapat (bir alt linke tıklandığında)
+                              }}
+                              className={({ isActive }) =>
+                                isActive
+                                  ? "block px-4 py-1 text-secondary"
+                                  : "block px-4 py-1 hover:text-secondary text-gray-800"
+                              }
+                            >
+                              {subLink.label}
+                            </NavLink>
+                          </motion.li>
+                        ))}
+                      </motion.ul>
+                    )}
+                  </AnimatePresence>
+                </li>
+              )}
             </ul>
           </nav>
           <ul
