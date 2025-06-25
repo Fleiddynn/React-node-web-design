@@ -149,12 +149,6 @@ app.put('/egitimler/:id', upload.single('resim'), async (req, res) => {
         resimYolu: frontendResimYolu
     } = req.body;
 
-    console.log('--- Incoming PUT Request Body ---');
-    console.log(req.body);
-    console.log('--- Incoming PUT Request File ---');
-    console.log(req.file);
-    console.log('-----------------------------------');
-
     try {
         const existingEgitimResult = await queryPromise('SELECT * FROM egitimler WHERE id = ?', [id]);
         if (existingEgitimResult.length === 0) {

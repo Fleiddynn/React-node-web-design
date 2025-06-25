@@ -19,7 +19,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
 
-const CourseProgram = ({ programId }) => {
+const CourseProgram = ({ egitimProgramid }) => {
   const [fullProgramData, setFullProgramData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -43,7 +43,7 @@ const CourseProgram = ({ programId }) => {
   );
 
   useEffect(() => {
-    if (!programId) {
+    if (!egitimProgramid) {
       setFullProgramData(null);
       setLoading(false);
       return;
@@ -54,9 +54,10 @@ const CourseProgram = ({ programId }) => {
       setError(null);
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/egitim-programlari/${programId}`
+          `http://localhost:5000/api/egitim-programlari/${egitimProgramid}`
         );
         setFullProgramData(response.data);
+        console.log("Eğitim programı verisi yüklendi:", response.data);
       } catch (err) {
         console.error("Eğitim programı yüklenirken hata:", err);
         setError("Eğitim programı yüklenirken bir hata oluştu.");
@@ -66,7 +67,7 @@ const CourseProgram = ({ programId }) => {
     };
 
     fetchFullProgram();
-  }, [programId]);
+  }, [egitimProgramid]);
 
   const [openPanels, setOpenPanels] = useState({});
 

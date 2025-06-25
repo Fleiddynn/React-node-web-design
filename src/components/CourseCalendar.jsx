@@ -1,9 +1,123 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { motion } from "framer-motion";
 
-const CourseCalendar = ({ programEntry }) => {
-  if (!programEntry || !programEntry.programs) {
-    return null;
+const CourseCalendar = ({ egitimTakvimid }) => {
+  const [takvimData, setTakvimData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!egitimTakvimid) {
+      setTakvimData(null);
+      setLoading(false);
+      return;
+    }
+
+    const fetchCalendarData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/programs/${egitimTakvimid}`
+        );
+        setTakvimData(response.data);
+        console.log("API'den gelen takvim ham verisi:", response.data);
+      } catch (err) {
+        console.error("Takvim verisi yüklenirken hata:", err);
+        setError("Takvim verileri yüklenirken bir hata oluştu.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCalendarData();
+  }, [egitimTakvimid]);
+
+  const formatProgramEntry = (data) => {
+    if (!data) return null;
+
+    const programs = [];
+
+    if (
+      data.haftasonu_tarih ||
+      data.haftasonu_gunler ||
+      data.haftasonu_saatler ||
+      data.haftasonu_sure ||
+      data.haftasonu_yer ||
+      data.haftasonu_ucret !== null
+    ) {
+      programs.push({
+        type: "Hafta Sonu",
+        date: data.haftasonu_tarih,
+        days: data.haftasonu_gunler,
+        hours: data.haftasonu_saatler,
+        duration: data.haftasonu_sure,
+        location: data.haftasonu_yer,
+        price: data.haftasonu_ucret,
+      });
+    }
+
+    if (
+      data.haftaici_tarih ||
+      data.haftaici_gunler ||
+      data.haftaici_saatler ||
+      data.haftaici_sure ||
+      data.haftaici_yer ||
+      data.haftaici_ucret !== null
+    ) {
+      programs.push({
+        type: "Hafta İçi",
+        date: data.haftaici_tarih,
+        days: data.haftaici_gunler,
+        hours: data.haftaici_saatler,
+        duration: data.haftaici_sure,
+        location: data.haftaici_yer,
+        price: data.haftaici_ucret,
+      });
+    }
+
+    if (
+      data.online_tarih ||
+      data.online_gunler ||
+      data.online_saatler ||
+      data.online_sure ||
+      data.online_yer ||
+      data.online_ucret !== null
+    ) {
+      programs.push({
+        type: "Online",
+        date: data.online_tarih,
+        days: data.online_gunler,
+        hours: data.online_saatler,
+        duration: data.online_sure,
+        location: data.online_yer,
+        price: data.online_ucret,
+      });
+    }
+
+    return {
+      id: data.id,
+      programs: programs,
+    };
+  };
+
+  const programEntry = formatProgramEntry(takvimData);
+
+  if (loading) {
+    return <div className="text-center p-6">Eğitim takvimi yükleniyor...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center p-6 text-red-500">{error}</div>;
+  }
+
+  if (!programEntry || programEntry.programs.length === 0) {
+    return (
+      <div className="text-center p-6 text-gray-500">
+        Bu eğitim için takvim bilgisi bulunmamaktadır.
+      </div>
+    );
   }
 
   return (
@@ -21,7 +135,7 @@ const CourseCalendar = ({ programEntry }) => {
             className="mb-8 border border-gray-200 rounded-lg p-4"
           >
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
-              Tablo #{programEntry.id}
+              Eğitim Takvimi #{programEntry.id}
             </h2>
             <table className="w-full border-collapse bg-white mb-4">
               <thead>
@@ -58,7 +172,17 @@ const CourseCalendar = ({ programEntry }) => {
                           key === "price" ? "font-bold text-orange-500" : ""
                         } ${key === "days" ? "whitespace-pre-line" : ""}`}
                       >
-                        {program[key]}
+                        {key === "price" &&
+                        program[key] !== null &&
+                        program[key] !== undefined &&
+                        program[key] !== ""
+                          ? Number(program[key]).toLocaleString("tr-TR", {
+                              style: "currency",
+                              currency: "TRY",
+                              minimumFractionDigits: 0,
+                              maximumFractionDigits: 0,
+                            })
+                          : program[key] || "-"}
                       </td>
                     ))}
                   </tr>
