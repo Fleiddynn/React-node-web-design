@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SingleCourse from "./../../components/SingleCourse.jsx";
+import { motion } from "framer-motion";
 
 const LojistikEgitimleri = () => {
   const [Egitimler, setEgitimler] = useState([]);
@@ -65,6 +66,30 @@ const LojistikEgitimleri = () => {
     fetchEgitimler();
   }, []);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 10,
+      },
+    },
+  };
+
   if (yukleniyor) {
     return (
       <div className="flex items-center justify-center min-h-screen text-xl text-gray-700">
@@ -82,28 +107,47 @@ const LojistikEgitimleri = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 md:p-8">
-      <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-10">
-        Güncel Eğitimler
-      </h1>
+    <motion.div
+      className="container mx-auto p-4 md:p-8"
+      initial="hidden"
+      animate="show"
+      variants={containerVariants}
+    >
+      <motion.h1
+        className="text-4xl font-extrabold text-center text-gray-800 mb-10"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
+        Lojistik Eğitimleri
+      </motion.h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+        variants={containerVariants}
+      >
         {Egitimler.length > 0 ? (
           Egitimler.map((egitim) => (
-            <SingleCourse
-              key={egitim.id}
-              id={egitim.id}
-              egitimAdi={egitim.egitimAdi}
-              resimYolu={egitim.resimYolu}
-            />
+            <motion.div key={egitim.id} variants={itemVariants}>
+              <SingleCourse
+                id={egitim.id}
+                egitimAdi={egitim.egitimAdi}
+                resimYolu={egitim.resimYolu}
+              />
+            </motion.div>
           ))
         ) : (
-          <p className="col-span-full text-center text-gray-600 text-lg">
+          <motion.p
+            className="col-span-full text-center text-gray-600 text-lg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
             Kategoriye ait eğitim bulunmuyor.
-          </p>
+          </motion.p>
         )}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
