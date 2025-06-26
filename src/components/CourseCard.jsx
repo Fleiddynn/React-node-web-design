@@ -9,7 +9,7 @@ export default function CourseCard({ course }) {
 
   const imageUrl = course.resimYolu
     ? `http://localhost:5000/${course.resimYolu}`
-    : "https://via.placeholder.com/320x160?text=Egitim+Resmi";
+    : "https://placehold.co/320x160/cccccc/333333?text=Resim+Y\u00FCklenemedi";
 
   return (
     <Link to={`/egitimler/${course.id}`} className="block">
