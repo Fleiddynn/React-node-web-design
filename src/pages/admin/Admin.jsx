@@ -19,13 +19,19 @@ const Admin = () => {
             to="/admin/egitim-programlari"
             className="block w-full text-center bg-secondary text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
           >
-            Eğitim Programı Yapılarını Yönet
+            Eğitim Programlarını Yönet
           </Link>
           <Link
             to="/admin/tablolar"
             className="block w-full text-center bg-secondary text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
           >
             Tabloları Görüntüle
+          </Link>
+          <Link
+            to="/admin/mezunlarimiz"
+            className="block w-full text-center bg-secondary text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
+          >
+            Mezunlarımızı Yönet
           </Link>
           <Link
             to="/"

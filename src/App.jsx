@@ -22,6 +22,8 @@ import EgitimProgramlariListesi from "./pages/admin/EgitimProgramlariListesi.jsx
 import EgitimProgramiEkle from "./pages/admin/EgitimProgramiEkle.jsx";
 import EgitimProgramiDuzenle from "./pages/admin/EgitimProgramiDuzenle.jsx";
 import SinglePostPage from "./pages/SinglePostPage.jsx";
+import MezunEkle from "./pages/admin/MezunEkle.jsx";
+import Mezunlarimiz from "./pages/admin/Mezunlarimiz.jsx";
 
 function Layout() {
   const location = useLocation();
@@ -130,6 +132,22 @@ function Layout() {
             element={
               <ProtectedRoute>
                 <EgitimProgramiDuzenle />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/mezunlarimiz"
+            element={
+              <ProtectedRoute>
+                <Mezunlarimiz />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/mezun-ekle"
+            element={
+              <ProtectedRoute>
+                <MezunEkle />
               </ProtectedRoute>
             }
           />

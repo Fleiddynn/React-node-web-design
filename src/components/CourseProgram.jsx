@@ -166,7 +166,7 @@ const CourseProgram = ({ egitimProgramid }) => {
                 </div>
                 <div
                   className={`flex items-center ${
-                    isOpen ? "text-white" : "text-blue-100"
+                    isOpen ? "text-white" : "text-secondary"
                   }`}
                 >
                   <div className="mr-2 text-sm bg-opacity-80 px-2 py-0.5 rounded-full">

@@ -5,6 +5,9 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import multer from "multer";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const port = 5000;
@@ -12,9 +15,18 @@ const port = 5000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const jwtSecret = process.env.JWT_SECRET || "cok_gizli_anahtariniz_buraya";
+const tokenExpiration = '1h';
+
 app.use(express.json());
-app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+}));
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const storage = multer.diskStorage({
@@ -38,7 +50,7 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
     if (err) {
-        console.log('MySQL bağlantı hatası:', err);
+        console.error('MySQL bağlantı hatası:', err);
     } else {
         console.log('MySQL başarıyla bağlandı');
     }
@@ -66,6 +78,75 @@ const deleteImageFile = (filePath) => {
     }
 };
 
+const authenticateToken = (req, res, next) => {
+    const token = req.cookies.authToken;
+
+    if (!token) {
+        return res.status(401).json({ message: "Erişim Reddedildi: Token bulunamadı." });
+    }
+
+    jwt.verify(token, jwtSecret, (err, user) => {
+        if (err) {
+            console.error("Token doğrulama hatası:", err.message);
+            return res.status(403).json({ message: "Erişim Reddedildi: Geçersiz veya süresi dolmuş token.", error: err.message });
+        }
+        req.user = user;
+        next();
+    });
+};
+
+app.post('/admin/login', async (req, res) => {
+    const { username, sifre } = req.body;
+
+    try {
+        const users = await queryPromise('SELECT * FROM users WHERE username = ?', [username]);
+
+        if (users.length === 0) {
+            return res.status(401).json({ success: false, message: "Geçersiz kullanıcı adı veya şifre" });
+        }
+
+        const user = users[0];
+        const isMatch = await bcrypt.compare(sifre, user.password_hash);
+
+        if (!isMatch) {
+            return res.status(401).json({ success: false, message: "Geçersiz kullanıcı adı veya şifre" });
+        }
+
+        const token = jwt.sign(
+            { id: user.id, username: user.username, role: user.role },
+            jwtSecret,
+            { expiresIn: tokenExpiration }
+        );
+
+        res.cookie('authToken', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Lax',
+            maxAge: 1000 * 60 * 60 * 24
+        });
+
+        return res.json({ success: true, message: "Giriş başarılı!" });
+
+    } catch (error) {
+        console.error("Giriş hatası:", error);
+        res.status(500).json({ success: false, message: "Sunucu hatası", details: error.message });
+    }
+});
+
+app.get('/api/check-auth', authenticateToken, (req, res) => {
+    res.json({ isAuthenticated: true, user: req.user });
+});
+
+app.post('/admin/logout', (req, res) => {
+    res.clearCookie('authToken', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Lax',
+    });
+    res.json({ success: true, message: 'Çıkış başarılı.' });
+});
+
+
 app.get('/egitimler', (req, res) => {
     db.query('SELECT * FROM egitimler', (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -82,7 +163,7 @@ app.get('/egitimler/:id', (req, res) => {
     });
 });
 
-app.post('/egitimler', upload.single('resim'), (req, res) => {
+app.post('/egitimler', authenticateToken, upload.single('resim'), (req, res) => {
     const {
         egitimAdi,
         egitimAciklamasi,
@@ -134,7 +215,7 @@ app.post('/egitimler', upload.single('resim'), (req, res) => {
     });
 });
 
-app.put('/egitimler/:id', upload.single('resim'), async (req, res) => {
+app.put('/egitimler/:id', authenticateToken, upload.single('resim'), async (req, res) => {
     const { id } = req.params;
     const {
         egitimAdi,
@@ -181,7 +262,7 @@ app.put('/egitimler/:id', upload.single('resim'), async (req, res) => {
             newResimYolu = null;
             console.log("PUT: Resim silindi, resimYolu null oldu.");
         } else {
-            newResimYolu = frontendResimYolu; 
+            newResimYolu = frontendResimYolu;
             console.log("PUT: Mevcut resimYolu kullanılıyor:", newResimYolu);
         }
 
@@ -228,7 +309,7 @@ app.put('/egitimler/:id', upload.single('resim'), async (req, res) => {
     }
 });
 
-app.delete('/egitimler/:id', (req, res) => {
+app.delete('/egitimler/:id', authenticateToken, (req, res) => {
     const { id } = req.params;
     db.query('SELECT resimYolu FROM egitimler WHERE id = ?', [id], (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -244,20 +325,7 @@ app.delete('/egitimler/:id', (req, res) => {
     });
 });
 
-app.post('/admin/login', (req, res) => {
-    const { username, sifre } = req.body;
-
-    const ADMIN_USERNAME = "admin";
-    const ADMIN_SIFRE = "1234";
-
-    if (username === ADMIN_USERNAME && sifre === ADMIN_SIFRE) {
-        return res.json({ success: true, token: "dummy_token" });
-    } else {
-        return res.status(401).json({ success: false, message: "Geçersiz kullanıcı adı veya şifre" });
-    }
-});
-
-app.post('/api/addProgram', async (req, res) => {
+app.post('/api/addProgram', authenticateToken, async (req, res) => {
     const { haftasonu, haftaici, online } = req.body;
 
     const hs = haftasonu || {};
@@ -334,7 +402,7 @@ app.get('/api/programs/:id', async (req, res) => {
     }
 });
 
-app.put('/api/programs/:id', async (req, res) => {
+app.put('/api/programs/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     const { haftasonu, haftaici, online } = req.body;
 
@@ -369,7 +437,7 @@ app.put('/api/programs/:id', async (req, res) => {
     }
 });
 
-app.delete('/api/programs/:id', async (req, res) => {
+app.delete('/api/programs/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -417,7 +485,7 @@ app.get('/api/egitim-programlari/:id', async (req, res) => {
     }
 });
 
-app.post('/api/egitim-programlari', async (req, res) => {
+app.post('/api/egitim-programlari', authenticateToken, async (req, res) => {
     const { program_name, program_sections } = req.body;
 
     let sectionsJson;
@@ -442,7 +510,7 @@ app.post('/api/egitim-programlari', async (req, res) => {
     }
 });
 
-app.put('/api/egitim-programlari/:id', async (req, res) => {
+app.put('/api/egitim-programlari/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     const { program_name, program_sections } = req.body;
 
@@ -487,7 +555,7 @@ app.put('/api/egitim-programlari/:id', async (req, res) => {
     }
 });
 
-app.delete('/api/egitim-programlari/:id', async (req, res) => {
+app.delete('/api/egitim-programlari/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     try {
         console.log(`Attempting to delete egitim_programi with ID: ${id}`);
@@ -593,6 +661,82 @@ app.get('/api/egitimler-sorted', async (req, res) => {
         res.status(500).json({ error: 'Eğitimler getirilirken bir hata oluştu.', details: err.message });
     }
 });
+
+app.get('/api/mezunlarimiz', async (req, res) => {
+    try {
+        const query = 'SELECT * FROM mezunlarimiz ORDER BY olusturmaTarihi DESC';
+        const results = await queryPromise(query);
+        res.json(results);
+    } catch (err) {
+        console.error('Mezunlar getirilirken hata oluştu (GET /api/mezunlarimiz):', err.message);
+        res.status(500).json({ error: 'Mezunlar getirilirken bir hata oluştu.', details: err.message });
+    }
+});
+
+app.post('/api/mezunlarimiz', authenticateToken, upload.single('resim'), async (req, res) => {
+    const { baslik } = req.body;
+    let resimYolu = '';
+
+    if (!baslik) {
+        if (req.file && fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path);
+        }
+        return res.status(400).json({ error: 'Başlık alanı zorunludur.' });
+    }
+
+    if (req.file) {
+        resimYolu = 'uploads/' + path.basename(req.file.path);
+        console.log("POST /api/mezunlarimiz: Kaydedilen resimYolu:", resimYolu);
+    }
+
+    const query = `
+        INSERT INTO mezunlarimiz (baslik, resimYolu)
+        VALUES (?, ?)
+    `;
+    const values = [baslik, resimYolu];
+
+    try {
+        const result = await queryPromise(query, values);
+        res.status(201).json({ success: true, message: 'Mezun başarıyla eklendi!', id: result.insertId, resimYolu: resimYolu });
+    } catch (err) {
+        console.error('Mezun eklenirken hata oluştu (POST /api/mezunlarimiz):', err.message);
+        if (req.file && fs.existsSync(req.file.path)) {
+            fs.unlink(req.file.path, (unlinkErr) => {
+                if (unlinkErr) console.error("Failed to delete uploaded file after DB error:", unlinkErr);
+            });
+        }
+        res.status(500).json({ success: false, error: 'Mezun eklenirken bir hata oluştu.', details: err.message });
+    }
+});
+
+app.delete('/api/mezunlarimiz/:id', authenticateToken, async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const existingMezunResult = await queryPromise('SELECT resimYolu FROM mezunlarimiz WHERE id = ?', [id]);
+        if (existingMezunResult.length === 0) {
+            return res.status(404).json({ error: 'Mezun bulunamadı.' });
+        }
+        const resimYoluToDelete = existingMezunResult[0].resimYolu;
+
+        const deleteQuery = 'DELETE FROM mezunlarimiz WHERE id = ?';
+        const result = await queryPromise(deleteQuery, [id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ success: false, message: 'Silinecek mezun bulunamadı.' });
+        }
+
+        if (resimYoluToDelete) {
+            deleteImageFile(resimYoluToDelete);
+        }
+
+        res.status(200).json({ success: true, message: 'Mezun başarıyla silindi!' });
+    } catch (err) {
+        console.error('Mezun silinirken hata oluştu (DELETE /api/mezunlarimiz/:id):', err.message);
+        res.status(500).json({ success: false, error: 'Mezun silinirken bir hata oluştu.', details: err.message });
+    }
+});
+
 
 app.listen(port, () => {
     console.log(`Server is working on port: ${port}`);

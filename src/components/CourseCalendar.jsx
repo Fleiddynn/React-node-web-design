@@ -22,9 +22,7 @@ const CourseCalendar = ({ egitimTakvimid }) => {
           `http://localhost:5000/api/programs/${egitimTakvimid}`
         );
         setTakvimData(response.data);
-        console.log("API'den gelen takvim ham verisi:", response.data);
       } catch (err) {
-        console.error("Takvim verisi yüklenirken hata:", err);
         setError("Takvim verileri yüklenirken bir hata oluştu.");
       } finally {
         setLoading(false);
@@ -175,14 +173,17 @@ const CourseCalendar = ({ egitimTakvimid }) => {
                         {key === "price" &&
                         program[key] !== null &&
                         program[key] !== undefined &&
-                        program[key] !== ""
-                          ? Number(program[key]).toLocaleString("tr-TR", {
-                              style: "currency",
-                              currency: "TRY",
+                        program[key] !== "" ? (
+                          <>
+                            {Number(program[key]).toLocaleString("tr-TR", {
                               minimumFractionDigits: 0,
                               maximumFractionDigits: 0,
-                            })
-                          : program[key] || "-"}
+                            })}
+                            TL + KDV
+                          </>
+                        ) : (
+                          program[key] || "-"
+                        )}
                       </td>
                     ))}
                   </tr>
