@@ -6,6 +6,7 @@ import { PhotoIcon, XCircleIcon } from "@heroicons/react/24/solid";
 
 const MezunEkle = () => {
   const [baslik, setBaslik] = useState("");
+  const [kategori, setKategori] = useState("");
   const [resimDosyasi, setResimDosyasi] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -14,6 +15,13 @@ const MezunEkle = () => {
   const fileInputRef = useRef(null);
 
   const navigate = useNavigate();
+
+  const categories = [
+    "Sınıf Eğitimi Mezunlarımız",
+    "Online Eğitim Mezunlarımız",
+    "Kurumsal Şirket Eğitimleri",
+    "Resmi Kurum Eğitimleri",
+  ];
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -42,6 +50,7 @@ const MezunEkle = () => {
 
     const formData = new FormData();
     formData.append("baslik", baslik);
+    formData.append("kategori", kategori);
     if (resimDosyasi) {
       formData.append("resim", resimDosyasi);
     }
@@ -59,19 +68,20 @@ const MezunEkle = () => {
       );
 
       if (response.data.success) {
-        setSuccessMessage("Mezun başarıyla eklendi!");
+        setSuccessMessage("Resim başarıyla eklendi!");
         setBaslik("");
+        setKategori("");
         handleRemoveResim();
         setTimeout(() => {
           navigate("/admin/mezunlarimiz");
         }, 500);
       }
     } catch (err) {
-      console.error("Mezun eklenirken hata oluştu:", err);
+      console.error("Resim eklenirken hata oluştu:", err);
       if (err.response && err.response.data && err.response.data.error) {
         setError(err.response.data.error);
       } else {
-        setError("Mezun eklenirken bir hata oluştu.");
+        setError("Resim eklenirken bir hata oluştu.");
       }
     } finally {
       setLoading(false);
@@ -87,7 +97,7 @@ const MezunEkle = () => {
     >
       <div className="max-w-md w-full mx-auto bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-          Yeni Mezun Ekle
+          Yeni Resim Ekle
         </h1>
 
         {successMessage && (
@@ -113,7 +123,7 @@ const MezunEkle = () => {
               htmlFor="baslik"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Mezun Başlığı:
+              Başlık:
             </label>
             <input
               type="text"
@@ -125,9 +135,42 @@ const MezunEkle = () => {
               disabled={loading}
             />
           </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Kategori Seçin:
+            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setKategori(cat)}
+                  className={`
+                    px-4 py-2 rounded-md border text-sm font-semibold
+                    ${
+                      kategori === cat
+                        ? "bg-orange-500 text-white border-orange-500 shadow-md"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                    }
+                    transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2
+                  `}
+                  disabled={loading}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+            {kategori === "" && !loading && (
+              <p className="text-primary text-xs mt-2">
+                Lütfen bir kategori seçiniz.
+              </p>
+            )}
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Mezun Resmi:
+              Resim:
             </label>
             {resimPreviewUrl ? (
               <div
@@ -181,15 +224,15 @@ const MezunEkle = () => {
             <button
               type="button"
               onClick={() => navigate("/admin/mezunlarimiz")}
-              className="w-full bg-secondary hover:bg-secondary/90 hover:scale-105 text-white cursor-pointer font-bold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+              className="w-full bg-secondary hover:bg-secondary/80 text-white hover:scale-105 cursor-pointer font-bold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
               disabled={loading}
             >
               Geri Dön
             </button>
             <button
               type="submit"
-              className="w-full bg-primary hover:bg-primary/90 hover:scale-105 cursor-pointer text-white font-bold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-              disabled={loading}
+              className="w-full bg-primary hover:bg-primary/80 hover:scale-105 cursor-pointer text-white font-bold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+              disabled={loading || !kategori}
             >
               {loading ? "Ekleniyor..." : "Mezun Ekle"}
             </button>

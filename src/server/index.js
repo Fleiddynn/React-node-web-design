@@ -674,7 +674,7 @@ app.get('/api/mezunlarimiz', async (req, res) => {
 });
 
 app.post('/api/mezunlarimiz', authenticateToken, upload.single('resim'), async (req, res) => {
-    const { baslik } = req.body;
+    const { baslik, kategori } = req.body;
     let resimYolu = '';
 
     if (!baslik) {
@@ -690,10 +690,10 @@ app.post('/api/mezunlarimiz', authenticateToken, upload.single('resim'), async (
     }
 
     const query = `
-        INSERT INTO mezunlarimiz (baslik, resimYolu)
-        VALUES (?, ?)
+        INSERT INTO mezunlarimiz (baslik, resimYolu, kategori)
+        VALUES (?, ?, ?)
     `;
-    const values = [baslik, resimYolu];
+    const values = [baslik, resimYolu, kategori || null];
 
     try {
         const result = await queryPromise(query, values);

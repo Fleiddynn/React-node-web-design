@@ -20,8 +20,8 @@ const Mezunlarimiz = () => {
       );
       setMezunlar(response.data);
     } catch (err) {
-      console.error("Mezunlar getirilirken hata oluştu:", err);
-      setError("Mezunlar yüklenirken bir hata oluştu.");
+      console.error("Resimler getirilirken hata oluştu:", err);
+      setError("Resimler yüklenirken bir hata oluştu.");
     } finally {
       setLoading(false);
     }
@@ -34,7 +34,7 @@ const Mezunlarimiz = () => {
   const handleDeleteMezun = async (id) => {
     setError(null);
     setSuccessMessage(null);
-    if (!window.confirm("Bu mezunu silmek istediğinizden emin misiniz?")) {
+    if (!window.confirm("Bu resimi silmek istediğinizden emin misiniz?")) {
       return;
     }
 
@@ -42,14 +42,14 @@ const Mezunlarimiz = () => {
       await axios.delete(`http://localhost:5000/api/mezunlarimiz/${id}`, {
         withCredentials: true,
       });
-      setSuccessMessage("Mezun başarıyla silindi!");
+      setSuccessMessage("Resim başarıyla silindi!");
       fetchMezunlar();
     } catch (err) {
-      console.error("Mezun silinirken hata oluştu:", err);
+      console.error("Resim silinirken hata oluştu:", err);
       if (err.response && err.response.data && err.response.data.error) {
         setError(err.response.data.error);
       } else {
-        setError("Mezun silinirken bir hata oluştu.");
+        setError("Resim silinirken bir hata oluştu.");
       }
     }
   };
@@ -57,7 +57,7 @@ const Mezunlarimiz = () => {
   if (loading) {
     return (
       <div className="text-center p-6 text-gray-700">
-        Mezunlar yükleniyor...
+        Resimler yükleniyor...
       </div>
     );
   }
@@ -110,13 +110,13 @@ const Mezunlarimiz = () => {
             to="/admin/mezun-ekle"
             className="inline-block bg-primary hover:scale-105 text-white font-bold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
           >
-            Yeni Mezun Ekle
+            Yeni Resim Ekle
           </Link>
         </div>
 
         {mezunlar.length === 0 ? (
           <p className="text-center text-gray-500">
-            Henüz eklenmiş mezun bulunmamaktadır.
+            Henüz eklenmiş resim bulunmamaktadır.
           </p>
         ) : (
           <div className="overflow-x-auto">
@@ -124,6 +124,7 @@ const Mezunlarimiz = () => {
               <thead>
                 <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
                   <th className="py-3 px-6 text-left">Başlık</th>
+                  <th className="py-3 px-6 text-left">Kategori</th>
                   <th className="py-3 px-6 text-center">Resim</th>
                   <th className="py-3 px-6 text-center">Oluşturma Tarihi</th>
                   <th className="py-3 px-6 text-center">İşlemler</th>
@@ -139,6 +140,9 @@ const Mezunlarimiz = () => {
                       <div className="font-medium text-gray-900">
                         {mezun.baslik}
                       </div>
+                    </td>
+                    <td className="py-3 px-6 text-left whitespace-nowrap">
+                      {mezun.kategori || "-"}
                     </td>
                     <td className="py-3 px-6 text-center">
                       {mezun.resimYolu ? (
@@ -169,7 +173,7 @@ const Mezunlarimiz = () => {
                     <td className="py-3 px-6 text-center">
                       <button
                         onClick={() => handleDeleteMezun(mezun.id)}
-                        className="bg-primary hover:scale-105 cursor-pointer text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition duration-300 ease-in-out"
+                        className="bg-primary hover:scale-110 cursor-pointer text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition duration-300 ease-in-out"
                       >
                         Sil
                       </button>
