@@ -528,6 +528,72 @@ app.delete('/api/egitim-programlari/:id', async (req, res) => {
     }
 });
 
+app.get('/api/egitimler-sorted', async (req, res) => {
+    try {
+        const egitimler = await queryPromise('SELECT * FROM egitimler');
+        const programlar = await queryPromise('SELECT * FROM programlar');
+
+        const programMap = new Map(programlar.map(p => [p.id, p]));
+
+        const coursesWithDates = egitimler.map(course => {
+            const programId = course.egitimTakvimid;
+            const program = programMap.get(programId);
+            let closestDate = null;
+            let closestDateType = null;
+
+            if (program) {
+                const now = new Date();
+                now.setHours(0, 0, 0, 0);
+
+                const potentialDates = [];
+                if (program.haftasonu_tarih) {
+                    const date = new Date(program.haftasonu_tarih);
+                    date.setHours(0, 0, 0, 0);
+                    if (date >= now) {
+                        potentialDates.push({ date: date, type: 'haftasonu' });
+                    }
+                }
+                if (program.haftaici_tarih) {
+                    const date = new Date(program.haftaici_tarih);
+                    date.setHours(0, 0, 0, 0);
+                    if (date >= now) {
+                        potentialDates.push({ date: date, type: 'haftaici' });
+                    }
+                }
+                if (program.online_tarih) {
+                    const date = new Date(program.online_tarih);
+                    date.setHours(0, 0, 0, 0);
+                    if (date >= now) {
+                        potentialDates.push({ date: date, type: 'online' });
+                    }
+                }
+
+                if (potentialDates.length > 0) {
+                    potentialDates.sort((a, b) => a.date.getTime() - b.date.getTime());
+                    closestDate = potentialDates[0].date;
+                    closestDateType = potentialDates[0].type;
+                }
+            }
+
+            return {
+                ...course,
+                closestDate: closestDate ? closestDate.toISOString() : null,
+                closestDateType: closestDateType
+            };
+        });
+
+        const sortedCourses = coursesWithDates
+            .filter(course => course.closestDate !== null)
+            .sort((a, b) => new Date(a.closestDate).getTime() - new Date(b.closestDate).getTime());
+
+        res.json(sortedCourses);
+
+    } catch (err) {
+        console.error('Eğitimler sıralanırken hata oluştu (GET /api/egitimler-sorted):', err.message);
+        res.status(500).json({ error: 'Eğitimler getirilirken bir hata oluştu.', details: err.message });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is working on port: ${port}`);
 });

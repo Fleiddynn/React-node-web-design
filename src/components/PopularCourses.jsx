@@ -3,6 +3,7 @@ import CategoryFilter from "./CategoryFilter";
 import CourseList from "./CourseList";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import axios from "axios"; // Axios'u import edin
 
 import {
   BookmarkIcon,
@@ -43,15 +44,22 @@ const PopularCourses = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch("http://localhost:5000/egitimler");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
+        setLoading(true);
+        const response = await axios.get("http://localhost:5000/egitimler");
+        const data = response.data;
         setCourses(data);
       } catch (e) {
-        setError("Eğitimler yüklenirken bir hata oluştu: " + e.message);
         console.error("Eğitim verileri çekilirken hata:", e);
+        if (axios.isAxiosError(e)) {
+          setError(
+            "Eğitimler yüklenirken bir hata oluştu: " +
+              (e.response ? e.response.status : e.message)
+          );
+        } else {
+          setError(
+            "Eğitimler yüklenirken beklenmeyen bir hata oluştu: " + e.message
+          );
+        }
       } finally {
         setLoading(false);
       }
