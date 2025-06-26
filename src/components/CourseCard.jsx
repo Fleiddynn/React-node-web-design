@@ -2,6 +2,14 @@ import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 
 export default function CourseCard({ course }) {
+  const displayCategory = course.kategori
+    ? course.kategori.split(",")[0].trim()
+    : "Genel";
+
+  const imageUrl = course.resimYolu
+    ? `http://localhost:5000/${course.resimYolu}`
+    : "https://via.placeholder.com/320x160?text=Egitim+Resmi";
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -12,25 +20,27 @@ export default function CourseCard({ course }) {
     >
       <div className="h-40 bg-gray-200 flex items-center justify-center">
         <img
-          src={course.image}
-          alt={course.title}
+          src={imageUrl}
+          alt={course.egitimAdi || "Eğitim Resmi"}
           loading="lazy"
           className="w-full h-40 object-cover"
         />
       </div>
       <div className="p-5">
         <h3 className="text-lg font-semibold text-head group-hover:text-primary transition ease-in-out duration-300 delay-25">
-          {course.title}
+          {course.egitimAdi || "Başlık Yok"}
         </h3>
         <p className="text-gray-500 text-sm line-clamp-2">
-          {course.description}
+          {course.egitimAciklamasi || "Açıklama mevcut değil."}{" "}
         </p>
         <div className="mt-4 flex items-center gap-2 text-sm">
-          <span className="px-2 py-1 bg-gray-100 text-secondary rounded-md">
-            7hr 24m
-          </span>
+          {course.egitimSuresi && (
+            <span className="px-2 py-1 bg-gray-100 text-secondary rounded-md">
+              {course.egitimSuresi}
+            </span>
+          )}
           <span className="px-2 py-1 bg-gray-100 text-secondary rounded-md capitalize">
-            {course.category}
+            {displayCategory}
           </span>
         </div>
       </div>
@@ -40,9 +50,16 @@ export default function CourseCard({ course }) {
 
 CourseCard.propTypes = {
   course: PropTypes.shape({
-    image: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    resimYolu: PropTypes.string,
+    egitimAdi: PropTypes.string.isRequired,
+    egitimAciklamasi: PropTypes.string,
+    kategori: PropTypes.string,
+    egitimSuresi: PropTypes.string,
+    fiyat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onlineFiyat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    egitimTarihi: PropTypes.string,
+    egitimTakvimi: PropTypes.string,
+    egitimProgrami: PropTypes.string,
   }).isRequired,
 };

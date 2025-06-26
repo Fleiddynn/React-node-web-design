@@ -1,25 +1,64 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CategoryFilter from "./CategoryFilter";
 import CourseList from "./CourseList";
-import courseData from "../data/courseData.json";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 import {
   BookmarkIcon,
   CodeBracketIcon,
   PaintBrushIcon,
   MegaphoneIcon,
+  GlobeAltIcon,
+  BuildingOfficeIcon,
+  AcademicCapIcon,
+  BriefcaseIcon,
+  RocketLaunchIcon,
+  TruckIcon,
+  ScaleIcon,
+  LightBulbIcon,
+  UserGroupIcon,
+  ChartBarIcon,
 } from "@heroicons/react/24/solid";
 
 const categoryIcons = {
   all: <BookmarkIcon className="w-5 h-5" />,
-  uzmanlık: <PaintBrushIcon className="w-5 h-5" />,
-  lojistik: <CodeBracketIcon className="w-5 h-5" />,
-  gümrük: <MegaphoneIcon className="w-5 h-5" />,
+  "Uzmanlık Eğitimleri": <PaintBrushIcon className="w-5 h-5" />,
+  "Lojistik Eğitimleri": <TruckIcon className="w-5 h-5" />,
+  "Gümrük Eğitimleri": <ScaleIcon className="w-5 h-5" />,
+  "Şehir Eğitimleri": <BuildingOfficeIcon className="w-5 h-5" />,
+  "Sektörel Eğitimler": <BriefcaseIcon className="w-5 h-5" />,
+  "Yetkinlik Eğitimleri": <AcademicCapIcon className="w-5 h-5" />,
+  "Güncel Eğitimler": <GlobeAltIcon className="w-5 h-5" />,
+  "Uzmanlık Eğitimi": <PaintBrushIcon className="w-5 h-5" />,
+  "Gümrük Eğitimi": <ScaleIcon className="w-5 h-5" />,
 };
 
 const PopularCourses = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/egitimler");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setCourses(data);
+      } catch (e) {
+        setError("Eğitimler yüklenirken bir hata oluştu: " + e.message);
+        console.error("Eğitim verileri çekilirken hata:", e);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
 
   const categories = [
     {
@@ -27,14 +66,39 @@ const PopularCourses = () => {
       name: "Tümü",
       icon: categoryIcons.all,
     },
-    ...Array.from(new Set(courseData.map((course) => course.category))).map(
-      (category) => ({
-        id: category,
-        name: category.charAt(0).toUpperCase() + category.slice(1),
-        icon: categoryIcons[category] || <BookmarkIcon />,
-      })
-    ),
+    ...Array.from(
+      new Set(
+        courses.flatMap((course) =>
+          course.kategori
+            ? course.kategori.split(",").map((cat) => cat.trim())
+            : []
+        )
+      )
+    ).map((category) => ({
+      id: category,
+      name: category,
+      icon: categoryIcons[category] || <BookmarkIcon className="w-5 h-5" />,
+    })),
   ];
+
+  if (loading) {
+    return (
+      <section className="flex flex-col justify-center items-center mb-5 min-h-screen">
+        <p className="text-xl text-primary">Eğitimler yükleniyor...</p>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="flex flex-col justify-center items-center mb-5 min-h-screen">
+        <p className="text-xl text-red-500">{error}</p>
+        <p className="text-gray-600">
+          Lütfen daha sonra tekrar deneyin veya yöneticinizle iletişime geçin.
+        </p>
+      </section>
+    );
+  }
 
   return (
     <section className="flex flex-col justify-center items-center mb-5">
@@ -74,17 +138,19 @@ const PopularCourses = () => {
           selected={selectedCategory}
           onSelect={setSelectedCategory}
         />
-        <CourseList selected={selectedCategory} courses={courseData} />
+        <CourseList selected={selectedCategory} courses={courses} />
       </div>
-      <motion.button
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 0.3 }}
-        viewport={{ once: true }}
-        className="cursor-pointer bg-primary text-white font-semibold py-4 px-8 rounded-xl mt-6 hover:bg-amber-500 transition ease-in-out duration-300 delay-25 hover:scale-105 text-sm"
-      >
-        Tüm Eğitimler
-      </motion.button>
+      <Link to="/egitimler">
+        <motion.button
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="cursor-pointer bg-primary text-white font-semibold py-4 px-8 rounded-xl mt-6 hover:bg-amber-500 transition ease-in-out duration-300 delay-25 hover:scale-105 text-sm"
+        >
+          Tüm Eğitimler
+        </motion.button>
+      </Link>
     </section>
   );
 };

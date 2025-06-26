@@ -8,7 +8,16 @@ export default function CourseList({ selected, courses }) {
     selected === "all"
       ? courses.slice(0, MAX_COURSES)
       : courses
-          .filter((course) => course.category === selected)
+          .filter((course) => {
+            if (!course.kategori) {
+              return false;
+            }
+            const courseCategories = course.kategori
+              .split(",")
+              .map((cat) => cat.trim());
+
+            return courseCategories.includes(selected);
+          })
           .slice(0, MAX_COURSES);
 
   return (
@@ -18,7 +27,7 @@ export default function CourseList({ selected, courses }) {
           <CourseCard key={course.id} course={course} />
         ))
       ) : (
-        <p className="text-gray-500">No courses available for this category.</p>
+        <p className="text-gray-500">Bu kategori için eğitim bulunamadı.</p>
       )}
     </div>
   );
@@ -28,11 +37,11 @@ CourseList.propTypes = {
   selected: PropTypes.string.isRequired,
   courses: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      image: PropTypes.string,
       title: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      category: PropTypes.string.isRequired,
+      description: PropTypes.string,
+      kategori: PropTypes.string,
     })
   ).isRequired,
 };
