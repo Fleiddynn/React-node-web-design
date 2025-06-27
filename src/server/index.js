@@ -8,6 +8,9 @@ import multer from "multer";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import cookieParser from "cookie-parser";
+import nodemailer from "nodemailer";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 const port = 5000;
@@ -735,6 +738,47 @@ app.delete('/api/mezunlarimiz/:id', authenticateToken, async (req, res) => {
         console.error('Mezun silinirken hata oluştu (DELETE /api/mezunlarimiz/:id):', err.message);
         res.status(500).json({ success: false, error: 'Mezun silinirken bir hata oluştu.', details: err.message });
     }
+});
+
+app.post('/api/send-email', async (req, res) => {
+  const { name, email, education, message } = req.body;
+
+  if (!name || !email || !message) {
+    return res.status(400).json({ message: 'Lütfen tüm zorunlu alanları doldurun.' });
+  }
+
+  let transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    secure: process.env.EMAIL_SECURE === 'true',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  let mailOptions = {
+    from: `"${name}" <${email}>`,
+    to: process.env.RECEIVER_EMAIL,
+    subject: 'Yeni Form Mesajı',
+    html: `
+      <p>Yeni bir form mesajı aldınız:</p>
+      <ul>
+        <li><strong>İsim:</strong> ${name}</li>
+        <li><strong>E-posta:</strong> ${email}</li>
+        <li><strong>Eğitim Tercihi:</strong> ${education}</li>
+        <li><strong>Mesaj:</strong> ${message}</li>
+      </ul>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: 'E-posta başarıyla gönderildi!' });
+  } catch (error) {
+    console.error('E-posta gönderme hatası:', error);
+    res.status(500).json({ message: 'E-posta gönderilirken bir hata oluştu.', error: error.message });
+  }
 });
 
 
