@@ -8,7 +8,7 @@ export default function CourseCard({ course }) {
     : "Genel";
 
   const imageUrl = course.resimYolu
-    ? `http://localhost:5000/${course.resimYolu}`
+    ? `${import.meta.env.VITE_API_URL}/${course.resimYolu}`
     : "https://placehold.co/320x160/cccccc/333333?text=Resim+Y\u00FCklenemedi";
 
   return (

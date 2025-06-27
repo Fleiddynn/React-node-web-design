@@ -13,7 +13,7 @@ const EgitimProgramiEkle = () => {
     setSaving(true);
     try {
       await axios.post(
-        "http://localhost:5000/api/egitim-programlari",
+        `${import.meta.env.VITE_API_URL}/api/egitim-programlari`,
         formData
       );
       alert("Eğitim programı yapısı başarıyla eklendi!");

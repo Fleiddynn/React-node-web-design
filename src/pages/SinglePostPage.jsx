@@ -21,10 +21,9 @@ const SinglePostPage = () => {
       try {
         setYukleniyor(true);
         const response = await axios.get(
-          `http://localhost:5000/egitimler/${id}`
+          `${import.meta.env.VITE_API_URL}/egitimler/${id}`
         );
         setEgitim(response.data);
-        console.log("Tekil Eğitim Verisi:", response.data);
       } catch (error) {
         console.error("Eğitim detayı çekilirken hata oluştu:", error);
         if (axios.isAxiosError(error)) {

@@ -56,17 +56,17 @@ const EgitimDuzenle = () => {
     const fetchData = async () => {
       try {
         const egitimResponse = await axios.get(
-          `http://localhost:5000/egitimler/${id}`
+          `${import.meta.env.VITE_API_URL}/egitimler/${id}`
         );
         const fetchedEgitim = egitimResponse.data;
 
         const programsResponse = await axios.get(
-          "http://localhost:5000/api/programs"
+          `${import.meta.env.VITE_API_URL}/api/programs`
         );
         setPrograms(programsResponse.data);
 
         const egitimProgramlariResponse = await axios.get(
-          "http://localhost:5000/api/egitim-programlari"
+          `${import.meta.env.VITE_API_URL}/api/egitim-programlari`
         );
         setEgitimProgramlariList(egitimProgramlariResponse.data);
 
@@ -84,7 +84,7 @@ const EgitimDuzenle = () => {
 
         if (fetchedEgitim.resimYolu) {
           setResimPreviewUrl(
-            `http://localhost:5000/${fetchedEgitim.resimYolu}`
+            `${import.meta.env.VITE_API_URL}/${fetchedEgitim.resimYolu}`
           );
         } else {
           setResimPreviewUrl(null);
@@ -132,7 +132,9 @@ const EgitimDuzenle = () => {
         newResimFile: null,
       }));
       if (egitim.resimYolu) {
-        setResimPreviewUrl(`http://localhost:5000/${egitim.resimYolu}`);
+        setResimPreviewUrl(
+          `${import.meta.env.VITE_API_URL}/${egitim.resimYolu}`
+        );
       } else {
         setResimPreviewUrl(null);
       }
@@ -197,15 +199,10 @@ const EgitimDuzenle = () => {
       formData.append("resimYolu", "");
     } else if (egitim.resimYolu) {
       const relativePath = egitim.resimYolu.replace(
-        "http://localhost:5000/",
+        "${import.meta.env.VITE_API_URL}/",
         ""
       );
       formData.append("resimYolu", relativePath);
-    }
-
-    console.log("Sending FormData for Update:");
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
     }
 
     try {
@@ -215,7 +212,7 @@ const EgitimDuzenle = () => {
         },
       };
       await axios.put(
-        `http://localhost:5000/egitimler/${id}`,
+        `${import.meta.env.VITE_API_URL}/egitimler/${id}`,
         formData,
         config
       );

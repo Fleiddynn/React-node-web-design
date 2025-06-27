@@ -16,7 +16,9 @@ const Egitimler = () => {
   useEffect(() => {
     const fetchEgitimler = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/egitimler");
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/egitimler`
+        );
         setEgitimler(response.data);
       } catch (err) {
         setError("Eğitimler yüklenirken bir hata oluştu.");
@@ -32,7 +34,7 @@ const Egitimler = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Bu eğitimi silmek istediğinizden emin misiniz?")) {
       try {
-        await axios.delete(`http://localhost:5000/egitimler/${id}`);
+        await axios.delete(`${import.meta.env.VITE_API_URL}/egitimler/${id}`);
         setEgitimler(egitimler.filter((egitim) => egitim.id !== id));
         alert("Eğitim başarıyla silindi!");
       } catch (err) {

@@ -20,7 +20,7 @@ const EgitimProgramlariListesi = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/egitim-programlari"
+        `${import.meta.env.VITE_API_URL}/api/egitim-programlari`
       );
       setPrograms(response.data);
       setError(null);
@@ -46,7 +46,7 @@ const EgitimProgramlariListesi = () => {
           onClick: async () => {
             try {
               await axios.delete(
-                `http://localhost:5000/api/egitim-programlari/${id}`
+                `${import.meta.env.VITE_API_URL}/api/egitim-programlari/${id}`
               );
               alert("Eğitim programı yapısı başarıyla silindi!");
               fetchPrograms();

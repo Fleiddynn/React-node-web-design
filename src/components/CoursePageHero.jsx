@@ -21,7 +21,7 @@ const CoursePageHero = ({
 
   const imageUrl =
     resimYolu && resimYolu.startsWith("uploads/")
-      ? `http://localhost:5000/${resimYolu}`
+      ? `${import.meta.env.VITE_API_URL}/${resimYolu}`
       : "https://placehold.co/500x400";
 
   useEffect(() => {

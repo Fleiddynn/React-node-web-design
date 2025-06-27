@@ -54,10 +54,11 @@ const CourseProgram = ({ egitimProgramid }) => {
       setError(null);
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/egitim-programlari/${egitimProgramid}`
+          `${
+            import.meta.env.VITE_API_URL
+          }/api/egitim-programlari/${egitimProgramid}`
         );
         setFullProgramData(response.data);
-        console.log("Eğitim programı verisi yüklendi:", response.data);
       } catch (err) {
         console.error("Eğitim programı yüklenirken hata:", err);
         setError("Eğitim programı yüklenirken bir hata oluştu.");

@@ -13,7 +13,9 @@ const GumrukEgitimleri = () => {
   useEffect(() => {
     const fetchEgitimler = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/egitimler");
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/egitimler`
+        );
         const data = response.data;
 
         const filtrelenmisData = data.filter((egitim) => {

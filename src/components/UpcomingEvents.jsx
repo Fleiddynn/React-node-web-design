@@ -14,7 +14,7 @@ const UpcomingEvents = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          "http://localhost:5000/api/egitimler-sorted"
+          `${import.meta.env.VITE_API_URL}/api/egitimler-sorted`
         );
 
         const data = response.data;

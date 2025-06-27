@@ -15,7 +15,7 @@ const GalleryImage = ({ data }) => {
             className="relative w-full h-48 sm:h-56 overflow-hidden rounded-lg shadow-lg group"
           >
             <img
-              src={`http://localhost:5000/${item.resimYolu}`}
+              src={`${import.meta.env.VITE_API_URL}/${item.resimYolu}`}
               alt={item.baslik}
               className="w-full h-full object-cover"
               onError={(e) => {

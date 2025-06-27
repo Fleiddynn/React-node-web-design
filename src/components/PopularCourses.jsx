@@ -3,7 +3,7 @@ import CategoryFilter from "./CategoryFilter";
 import CourseList from "./CourseList";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import axios from "axios"; // Axios'u import edin
+import axios from "axios";
 
 import {
   BookmarkIcon,
@@ -45,7 +45,9 @@ const PopularCourses = () => {
     const fetchCourses = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5000/egitimler");
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/egitimler`
+        );
         const data = response.data;
         setCourses(data);
       } catch (e) {

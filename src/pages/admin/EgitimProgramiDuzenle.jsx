@@ -17,7 +17,7 @@ const EgitimProgramiDuzenle = () => {
     const fetchProgram = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/egitim-programlari/${id}`
+          `${import.meta.env.VITE_API_URL}/api/egitim-programlari/${id}`
         );
         setInitialData(response.data);
         setLoading(false);
@@ -34,7 +34,7 @@ const EgitimProgramiDuzenle = () => {
     setSaving(true);
     try {
       await axios.put(
-        `http://localhost:5000/api/egitim-programlari/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/egitim-programlari/${id}`,
         formData
       );
       alert("Eğitim programı yapısı başarıyla güncellendi!");

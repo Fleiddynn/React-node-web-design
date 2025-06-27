@@ -10,7 +10,9 @@ function Egitimler() {
   useEffect(() => {
     const fetchEgitimler = async () => {
       try {
-        const response = await fetch("http://localhost:5000/egitimler");
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/egitimler`
+        );
         if (!response.ok) {
           throw new Error(`HTTP hata! Durum: ${response.status}`);
         }

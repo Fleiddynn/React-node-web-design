@@ -19,7 +19,7 @@ const CourseCalendar = ({ egitimTakvimid }) => {
       setError(null);
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/programs/${egitimTakvimid}`
+          `${import.meta.env.VITE_API_URL}/api/programs/${egitimTakvimid}`
         );
         setTakvimData(response.data);
       } catch (err) {

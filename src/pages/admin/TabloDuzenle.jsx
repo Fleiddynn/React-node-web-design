@@ -41,7 +41,7 @@ const TabloDuzenle = () => {
     const fetchProgramDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/programs/${id}`
+          `${import.meta.env.VITE_API_URL}/api/programs/${id}`
         );
         const dbRow = response.data;
 
@@ -105,7 +105,7 @@ const TabloDuzenle = () => {
   const handleUpdate = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/programs/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/programs/${id}`,
         programData
       );
 

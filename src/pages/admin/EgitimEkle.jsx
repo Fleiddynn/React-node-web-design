@@ -49,12 +49,12 @@ const EgitimEkle = () => {
     const fetchAllData = async () => {
       try {
         const calendarResponse = await axios.get(
-          "http://localhost:5000/api/programs"
+          `${import.meta.env.VITE_API_URL}/api/programs`
         );
         setCalendarPrograms(calendarResponse.data);
 
         const egitimProgramlariResponse = await axios.get(
-          "http://localhost:5000/api/egitim-programlari"
+          `${import.meta.env.VITE_API_URL}/api/egitim-programlari`
         );
         setEgitimProgramlari(egitimProgramlariResponse.data);
 
@@ -139,14 +139,9 @@ const EgitimEkle = () => {
     });
     if (resim) formData.append("resim", resim);
 
-    console.log("Sending FormData:");
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-
     try {
       const response = await axios.post(
-        "http://localhost:5000/egitimler",
+        "${import.meta.env.VITE_API_URL}/egitimler",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

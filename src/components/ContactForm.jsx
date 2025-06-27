@@ -35,7 +35,9 @@ export default function ContactForm() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/egitimler");
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/egitimler`
+        );
         setAvailableCourses(response.data);
       } catch (error) {
         console.error("Kurs verileri çekilirken hata oluştu:", error);
@@ -84,9 +86,13 @@ export default function ContactForm() {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/send-email", formData, {
-        headers: { "Content-Type": "application/json" },
-      });
+      await axios.post(
+        "${import.meta.env.VITE_API_URL}/api/send-email",
+        formData,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       setMessage("Mesajınız başarıyla gönderildi!");
       setFormData({
         fullName: "",

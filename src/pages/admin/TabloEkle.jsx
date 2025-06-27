@@ -47,7 +47,7 @@ const TabloEkle = () => {
   const handleAdd = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/addProgram",
+        `${import.meta.env.VITE_API_URL}/api/addProgram`,
         programData
       );
 

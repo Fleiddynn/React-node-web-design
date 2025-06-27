@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.CORS_ORIGIN,
     credentials: true,
 }));
 
@@ -45,17 +45,15 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "dtp",
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
 });
 
 db.connect((err) => {
     if (err) {
         console.error('MySQL bağlantı hatası:', err);
-    } else {
-        console.log('MySQL başarıyla bağlandı');
     }
 });
 
@@ -182,7 +180,6 @@ app.post('/egitimler', authenticateToken, upload.single('resim'), (req, res) => 
     let resimYolu = '';
     if (req.file) {
         resimYolu = 'uploads/' + path.basename(req.file.path);
-        console.log("POST: Kaydedilen resimYolu:", resimYolu);
     }
 
     const query = `
@@ -259,14 +256,11 @@ app.put('/egitimler/:id', authenticateToken, upload.single('resim'), async (req,
         if (req.file) {
             deleteImageFile(existingEgitim.resimYolu);
             newResimYolu = 'uploads/' + path.basename(req.file.path);
-            console.log("PUT: Yeni resimYolu:", newResimYolu);
         } else if (frontendResimYolu === '') {
             deleteImageFile(existingEgitim.resimYolu);
             newResimYolu = null;
-            console.log("PUT: Resim silindi, resimYolu null oldu.");
         } else {
             newResimYolu = frontendResimYolu;
-            console.log("PUT: Mevcut resimYolu kullanılıyor:", newResimYolu);
         }
 
         updatedFields.resimYolu = newResimYolu;
@@ -561,8 +555,6 @@ app.put('/api/egitim-programlari/:id', authenticateToken, async (req, res) => {
 app.delete('/api/egitim-programlari/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     try {
-        console.log(`Attempting to delete egitim_programi with ID: ${id}`);
-
         const checkFkQuery = 'SELECT COUNT(*) AS count FROM egitimler WHERE egitimProgramid = ?';
 
         const [fkRows] = await queryPromise(checkFkQuery, [id]);
@@ -586,7 +578,6 @@ app.delete('/api/egitim-programlari/:id', authenticateToken, async (req, res) =>
             return res.status(404).json({ error: 'Eğitim programı yapısı bulunamadı.' });
         }
 
-        console.log(`Egitim programı yapısı ID ${id} başarıyla silindi.`);
         res.status(200).json({ message: 'Eğitim programı yapısı başarıyla silindi.' });
 
     } catch (err) {
@@ -689,7 +680,6 @@ app.post('/api/mezunlarimiz', authenticateToken, upload.single('resim'), async (
 
     if (req.file) {
         resimYolu = 'uploads/' + path.basename(req.file.path);
-        console.log("POST /api/mezunlarimiz: Kaydedilen resimYolu:", resimYolu);
     }
 
     const query = `

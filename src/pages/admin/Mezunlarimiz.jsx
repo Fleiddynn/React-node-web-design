@@ -16,7 +16,7 @@ const Mezunlarimiz = () => {
     setError(null);
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/mezunlarimiz",
+        `${import.meta.env.VITE_API_URL}/api/mezunlarimiz`,
         { withCredentials: true }
       );
       setMezunlar(response.data);
@@ -40,9 +40,12 @@ const Mezunlarimiz = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:5000/api/mezunlarimiz/${id}`, {
-        withCredentials: true,
-      });
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/mezunlarimiz/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
       setSuccessMessage("Resim başarıyla silindi!");
       fetchMezunlar();
     } catch (err) {
@@ -148,7 +151,9 @@ const Mezunlarimiz = () => {
                     <td className="py-3 px-6 text-center">
                       {mezun.resimYolu ? (
                         <img
-                          src={`http://localhost:5000/${mezun.resimYolu}`}
+                          src={`${import.meta.env.VITE_API_URL}/${
+                            mezun.resimYolu
+                          }`}
                           alt={mezun.baslik}
                           className="w-20 h-20 object-cover rounded-md mx-auto"
                           onError={(e) => {

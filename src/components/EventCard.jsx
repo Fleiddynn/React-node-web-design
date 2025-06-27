@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const EventCard = ({ course }) => {
   const imageUrl = course.resimYolu
-    ? `http://localhost:5000/${course.resimYolu}`
+    ? `${import.meta.env.VITE_API_URL}/${course.resimYolu}`
     : `https://placehold.co/100x100/cccccc/333333?text=Resim+Yok`;
   const formatDate = (isoString) => {
     if (!isoString) return "Tarih Belirtilmemiş";

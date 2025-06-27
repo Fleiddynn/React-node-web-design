@@ -35,9 +35,13 @@ export default function SmallForm() {
     setMessage("");
 
     try {
-      await axios.post("http://localhost:5000/api/send-email", formData, {
-        headers: { "Content-Type": "application/json" },
-      });
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/send-email`,
+        formData,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       setMessage("E-postanız başarıyla gönderildi!");
       setFormData({ name: "", email: "", education: "Eğitim", message: "" });
     } catch (err) {

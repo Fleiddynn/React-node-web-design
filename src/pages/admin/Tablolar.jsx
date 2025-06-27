@@ -22,10 +22,10 @@ const Tablolar = () => {
   const fetchPrograms = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:5000/api/programs");
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/programs`
+      );
       const data = response.data;
-
-      console.log("Fetched programs:", data);
 
       const transformedData = data.map((dbRow) => {
         return {
@@ -103,7 +103,7 @@ const Tablolar = () => {
           onClick: async () => {
             try {
               const response = await axios.delete(
-                `http://localhost:5000/api/programs/${programId}`
+                `${import.meta.env.VITE_API_URL}/api/programs/${programId}`
               );
               alert(response.data.message || "Tablo başarıyla silindi!");
               fetchPrograms();
