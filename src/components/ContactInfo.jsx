@@ -20,7 +20,7 @@ const itemVariants = {
 const ContactInfo = () => {
   return (
     <motion.div
-      className="max-w-lg p-6 bg-white rounded-2xl shadow-lg space-y-4"
+      className="max-w-lg p-6 bg-white rounded-2xl shadow-lg space-y-4 border-2 border-primary/30"
       variants={containerVariants}
       initial="hidden"
       animate="visible"

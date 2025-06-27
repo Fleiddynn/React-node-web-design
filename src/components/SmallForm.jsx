@@ -52,11 +52,11 @@ export default function SmallForm() {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      className="bg-gradient-to-br from-orange-300 via-[#f56e13] to-orange-400 p-6 rounded-2xl max-w-4xl mx-auto mt-10"
+      className="border-primary border-2 p-6 rounded-2xl max-w-4xl mx-auto mt-10"
     >
       <motion.h2
         variants={fadeInUp(0)}
-        className="text-white text-center text-2xl font-bold mb-6"
+        className="text-primary text-center text-2xl font-bold mb-6"
       >
         Eğitime Katıl
       </motion.h2>
@@ -67,9 +67,9 @@ export default function SmallForm() {
       >
         <motion.div
           variants={fadeInUp(0.1)}
-          className="flex-1 min-w-[200px] bg-white/15 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center focus-within:ring-2 focus-within:ring-white transition hover:scale-105 transform origin-center duration-300 ease-in-out"
+          className="flex-1 min-w-[200px] bg-primary/15 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center focus-within:ring-2 focus-within:ring-white transition hover:scale-105 transform origin-center duration-300 ease-in-out"
         >
-          <UserIcon className="h-5 w-5 text-white mr-2" />
+          <UserIcon className="h-5 w-5 text-primary mr-2" />
           <input
             type="text"
             name="name"
@@ -77,15 +77,15 @@ export default function SmallForm() {
             value={formData.name}
             onChange={handleChange}
             required
-            className="bg-transparent appearance-none w-full placeholder-white/70 text-white focus:outline-none text-sm"
+            className="bg-transparent appearance-none w-full placeholder-primary/70 text-primary focus:outline-none text-sm"
           />
         </motion.div>
 
         <motion.div
           variants={fadeInUp(0.2)}
-          className="flex-1 min-w-[200px] bg-white/15 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center focus-within:ring-2 focus-within:ring-white transition hover:scale-105 transform origin-center duration-300 ease-in-out"
+          className="flex-1 min-w-[200px] bg-primary/15 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center focus-within:ring-2 focus-within:ring-white transition hover:scale-105 transform origin-center duration-300 ease-in-out"
         >
-          <EnvelopeIcon className="h-5 w-5 text-white mr-2" />
+          <EnvelopeIcon className="h-5 w-5 text-primary mr-2" />
           <input
             type="email"
             name="email"
@@ -93,25 +93,25 @@ export default function SmallForm() {
             value={formData.email}
             onChange={handleChange}
             required
-            className="bg-transparent appearance-none w-full placeholder-white/70 text-white focus:outline-none text-sm"
+            className="bg-transparent appearance-none w-full placeholder-primary/70 text-primary focus:outline-none text-sm"
           />
         </motion.div>
 
         <motion.div
           variants={fadeInUp(0.3)}
-          className="flex-1 min-w-[150px] bg-white/15 backdrop-blur-sm rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-white transition hover:scale-105 transform origin-center duration-300 ease-in-out"
+          className="flex-1 min-w-[150px] bg-primary/15 backdrop-blur-sm rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-white transition hover:scale-105 transform origin-center duration-300 ease-in-out"
         >
           <select
             name="education"
             value={formData.education}
             onChange={handleChange}
-            className="bg-transparent appearance-none w-full text-white focus:outline-none text-sm"
+            className="bg-transparent appearance-none w-full text-primary focus:outline-none text-sm"
           >
             <option disabled value="Eğitim">
               Eğitim Türü
             </option>
-            <option className="text-black">Online</option>
-            <option className="text-black">Yüzyüze</option>
+            <option className="text-primary">Online</option>
+            <option className="text-primary">Yüzyüze</option>
           </select>
         </motion.div>
 
@@ -119,14 +119,14 @@ export default function SmallForm() {
           variants={fadeInUp(0.4)}
           type="submit"
           disabled={loading}
-          className="w-full md:w-auto bg-orange-400 text-white font-semibold px-5 py-2 rounded-lg hover:bg-orange-300 transition disabled:opacity-50 text-sm cursor-pointer hover:scale-105 transform origin-center duration-300 ease-in-out"
+          className="w-full md:w-auto bg-primary/15 text-primary font-semibold px-5 py-2 rounded-lg hover:bg-primary hover:text-white transition disabled:opacity-50 text-sm cursor-pointer hover:scale-105 transform origin-center duration-300 ease-in-out"
         >
           {loading ? "Gönderiliyor..." : "Gönder"}
         </motion.button>
 
         <motion.div
           variants={fadeInUp(0.5)}
-          className="w-full bg-white/15 backdrop-blur-sm rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-white transition hover:scale-105 transform origin-center duration-300 ease-in-out"
+          className="w-full bg-primary/15 backdrop-blur-sm rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-white transition hover:scale-105 transform origin-center duration-300 ease-in-out"
         >
           <textarea
             name="message"
@@ -134,7 +134,7 @@ export default function SmallForm() {
             onChange={handleChange}
             placeholder="Mesajınız"
             rows={3}
-            className="w-full bg-transparent appearance-none placeholder-white/70 text-white focus:outline-none resize-none text-sm"
+            className="w-full bg-transparent appearance-none placeholder-primary/70 text-primary focus:outline-none resize-none text-sm"
           ></textarea>
         </motion.div>
       </form>
@@ -158,7 +158,7 @@ export default function SmallForm() {
         <motion.div variants={fadeInUp(0.7)}>
           <Link
             to="/iletisim"
-            className="text-white text-xs underline hover:text-white/90"
+            className="text-primary text-xs underline hover:text-primary/90"
           >
             İletişim Formu
           </Link>

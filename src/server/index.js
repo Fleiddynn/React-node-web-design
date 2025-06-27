@@ -18,7 +18,7 @@ const port = 5000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const jwtSecret = process.env.JWT_SECRET || "cok_gizli_anahtariniz_buraya";
+const jwtSecret = process.env.JWT_SECRET;
 const tokenExpiration = '1h';
 
 app.use(express.json());
@@ -741,43 +741,71 @@ app.delete('/api/mezunlarimiz/:id', authenticateToken, async (req, res) => {
 });
 
 app.post('/api/send-email', async (req, res) => {
-  const { name, email, education, message } = req.body;
+  const {
+    name,       
+    fullName,   
+    email,
+    education,  
+    course,     
+    phone,      
+    reason,     
+    message
+  } = req.body;
 
-  if (!name || !email || !message) {
-    return res.status(400).json({ message: 'Lütfen tüm zorunlu alanları doldurun.' });
+  const senderName = fullName || name;
+
+  if (!senderName || !email || !message) {
+    return res.status(400).json({ message: 'Lütfen Adı Soyadı/İsim, E-posta ve Mesaj alanlarını doldurun.' });
   }
 
-  let transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: process.env.EMAIL_SECURE === 'true',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
+  let subject = 'Yeni Form Mesajı';
+  let htmlContent = `<p>Web sitenizden yeni bir form mesajı aldınız:</p><ul>`;
 
-  let mailOptions = {
-    from: `"${name}" <${email}>`,
-    to: process.env.RECEIVER_EMAIL,
-    subject: 'Yeni Form Mesajı',
-    html: `
-      <p>Yeni bir form mesajı aldınız:</p>
-      <ul>
-        <li><strong>İsim:</strong> ${name}</li>
-        <li><strong>E-posta:</strong> ${email}</li>
-        <li><strong>Eğitim Tercihi:</strong> ${education}</li>
-        <li><strong>Mesaj:</strong> ${message}</li>
-      </ul>
-    `,
-  };
+  htmlContent += `<li><strong>İsim:</strong> ${senderName}</li>`;
+  htmlContent += `<li><strong>E-posta:</strong> ${email}</li>`;
+
+  if (phone) { 
+    htmlContent += `<li><strong>Telefon:</strong> ${phone}</li>`;
+  }
+  if (education) { 
+    htmlContent += `<li><strong>Eğitim Tercihi:</strong> ${education}</li>`;
+  }
+  if (course) {
+    htmlContent += `<li><strong>İlgilenilen Eğitim:</strong> ${course}</li>`;
+  }
+  if (reason) { 
+    htmlContent += `<li><strong>Kayıt Nedeni:</strong> ${reason}</li>`;
+  }
+
+  htmlContent += `<li><strong>Mesaj:</strong> <p>${message}</p></li>`;
+  htmlContent += `</ul>`;
 
   try {
+    let transporter = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: parseInt(process.env.EMAIL_PORT),
+      secure: process.env.EMAIL_SECURE === 'true',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    let mailOptions = {
+      from: `"${senderName}" <${email}>`,
+      to: process.env.RECEIVER_EMAIL,
+      subject: subject,
+      html: htmlContent,
+    };
+
     await transporter.sendMail(mailOptions);
     res.status(200).json({ message: 'E-posta başarıyla gönderildi!' });
   } catch (error) {
     console.error('E-posta gönderme hatası:', error);
-    res.status(500).json({ message: 'E-posta gönderilirken bir hata oluştu.', error: error.message });
+    res.status(500).json({
+      message: 'E-posta gönderilirken bir hata oluştu.',
+      error: error.message,
+    });
   }
 });
 
