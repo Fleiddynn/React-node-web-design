@@ -51,55 +51,62 @@ const EgitimProgramiForm = ({
       return initialData.program_sections.map((section) => ({
         ...section,
         id: section.id || Date.now() + Math.random(),
+        content: Array.isArray(section.content)
+          ? section.content.join("\n")
+          : "",
       }));
     }
-    return [
-      { id: Date.now(), title: "", iconType: "TrendingUp", content: [""] },
-    ];
+    return [{ id: Date.now(), title: "", iconType: "TrendingUp", content: "" }];
   });
   const [openContentPanels, setOpenContentPanels] = useState({});
   const [error, setError] = useState(null);
+
   useEffect(() => {
-    setProgramName(initialData.program_name || "");
-  }, [initialData.program_name]);
+    if (isEditing) {
+      if (initialData.program_name !== programName) {
+        setProgramName(initialData.program_name || "");
+      }
+
+      if (
+        (initialData.program_sections &&
+          initialData.program_sections.length !== sections.length) ||
+        (initialData.program_sections.length > 0 && sections[0]?.content === "")
+      ) {
+        setSections(
+          initialData.program_sections.map((section) => ({
+            ...section,
+            id: section.id || Date.now() + Math.random(),
+            content: Array.isArray(section.content)
+              ? section.content.join("\n")
+              : "",
+          }))
+        );
+      }
+    } else {
+    }
+  }, [initialData, isEditing]);
+
   const handleSectionChange = (index, field, value) => {
     const newSections = [...sections];
     newSections[index][field] = value;
     setSections(newSections);
   };
 
-  const handleContentItemChange = (sectionIndex, contentItemIndex, value) => {
+  const handleContentTextareaChange = (sectionIndex, value) => {
     const newSections = [...sections];
-    newSections[sectionIndex].content[contentItemIndex] = value;
+    newSections[sectionIndex].content = value;
     setSections(newSections);
   };
 
   const addSection = () => {
     setSections([
       ...sections,
-      { id: Date.now(), title: "", iconType: "TrendingUp", content: [""] },
+      { id: Date.now(), title: "", iconType: "TrendingUp", content: "" },
     ]);
   };
 
   const removeSection = (index) => {
     const newSections = sections.filter((_, i) => i !== index);
-    setSections(newSections);
-  };
-
-  const addContentItem = (sectionIndex) => {
-    const newSections = [...sections];
-    newSections[sectionIndex].content.push("");
-    setSections(newSections);
-  };
-
-  const removeContentItem = (sectionIndex, contentItemIndex) => {
-    const newSections = [...sections];
-    newSections[sectionIndex].content = newSections[
-      sectionIndex
-    ].content.filter((_, i) => i !== contentItemIndex);
-    if (newSections[sectionIndex].content.length === 0) {
-      newSections[sectionIndex].content.push("");
-    }
     setSections(newSections);
   };
 
@@ -120,11 +127,18 @@ const EgitimProgramiForm = ({
     }
 
     const cleanedSections = sections
-      .map((section) => ({
-        ...section,
-        title: section.title.trim(),
-        content: section.content.filter((item) => item.trim() !== ""),
-      }))
+      .map((section) => {
+        const topics = section.content
+          .split("\n")
+          .map((item) => item.trim())
+          .filter((item) => item !== "");
+
+        return {
+          ...section,
+          title: section.title.trim(),
+          content: topics,
+        };
+      })
       .filter((section) => section.title !== "");
 
     if (cleanedSections.length === 0) {
@@ -254,7 +268,7 @@ const EgitimProgramiForm = ({
                 onClick={() => toggleContentPanel(section.id)}
               >
                 <span className="font-medium text-gray-700">
-                  Konular ({section.content.length})
+                  Konular (satır satır)
                 </span>
                 {openContentPanels[section.id] ? (
                   <ChevronUpIcon className="h-5 w-5" />
@@ -272,50 +286,18 @@ const EgitimProgramiForm = ({
                     className="overflow-hidden mt-2"
                   >
                     <div className="p-3 bg-white border rounded-md">
-                      {section.content.map((item, contentItemIndex) => (
-                        <div
-                          key={contentItemIndex}
-                          className="flex items-center mb-2"
-                        >
-                          <input
-                            type="text"
-                            className="block w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:ring-blue-500 focus:border-blue-500"
-                            value={item}
-                            onChange={(e) =>
-                              handleContentItemChange(
-                                sectionIndex,
-                                contentItemIndex,
-                                e.target.value
-                              )
-                            }
-                            placeholder={`Konu ${contentItemIndex + 1}`}
-                            required={
-                              contentItemIndex === 0 && section.title !== ""
-                            }
-                          />
-                          {section.content.length > 1 && (
-                            <button
-                              type="button"
-                              onClick={() =>
-                                removeContentItem(
-                                  sectionIndex,
-                                  contentItemIndex
-                                )
-                              }
-                              className="ml-2 p-1 text-red-500 hover:text-red-700 rounded-full"
-                            >
-                              <XMarkIcon className="h-4 w-4" />
-                            </button>
-                          )}
-                        </div>
-                      ))}
-                      <button
-                        type="button"
-                        onClick={() => addContentItem(sectionIndex)}
-                        className="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded-md inline-flex items-center text-sm"
-                      >
-                        <PlusIcon className="h-4 w-4 mr-1" /> Konu Ekle
-                      </button>
+                      <textarea
+                        rows="5"
+                        className="block w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:ring-blue-500 focus:border-blue-500"
+                        value={section.content}
+                        onChange={(e) =>
+                          handleContentTextareaChange(
+                            sectionIndex,
+                            e.target.value
+                          )
+                        }
+                        placeholder="Her bir konuyu ayrı satıra yazınız."
+                      ></textarea>
                     </div>
                   </motion.div>
                 )}

@@ -3,6 +3,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+axios.defaults.withCredentials = true;
 
 const Mezunlarimiz = () => {
   const [mezunlar, setMezunlar] = useState([]);

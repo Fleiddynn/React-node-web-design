@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const TabloEkle = () => {
   const navigate = useNavigate();

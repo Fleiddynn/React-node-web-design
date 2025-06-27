@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import EgitimProgramiForm from "./EgitimProgramiForm.jsx";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+axios.defaults.withCredentials = true;
 
 const EgitimProgramiEkle = () => {
   const [saving, setSaving] = useState(false);

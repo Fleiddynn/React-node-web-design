@@ -9,6 +9,7 @@ import {
   CalendarDaysIcon,
 } from "@heroicons/react/24/solid";
 import MiniCourseCalendar from "./../../components/MiniCourseCalendar.jsx";
+axios.defaults.withCredentials = true;
 
 const EgitimDuzenle = () => {
   const { id } = useParams();

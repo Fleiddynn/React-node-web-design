@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const TabloDuzenle = () => {
   const { id } = useParams();

@@ -8,6 +8,7 @@ import {
   PhotoIcon,
 } from "@heroicons/react/24/solid";
 import MiniCourseCalendar from "./../../components/MiniCourseCalendar.jsx";
+axios.defaults.withCredentials = true;
 
 const EgitimEkle = () => {
   const [form, setForm] = useState({

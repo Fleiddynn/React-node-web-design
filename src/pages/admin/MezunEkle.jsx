@@ -3,6 +3,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { PhotoIcon, XCircleIcon } from "@heroicons/react/24/solid";
+axios.defaults.withCredentials = true;
 
 const MezunEkle = () => {
   const [baslik, setBaslik] = useState("");
